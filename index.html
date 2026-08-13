@@ -162,17 +162,20 @@
 
           <article class="card">
             <p class="eyebrow">AI evaluation · MMLU</p>
-            <h3>Robustness is not calibration</h3>
+            <h3>Option-order robustness</h3>
             <p class="result">
-              A model can be more accurate and better calibrated while still
-              changing its underlying answer when choices are cyclically reordered.
+              The regenerated Qwen harness changes its underlying answer on roughly
+              78% of questions under both bf16 and fp32, while accuracy on flipping
+              questions remains near chance.
             </p>
             <p>
-              The public package is a transparent reconstruction of the documented
-              protocol and frozen reported results. It explicitly does not claim
-              byte-for-byte identity with the unavailable original raw run.
+              Headline accuracy and the majority-flip result regenerated, but the
+              historical stability, ECE, and mean four-label confidence values did
+              not. Tie-breaking and dtype were tested and do not explain the gap;
+              the historical Qwen-vs-Llama calibration contrast remains unconfirmed
+              until the Llama arm is rerun.
             </p>
-            <a class="project-link" href="https://github.com/GrobeStreet/mmlu-robustness-audit">Audit code, results, and provenance ↗</a>
+            <a class="project-link" href="https://github.com/GrobeStreet/mmlu-robustness-audit">Regeneration, code, results, and provenance ↗</a>
           </article>
         </div>
       </section>
