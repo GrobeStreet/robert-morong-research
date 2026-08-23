@@ -1,0 +1,77 @@
+{
+  "case_id": "CASE-002-MMLU-REGENERATION",
+  "claim": "The central option-order instability finding survives regeneration, while supporting stability/calibration metrics require narrower claims.",
+  "decision_relevance": "Tests whether a benchmark-performance narrative remains decision-worthy after independent regeneration and discrepancy analysis.",
+  "evidence_state": "regenerated",
+  "provenance": {
+    "source_artifacts": [
+      "GrobeStreet/mmlu-robustness-audit historical frozen results",
+      "regeneration record"
+    ],
+    "command": "documented regeneration command in source repository",
+    "environment": "documented pinned regeneration environment in source repository",
+    "observed_result": "central answer-instability result regenerated; supporting calibration/stability values diverged",
+    "independent_execution": false,
+    "external_receipt": null
+  },
+  "artifacts": [],
+  "metrics": [
+    {
+      "name": "Qwen answer flip rate bf16",
+      "unit": "percent",
+      "reported": 78.7,
+      "regenerated": 78.7,
+      "tolerance": 0.1
+    },
+    {
+      "name": "Qwen answer flip rate fp32",
+      "unit": "percent",
+      "reported": 78.3,
+      "regenerated": 78.3,
+      "tolerance": 0.1
+    }
+  ],
+  "tests": [
+    {
+      "id": "T01",
+      "hypothesis": "The central instability result is reproducible under the documented regeneration path.",
+      "intervention": "Regenerate the frozen Qwen arm without tuning toward historical values.",
+      "expected_if_true": "Flip-rate result remains materially consistent.",
+      "expected_if_false": "Flip-rate result materially diverges.",
+      "observed": "Central flip-rate result remained consistent.",
+      "result": "passed",
+      "failure_layer": "substantive_result",
+      "decision_value": "Supports the narrow central robustness finding."
+    },
+    {
+      "id": "T02",
+      "hypothesis": "All historical supporting calibration/stability metrics are reproduced by the same regeneration path.",
+      "intervention": "Compare regenerated supporting metrics against the frozen historical table.",
+      "expected_if_true": "Supporting metrics agree within preregistered tolerance.",
+      "expected_if_false": "One or more supporting metrics diverge.",
+      "observed": "Supporting metrics diverged and were preserved as discrepancies rather than tuned away.",
+      "result": "discrepant",
+      "failure_layer": "provenance",
+      "decision_value": "Blocks broad claims that the full historical result table has been independently reproduced."
+    },
+    {
+      "id": "T03",
+      "hypothesis": "The discrepancy can be localized after regenerating the historical Llama comparison arm under comparable provenance.",
+      "intervention": "Regenerate the Llama arm without altering the frozen scientific question.",
+      "expected_if_true": "Cross-model comparison helps distinguish model-specific from harness/provenance explanations.",
+      "expected_if_false": "Discrepancy remains unresolved and claim stays narrow.",
+      "observed": null,
+      "result": "pending",
+      "failure_layer": "provenance",
+      "decision_value": "Highest-value next discriminating test for Case 002."
+    }
+  ],
+  "limitations": [
+    "Historical raw run is not available as an independently executable receipt.",
+    "The Llama comparison arm remains outstanding.",
+    "No external independent verifier receipt is claimed."
+  ],
+  "open_questions": [
+    "Which earliest provenance/environment/harness difference explains the supporting-metric divergence?"
+  ]
+}
