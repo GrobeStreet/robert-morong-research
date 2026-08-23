@@ -6,7 +6,7 @@
     <meta name="color-scheme" content="dark" />
     <meta
       name="description"
-      content="Robert Morong — independent research in cosmology, AI evaluation, and reproducibility engineering."
+      content="Robert Morong — independent research in cosmology, AI evaluation, reproducibility engineering, and technical claims diligence."
     />
     <title>Robert Morong — Independent Research</title>
     <style>
@@ -66,6 +66,7 @@
       .button.primary { border-color: var(--accent); color: var(--accent-ink); background: var(--accent); }
       .button:hover, .project-link:hover { border-color: var(--accent); }
       .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+      .grid.two { grid-template-columns: repeat(2, 1fr); }
       .card {
         display: flex;
         flex-direction: column;
@@ -103,7 +104,7 @@
       footer a { color: var(--accent); }
       @media (max-width: 820px) {
         main { padding: 3rem 0; }
-        .grid, .principles { grid-template-columns: 1fr; }
+        .grid, .grid.two, .principles { grid-template-columns: 1fr; }
       }
     </style>
   </head>
@@ -119,6 +120,7 @@
         </p>
         <div class="actions">
           <a class="button primary" href="#research">See the research</a>
+          <a class="button" href="#diligence">Diligence Lab</a>
           <a class="button" href="https://github.com/GrobeStreet">GitHub</a>
           <a class="button" href="mailto:bobbyopsassistant@gmail.com?subject=Research%20collaboration">Contact</a>
         </div>
@@ -177,6 +179,51 @@
             </p>
             <a class="project-link" href="https://github.com/GrobeStreet/mmlu-robustness-audit">Regeneration, code, results, and provenance ↗</a>
           </article>
+        </div>
+      </section>
+
+      <section id="diligence">
+        <p class="eyebrow">Diligence Lab</p>
+        <h2>How much of the technical claim survives?</h2>
+        <p class="lede">
+          A reproducibility-first technical diligence module for material AI and statistical claims:
+          freeze the claim, reconstruct its evidence chain, reproduce what can be reproduced,
+          attack plausible alternative explanations, and translate the surviving evidence into decision language.
+        </p>
+        <div class="grid two">
+          <article class="card">
+            <p class="eyebrow">Case 001 · public evidence</p>
+            <h3>SWE-bench: score, scaffold, protocol, and cost</h3>
+            <p class="result">
+              A headline benchmark percentage is not automatically a measure of proprietary product advantage.
+            </p>
+            <p>
+              The worked case separates base-model capability from agent/scaffold contribution,
+              protocol-version effects, budget sensitivity, and fresh-distribution transfer risk.
+              It is explicitly a public-evidence demonstration, not a claimed client engagement or independent leaderboard rerun.
+            </p>
+            <a class="project-link" href="https://github.com/GrobeStreet/robert-morong-research/blob/main/diligence/swebench-public-evidence-review.md">Read Case 001 ↗</a>
+          </article>
+
+          <article class="card">
+            <p class="eyebrow">Case 002 · real regeneration</p>
+            <h3>MMLU: when the headline survives but supporting metrics do not</h3>
+            <p class="result">
+              The majority-flip finding regenerated; historical stability and calibration metrics did not.
+            </p>
+            <p>
+              Tie-breaking and numerical precision were tested and refuted as explanations.
+              The unresolved provenance gap remains unresolved, and the historical Qwen-vs-Llama calibration contrast stays unconfirmed until Llama is rerun.
+            </p>
+            <a class="project-link" href="https://github.com/GrobeStreet/robert-morong-research/blob/main/diligence/mmlu-regeneration-case-002.md">Read Case 002 ↗</a>
+          </article>
+        </div>
+        <p class="note">
+          The lab's rule is simple: a historical result, a regenerated result, and an independently verified result are different evidence states. The job is not to validate a preferred story; it is to reduce decision-relevant uncertainty.
+        </p>
+        <div class="actions">
+          <a class="button primary" href="https://github.com/GrobeStreet/robert-morong-research/tree/main/diligence">Open the Diligence Lab</a>
+          <a class="button" href="mailto:bobbyopsassistant@gmail.com?subject=Technical%20claims%20diligence">Discuss a technical claim</a>
         </div>
       </section>
 
