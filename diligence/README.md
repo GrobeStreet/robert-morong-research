@@ -6,6 +6,12 @@ The lab is not presented as a substitute for full M&A, security, commercial, leg
 
 > **Take a material technical claim, freeze it, reconstruct the evidence chain, reproduce what can be reproduced, stress-test the result, localize any discrepancy, and translate the surviving evidence into decision language.**
 
+## Pilot module
+
+For a live diligence engagement, start with the [`Technical Claims Diligence — Pilot Module`](pilot.md).
+
+The pilot deliberately targets **one material technical claim** and produces a decision memo, claim ledger, reproduction record, 3–5 controlled stress tests, failure anatomy, evidence appendix, and the single highest-value follow-up test. It is designed to complement an existing transaction or operating diligence team rather than replace one.
+
 ## Operating standard
 
 Each case follows the same sequence:
