@@ -1,0 +1,63 @@
+{
+  "schema_version": "0.2",
+  "claim_id": "CASE002-MMLU-001",
+  "claim": "Option ordering produces substantial answer instability in the regenerated Qwen MMLU harness.",
+  "decision_relevance": "Determines how much confidence to place in benchmark accuracy as a stable capability measure.",
+  "source": "GrobeStreet/mmlu-robustness-audit",
+  "metric": "answer_flip_rate",
+  "benchmark_or_dataset": "MMLU fixed-seed 300-question sample",
+  "configuration": "Qwen/Qwen2.5-0.5B-Instruct; four cyclic rotations; seed 0; CPU",
+  "evidence_state": "regenerated",
+  "metrics": [
+    {
+      "name": "flip_rate",
+      "reported_value": 0.643,
+      "regenerated_value": 0.787,
+      "unit": "proportion",
+      "delta": 0.144,
+      "status": "headline phenomenon survives; historical magnitude does not reproduce exactly"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "regen-record",
+      "location": "regeneration/REGENERATION.md",
+      "role": "regeneration protocol and result record",
+      "sha256": null,
+      "verification_status": "source-listed; checksum pending local byte ingestion"
+    },
+    {
+      "id": "provenance-record",
+      "location": "regeneration/PROVENANCE.json",
+      "role": "environment and provenance",
+      "sha256": null,
+      "verification_status": "source-listed; checksum pending local byte ingestion"
+    }
+  ],
+  "promotion_requirements": {
+    "regenerated": ["command", "environment", "observed_result"],
+    "independently_verified": ["independent_execution", "external_receipt"]
+  },
+  "tests": [
+    {
+      "test_id": "TIE-001",
+      "hypothesis": "The historical/regenerated discrepancy is primarily caused by tie-breaking behavior.",
+      "intervention": "Change only tie-breaking behavior.",
+      "result": "did not explain discrepancy",
+      "decision_value": "eliminates one implementation-artifact explanation"
+    },
+    {
+      "test_id": "DTYPE-001",
+      "hypothesis": "The historical/regenerated discrepancy is primarily caused by bf16 numerical behavior.",
+      "intervention": "Change only dtype from bf16 to fp32.",
+      "result": "flip rate remained approximately 78 percent",
+      "decision_value": "eliminates dtype as the main explanation"
+    }
+  ],
+  "failure_localization": {
+    "current_layer": "historical provenance / unrecovered implementation difference",
+    "resolved_layers": ["tie-breaking", "dtype"],
+    "unresolved": ["historical raw run unavailable", "Llama arm not yet regenerated", "second independent verifier outstanding"]
+  },
+  "next_test": "Regenerate the historical Llama arm under a protocol directly comparable to the completed Qwen runs."
+}
