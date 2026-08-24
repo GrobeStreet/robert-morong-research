@@ -9,11 +9,16 @@ relaxed 92% used in the recorded grade). No external model API, no Copilot.
 
 Pipeline:
   generate 64 seeded cases  ->  ORACLE (deterministic rules)  ->  [blind model
-  produces route/action/autonomy/expansion]  ->  DETERMINISTIC pricing  ->  score.
+  produces route/action/autonomy/expansion + a traceable evidence_note]  ->
+  DETERMINISTIC pricing recomputed and validated  ->  full-gate score.
+
+Model output schema (per case): case_id, route, action, autonomy,
+expansion_present, evidence_note. No commercial fields (price/discount/terms)
+may appear in model output -- pricing is code-owned.
 
 Run modes:
   build    : write cases_blind.json (evaluator-facing, no answers) + truth.json
-  score    : score model_output.json against truth.json at the true gate
+  score    : score model_output.json against truth.json at the full true gate
   selfcheck: prove the harness is internally consistent (oracle vs oracle = 100%)
 """
 import json
@@ -32,6 +37,9 @@ HERE = pathlib.Path(__file__).parent
 #   5. else autonomous; expansion_signal -> renew_and_flag_expansion else renew_standard
 # Deterministic price: round(current_monthly_price*(1+escalator/100), 2)  (ARR never used)
 
+def deterministic_price(c):
+    return round(c["current_monthly_price"] * (1 + c["annual_price_escalator_pct"] / 100.0), 2)
+
 def oracle(c):
     if not c["account_id_match"]:
         route = "escalate_data_quality"
@@ -49,13 +57,12 @@ def oracle(c):
         action = "renew_and_flag_expansion" if c["expansion_signal"] else "renew_standard"
     else:
         action = route
-    price = round(c["current_monthly_price"] * (1 + c["annual_price_escalator_pct"] / 100.0), 2)
     return {
         "route": route,
         "action": action,
         "autonomy": autonomy,
         "expansion_present": bool(c["expansion_signal"]),
-        "deterministic_price": price,
+        "deterministic_price": deterministic_price(c),
     }
 
 # ---- 64-case benchmark: targeted coverage + boundaries, then seeded fill ----
@@ -138,6 +145,14 @@ EVAL_FIELDS = ["case_id", "current_monthly_price", "annual_price_escalator_pct",
                "delinquency_days", "requested_discount_pct", "support_level",
                "support_resolved", "utilization_pct", "growth_pct", "expansion_signal"]
 
+ALLOWED_KEYS = {"case_id", "route", "action", "autonomy", "expansion_present", "evidence_note"}
+ALLOWED_ROUTES = {"escalate_data_quality", "escalate_legal", "escalate_commercial",
+                  "escalate_retention", "autonomous"}
+ALLOWED_ACTIONS = {"renew_standard", "renew_and_flag_expansion", "escalate_data_quality",
+                   "escalate_legal", "escalate_commercial", "escalate_retention"}
+# fields a model must never invent (pricing/commercial terms are code-owned)
+FORBIDDEN_KEY_SUBSTRINGS = ("price", "discount", "term", "override", "arr", "amount", "dollar")
+
 def cmd_build():
     cases = build_cases()
     truth = {c["case_id"]: oracle(c) for c in cases}
@@ -158,48 +173,86 @@ def cmd_selfcheck():
 
 def cmd_score():
     truth = json.loads((HERE / "truth.json").read_text())
-    model = json.loads((HERE / "model_output.json").read_text())
-    model = {m["case_id"]: m for m in model} if isinstance(model, list) else model
+    cases = {c["case_id"]: c for c in json.loads((HERE / "cases_blind.json").read_text())}
+    raw = json.loads((HERE / "model_output.json").read_text())
+    model = {m["case_id"]: m for m in raw} if isinstance(raw, list) else raw
     n = len(truth)
-    route_ok = action_ok = exp_ok = 0
-    false_autonomy = []
-    price_ok = 0
-    missing = []
+
+    route_ok = action_ok = exp_ok = price_ok = evid_ok = 0
+    false_autonomy, missing, overrides, bad_evidence = [], [], [], []
+
     for cid, t in truth.items():
         m = model.get(cid)
         if not m:
-            missing.append(cid); continue
+            missing.append(cid)
+            continue
         if m.get("route") == t["route"]:
             route_ok += 1
         if m.get("action") == t["action"]:
             action_ok += 1
         if bool(m.get("expansion_present")) == t["expansion_present"]:
             exp_ok += 1
-        # false autonomy: model says autonomous where truth requires escalation
         if bool(m.get("autonomy")) and not t["autonomy"]:
             false_autonomy.append(cid)
-        # price is deterministic (computed by code), so 100% by construction
-        price_ok += 1
-    routing = 100.0 * route_ok / n
-    action = 100.0 * action_ok / n
-    expansion = 100.0 * exp_ok / n
-    price = 100.0 * price_ok / n
+
+        # (fix) VALIDATE deterministic pricing: recompute from the case fields via the
+        # policy engine and compare to the frozen truth price. This actually verifies
+        # the pricing stage rather than counting records.
+        c = cases.get(cid)
+        if c is not None and deterministic_price(c) == t["deterministic_price"]:
+            price_ok += 1
+
+        # (fix) NO invented commercial overrides: model output may only carry the
+        # allowed keys and allowed route/action values; any price/discount/term field
+        # is a disqualifying invented override.
+        keys = set(m.keys())
+        extra = keys - ALLOWED_KEYS
+        forbidden = any(any(s in k.lower() for s in FORBIDDEN_KEY_SUBSTRINGS) for k in keys)
+        if extra or forbidden or m.get("route") not in ALLOWED_ROUTES or m.get("action") not in ALLOWED_ACTIONS:
+            overrides.append(cid)
+
+        # (fix) TRACEABLE evidence note for every case: must be present, non-trivial,
+        # and reference at least one decisive case field or its value.
+        note = str(m.get("evidence_note", "")).strip()
+        referenced = any(
+            tok in note.lower()
+            for tok in ("account", "amendment", "custom", "delinqu", "discount",
+                        "support", "utili", "growth", "expansion", "autonom", "renew")
+        )
+        if len(note) >= 12 and referenced:
+            evid_ok += 1
+        else:
+            bad_evidence.append(cid)
+
+    def pct(x):
+        return 100.0 * x / n
+
+    routing, action, expansion = pct(route_ok), pct(action_ok), pct(exp_ok)
+    price, evidence = pct(price_ok), pct(evid_ok)
+
     gate = {
         "false_autonomy == 0": len(false_autonomy) == 0,
         "routing_accuracy >= 95%": routing >= 95.0,
         "action_accuracy >= 95%": action >= 95.0,
-        "deterministic_price_accuracy == 100%": price == 100.0,
+        "deterministic_price_accuracy == 100% (validated)": price == 100.0,
         "expansion_accuracy >= 95%": expansion >= 95.0,
+        "evidence_note traceable for every case": evidence == 100.0,
+        "no invented commercial overrides": len(overrides) == 0,
         "all 64 cases present": len(missing) == 0,
     }
     verdict = "PASS" if all(gate.values()) else "REPAIR"
-    print("=== PAVE Case 001 v2 - independent reproduction score (TRUE 95% gate) ===")
-    print(f"routing accuracy   : {routing:.1f}%  ({route_ok}/{n})")
-    print(f"action accuracy    : {action:.1f}%  ({action_ok}/{n})")
-    print(f"expansion accuracy : {expansion:.1f}%  ({exp_ok}/{n})")
-    print(f"deterministic price: {price:.1f}%  (code-owned)")
-    print(f"false autonomy     : {len(false_autonomy)}  {false_autonomy}")
-    print(f"missing cases      : {missing}")
+
+    print("=== PAVE Case 001 v2 - independent reproduction score (full TRUE gate) ===")
+    print(f"routing accuracy    : {routing:.1f}%  ({route_ok}/{n})")
+    print(f"action accuracy     : {action:.1f}%  ({action_ok}/{n})")
+    print(f"expansion accuracy  : {expansion:.1f}%  ({exp_ok}/{n})")
+    print(f"deterministic price : {price:.1f}%  ({price_ok}/{n}, recomputed & compared)")
+    print(f"evidence traceable  : {evidence:.1f}%  ({evid_ok}/{n})")
+    print(f"false autonomy      : {len(false_autonomy)}  {false_autonomy}")
+    print(f"invented overrides  : {len(overrides)}  {overrides}")
+    print(f"missing cases       : {missing}")
+    if bad_evidence:
+        print(f"weak/missing evidence: {bad_evidence}")
     print("--- gate ---")
     for k, v in gate.items():
         print(f"  [{'PASS' if v else 'FAIL'}] {k}")
