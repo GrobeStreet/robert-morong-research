@@ -49,13 +49,13 @@ truth.json           deff57594c03a5352196b1b85bfe51333c079516e89f998e57de6d92e55
 model_output.json    b33b04de851fefc0d92dfddc6922db7d80bf6b36f09bc31686f058e3526a09e3
 ```
 
-`cases_blind.json` and `truth.json` are regenerated deterministically by the harness (fixed seed). Reproduce end to end: `python3 pave_v2_verify.py build`, run a blind model pass to produce `model_output.json`, then `python3 pave_v2_verify.py score`.
+`cases_blind.json` and `truth.json` are regenerated deterministically by the harness (fixed seed). Reproduce end to end **from the repository root**: `python3 pave/verification/pave_v2_verify.py build`, run a blind model pass to produce `pave/verification/model_output.json`, then `python3 pave/verification/pave_v2_verify.py score` (or `cd pave/verification` first and drop the path prefix).
 
 ---
 
 ## Honest scope and caveats (read before using externally)
 
-- **Independent reproduction, not a re-score of the original run.** The original frozen 64-case answer-key CSV and the original model output live in a private execution repository and were not available here. To verify the *exact* original run, supply that ZIP + output and run `pave_v2_verify.py score` against them.
+- **Independent reproduction, not a re-score of the original run.** The original frozen 64-case answer-key CSV and the original model output live in a private execution repository and were not available here. To verify the *exact* original run, supply that ZIP + output and run `pave/verification/pave_v2_verify.py score` against them.
 - **The routing task is deterministic rule-application on clean structured fields.** A competent model, given the policy, applies it at ~100% — as it did here. This verifies that the **hybrid architecture is sound and reproducible**: deterministic code owns pricing (100% by construction), the model follows a documented policy, and there is zero false autonomy. It does **not** demonstrate that "AI interpreting messy evidence" is the hard or valuable part of the workflow.
 - **No production claim.** This establishes synthetic architectural viability only — not real-world EBITDA, labor savings, retention lift, or portability. The next proof point remains a controlled pilot on real portfolio-company historical data in shadow mode.
 
