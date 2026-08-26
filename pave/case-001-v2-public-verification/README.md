@@ -1,5 +1,7 @@
 # PAVE Case 001 v2 — public verification record
 
+[![PAVE Case 001 v2 Verification](https://github.com/GrobeStreet/robert-morong-research/actions/workflows/pave-case001-v2-verify.yml/badge.svg)](https://github.com/GrobeStreet/robert-morong-research/actions/workflows/pave-case001-v2-verify.yml)
+
 This directory makes the previously frozen PAVE Case 001 v2 result independently inspectable in the public research repository.
 
 ## What is being verified
