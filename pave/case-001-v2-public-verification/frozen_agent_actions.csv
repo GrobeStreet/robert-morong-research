@@ -1,0 +1,65 @@
+case_id,recommended_action,autonomy_decision,recommended_monthly_price,expansion_flag,evidence_note,estimated_human_minutes_after
+RV2-001,renew_standard,autonomous,1577.10,no,standard renewal,8
+RV2-002,escalate_legal,escalate,1949.33,no,hard gate: legal,20
+RV2-003,escalate_retention,escalate,2321.55,no,medium support with low usage,20
+RV2-004,escalate_commercial,escalate,2693.78,no,hard gate: commercial,20
+RV2-005,escalate_data_quality,escalate,3066.00,yes,hard gate: data_quality,20
+RV2-006,renew_and_flag_expansion,autonomous,3438.23,yes,expansion: usage >= 80% and 90d growth >= 15%,8
+RV2-007,escalate_commercial,escalate,3681.83,yes,hard gate: commercial,20
+RV2-008,escalate_commercial,escalate,4054.05,no,hard gate: commercial,20
+RV2-009,renew_standard,autonomous,4426.28,no,standard renewal,8
+RV2-010,escalate_legal,escalate,4798.50,no,hard gate: legal,20
+RV2-011,escalate_retention,escalate,5170.73,no,medium support with low usage,20
+RV2-012,escalate_commercial,escalate,5542.95,no,hard gate: commercial,20
+RV2-013,escalate_data_quality,escalate,5915.18,no,hard gate: data_quality,20
+RV2-014,renew_and_flag_expansion,autonomous,6158.78,yes,expansion: usage >= 80% and 90d growth >= 15%,8
+RV2-015,escalate_commercial,escalate,6531.00,yes,hard gate: commercial,20
+RV2-016,escalate_commercial,escalate,6903.23,yes,hard gate: commercial,20
+RV2-017,renew_standard,autonomous,7275.45,no,standard renewal,8
+RV2-018,escalate_legal,escalate,7647.68,no,hard gate: legal,20
+RV2-019,escalate_retention,escalate,1509.90,no,medium support with low usage,20
+RV2-020,escalate_commercial,escalate,1882.12,no,hard gate: commercial,20
+RV2-021,escalate_data_quality,escalate,2125.72,no,hard gate: data_quality,20
+RV2-022,renew_and_flag_expansion,autonomous,2497.95,yes,expansion: usage >= 80% and 90d growth >= 15%,8
+RV2-023,escalate_commercial,escalate,2870.18,yes,hard gate: commercial,20
+RV2-024,escalate_commercial,escalate,3242.40,no,hard gate: commercial,20
+RV2-025,renew_standard,autonomous,3614.62,no,standard renewal,8
+RV2-026,escalate_legal,escalate,3986.85,no,hard gate: legal,20
+RV2-027,escalate_retention,escalate,4359.07,no,medium support with low usage,20
+RV2-028,escalate_commercial,escalate,4602.68,no,hard gate: commercial,20
+RV2-029,escalate_data_quality,escalate,4974.90,no,hard gate: data_quality,20
+RV2-030,renew_and_flag_expansion,autonomous,5347.12,yes,expansion: usage >= 80% and 90d growth >= 15%,8
+RV2-031,escalate_commercial,escalate,5719.35,yes,hard gate: commercial,20
+RV2-032,escalate_commercial,escalate,6091.57,no,hard gate: commercial,20
+RV2-033,renew_standard,autonomous,6402.24,no,standard renewal,8
+RV2-034,escalate_legal,escalate,6770.92,no,hard gate: legal,20
+RV2-035,escalate_retention,escalate,7012.20,no,high support severity,20
+RV2-036,escalate_commercial,escalate,7380.88,no,hard gate: commercial,20
+RV2-037,escalate_data_quality,escalate,1301.56,no,hard gate: data_quality,20
+RV2-038,renew_and_flag_expansion,autonomous,1670.24,yes,expansion: usage >= 80% and 90d growth >= 15%,8
+RV2-039,escalate_commercial,escalate,2038.92,yes,hard gate: commercial,20
+RV2-040,escalate_commercial,escalate,2407.60,no,hard gate: commercial,20
+RV2-041,renew_standard,autonomous,2776.28,no,standard renewal,8
+RV2-042,escalate_legal,escalate,3017.56,no,hard gate: legal,20
+RV2-043,escalate_retention,escalate,3386.24,no,high support severity,20
+RV2-044,escalate_commercial,escalate,3754.92,no,hard gate: commercial,20
+RV2-045,escalate_data_quality,escalate,4123.60,no,hard gate: data_quality,20
+RV2-046,renew_and_flag_expansion,autonomous,4492.28,yes,expansion: usage >= 80% and 90d growth >= 15%,8
+RV2-047,escalate_commercial,escalate,4860.96,yes,hard gate: commercial,20
+RV2-048,escalate_commercial,escalate,5229.64,no,hard gate: commercial,20
+RV2-049,renew_standard,autonomous,5470.92,no,standard renewal,8
+RV2-050,escalate_legal,escalate,5839.60,no,hard gate: legal,20
+RV2-051,escalate_retention,escalate,6208.28,no,high support severity,20
+RV2-052,escalate_commercial,escalate,6576.96,no,hard gate: commercial,20
+RV2-053,escalate_data_quality,escalate,6945.64,no,hard gate: data_quality,20
+RV2-054,renew_and_flag_expansion,autonomous,7314.32,yes,expansion: usage >= 80% and 90d growth >= 15%,8
+RV2-055,escalate_commercial,escalate,7683.00,yes,hard gate: commercial,20
+RV2-056,escalate_commercial,escalate,1476.28,no,hard gate: commercial,20
+RV2-057,renew_standard,autonomous,1844.96,no,standard renewal,8
+RV2-058,escalate_legal,escalate,2213.64,no,hard gate: legal,20
+RV2-059,escalate_retention,escalate,2582.32,no,high support severity,20
+RV2-060,escalate_commercial,escalate,2951.00,no,hard gate: commercial,20
+RV2-061,escalate_data_quality,escalate,3319.68,no,hard gate: data_quality,20
+RV2-062,renew_and_flag_expansion,autonomous,3688.36,yes,expansion: usage >= 80% and 90d growth >= 15%,8
+RV2-063,escalate_commercial,escalate,3929.64,yes,hard gate: commercial,20
+RV2-064,escalate_commercial,escalate,4298.32,no,hard gate: commercial,20
