@@ -1,0 +1,29 @@
+name: PAVE Case 001 v2 Verification
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'pave/case-001-v2-public-verification/**'
+      - '.github/workflows/pave-case001-v2-verify.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'pave/case-001-v2-public-verification/**'
+      - '.github/workflows/pave-case001-v2-verify.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify frozen output and PASS gate
+        run: python pave/case-001-v2-public-verification/verify.py
