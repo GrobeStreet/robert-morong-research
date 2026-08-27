@@ -3,18 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The 0.33-Point Moat — Robert Morong</title>
-<meta name="description" content="A target's &quot;18-point AI advantage,&quot; taken apart. What survived contact with a new customer was almost nothing — and standard diligence never would have caught it.">
+<title>The 0.33-Point Moat &#8212; Robert Morong</title>
+<meta name="description" content="A target's &quot;18-point AI advantage,&quot; taken apart. What survived contact with a new customer was almost nothing &#8212; and standard diligence never would have caught it.">
 <meta name="author" content="Robert Morong">
 <link rel="canonical" href="https://robert-morong-research.netlify.app/moat/">
+
+<!-- Open Graph / social share card -->
 <meta property="og:type" content="article">
-<meta property="og:site_name" content="Robert Morong · Independent research">
+<meta property="og:site_name" content="Robert Morong &#183; Independent research">
 <meta property="og:title" content="The 0.33-Point Moat">
-<meta property="og:description" content="A target's &quot;18-point AI advantage,&quot; taken apart. What survived contact with a new customer was almost nothing — and standard diligence never would have caught it.">
+<meta property="og:description" content="A target's &quot;18-point AI advantage,&quot; taken apart. What survived contact with a new customer was almost nothing &#8212; and standard diligence never would have caught it.">
 <meta property="og:url" content="https://robert-morong-research.netlify.app/moat/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="The 0.33-Point Moat">
 <meta name="twitter:description" content="An AI premium, re-measured. On the customers the buyer actually acquires, an 18-point &quot;advantage&quot; comes to 0.33.">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -52,12 +55,16 @@ h1,h2,h3{font-family:"Spectral",Georgia,serif; color:var(--ink); font-weight:600
 a{color:var(--accent-ink); text-decoration:none; border-bottom:1px solid color-mix(in srgb,var(--accent) 42%,transparent)}
 a:hover{border-bottom-color:var(--accent)}
 :focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:2px}
+
+/* top bar */
 .bar{border-bottom:1px solid var(--line); background:color-mix(in srgb,var(--bg) 90%,transparent); position:sticky; top:0; z-index:10; backdrop-filter:blur(8px)}
 .bar .in{max-width:52rem; margin:0 auto; padding:.7rem 1.3rem; display:flex; align-items:center; justify-content:space-between}
 .kick{font-family:"IBM Plex Mono",monospace; font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; color:var(--accent-ink); border-bottom:0}
 .kick:hover{color:var(--ink)}
 .tgl{border:1px solid var(--line-strong); background:var(--surface); color:var(--muted); width:32px;height:32px;border-radius:7px; cursor:pointer; font-size:.85rem}
 .tgl:hover{color:var(--ink); border-color:var(--accent)}
+
+/* header */
 header.piece{padding:clamp(2.6rem,7vw,5rem) 0 1.6rem}
 .eyebrow{font-family:"IBM Plex Mono",monospace; font-size:.74rem; letter-spacing:.15em; text-transform:uppercase; color:var(--accent-ink); display:block; margin-bottom:1.3rem}
 h1.title{font-size:clamp(2.5rem,7vw,4.3rem); letter-spacing:-.02em; margin:0 0 1.3rem; line-height:1.04}
@@ -65,6 +72,8 @@ h1.title{font-size:clamp(2.5rem,7vw,4.3rem); letter-spacing:-.02em; margin:0 0 1
 .byline{font-family:"IBM Plex Sans",sans-serif; font-size:.9rem; color:var(--muted); display:flex; flex-wrap:wrap; gap:.4rem .9rem; align-items:center; border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:.9rem 0}
 .byline b{color:var(--ink); font-weight:600}
 .byline .dot{color:var(--faint)}
+
+/* prose */
 article{padding:2.2rem 0 1rem}
 article p{margin:0 0 1.35rem}
 article > .col > h2{font-size:clamp(1.5rem,3.4vw,2rem); letter-spacing:-.01em; margin:2.8rem 0 1.1rem}
@@ -73,6 +82,8 @@ article h2 .n{font-family:"IBM Plex Mono",monospace; font-size:.9rem; color:var(
 em{color:var(--ink)}
 strong{color:var(--ink); font-weight:600}
 .pull{font-family:"Spectral",serif; font-style:italic; font-size:clamp(1.5rem,3.4vw,2rem); line-height:1.32; color:var(--ink); margin:2.2rem 0; padding-left:1.2rem; border-left:3px solid var(--accent); text-wrap:balance}
+
+/* figure: decomposition */
 figure{margin:2.4rem auto; max-width:52rem}
 .fig-box{background:var(--surface); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow); padding:clamp(1.2rem,3vw,1.8rem)}
 .fig-h{font-family:"IBM Plex Mono",monospace; font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--faint); margin-bottom:1.2rem; display:flex; justify-content:space-between; gap:.6rem; flex-wrap:wrap}
@@ -90,6 +101,8 @@ figure{margin:2.4rem auto; max-width:52rem}
 .leg span{display:inline-flex; align-items:center; gap:.45rem}
 .sw{width:11px;height:11px;border-radius:3px}
 figcaption{font-family:"IBM Plex Sans",sans-serif; font-size:.86rem; color:var(--muted); margin-top:1rem; line-height:1.55}
+
+/* verdict inset */
 .verdicts{display:grid; grid-template-columns:1fr 1fr; gap:.6rem; margin-top:1.3rem}
 @media(max-width:560px){.verdicts{grid-template-columns:1fr}}
 .vr{display:flex; align-items:center; justify-content:space-between; gap:.6rem; padding:.6rem .85rem; border:1px solid var(--line); border-radius:9px; background:var(--bg); font-family:"IBM Plex Sans",sans-serif; font-size:.86rem}
@@ -97,6 +110,8 @@ figcaption{font-family:"IBM Plex Sans",sans-serif; font-size:.86rem; color:var(-
 .chip.sup{color:var(--supported); background:color-mix(in srgb,var(--supported) 13%,transparent); border-color:color-mix(in srgb,var(--supported) 32%,transparent)}
 .chip.qual{color:var(--qualified); background:color-mix(in srgb,var(--qualified) 13%,transparent); border-color:color-mix(in srgb,var(--qualified) 32%,transparent)}
 .chip.no{color:var(--notsupported); background:color-mix(in srgb,var(--notsupported) 13%,transparent); border-color:color-mix(in srgb,var(--notsupported) 32%,transparent)}
+
+/* checklist */
 .demand{background:var(--surface); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow); padding:clamp(1.3rem,3vw,1.9rem); margin:2rem auto}
 .demand h3{font-size:1.2rem; margin:0 0 1rem}
 .demand ol{list-style:none; counter-reset:d; margin:0; padding:0}
@@ -104,6 +119,8 @@ figcaption{font-family:"IBM Plex Sans",sans-serif; font-size:.86rem; color:var(-
 .demand li:first-child{border-top:0}
 .demand li::before{content:counter(d,decimal-leading-zero); position:absolute; left:0; top:.78rem; font-family:"IBM Plex Mono",monospace; font-size:.8rem; color:var(--accent-ink); font-weight:500}
 .demand li b{color:var(--ink)}
+
+/* proof box */
 .proof{background:var(--accent-soft); border:1px solid color-mix(in srgb,var(--accent) 28%,transparent); border-radius:14px; padding:clamp(1.3rem,3vw,1.9rem); margin:2.2rem auto}
 .proof .pl{font-family:"IBM Plex Mono",monospace; font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--accent-ink); margin-bottom:.8rem}
 .proof p{font-size:1.04rem; margin:0 0 .8rem}
@@ -112,6 +129,8 @@ figcaption{font-family:"IBM Plex Sans",sans-serif; font-size:.86rem; color:var(-
 .proof .nums b{font-family:"Spectral",serif; font-size:1.7rem; color:var(--ink); line-height:1; font-weight:600}
 .proof .nums b.bad{color:var(--notsupported)} .proof .nums b.good{color:var(--supported)}
 .proof .nums .c{font-family:"IBM Plex Sans",sans-serif; font-size:.72rem; color:var(--muted); margin-top:.35rem; letter-spacing:.02em}
+
+/* author */
 .author{border-top:1px solid var(--line); margin-top:3rem; padding:2rem 0 1rem; font-family:"IBM Plex Sans",sans-serif}
 .author .who{font-family:"Spectral",serif; font-size:1.35rem; color:var(--ink); font-weight:600; margin:0 0 .5rem}
 .author p{font-size:1rem; line-height:1.6; color:var(--muted); margin:0 0 .7rem}
@@ -124,7 +143,7 @@ footer .home{display:block; margin-top:1rem; font-family:"IBM Plex Mono",monospa
 <body>
 
 <div class="bar"><div class="in">
-  <a class="kick" href="/">&larr; Robert Morong &middot; research</a>
+  <a class="kick" href="/">&#8592; Robert Morong &#183; research</a>
   <button class="tgl" id="tgl" aria-label="Toggle light or dark theme" title="Toggle theme">&#9681;</button>
 </div></div>
 
@@ -132,10 +151,10 @@ footer .home{display:block; margin-top:1rem; font-family:"IBM Plex Mono",monospa
   <header class="piece">
     <span class="eyebrow">On verifying AI claims before they set a price</span>
     <h1 class="title">The 0.33&#8209;point moat</h1>
-    <p class="standfirst">A target&rsquo;s &ldquo;18-point AI advantage,&rdquo; taken apart. What survived contact with a new customer was almost nothing &mdash; and standard diligence never would have caught it.</p>
+    <p class="standfirst">A target&#8217;s &#8220;18-point AI advantage,&#8221; taken apart. What survived contact with a new customer was almost nothing &#8212; and standard diligence never would have caught it.</p>
     <div class="byline">
-      <span>By <b>Robert Morong</b></span><span class="dot">&middot;</span>
-      <span>Independent claim verification</span><span class="dot">&middot;</span>
+      <span>By <b>Robert Morong</b></span><span class="dot">&#183;</span>
+      <span>Independent claim verification</span><span class="dot">&#183;</span>
       <span>~9 min read</span>
     </div>
   </header>
@@ -145,35 +164,35 @@ footer .home{display:block; margin-top:1rem; font-family:"IBM Plex Mono",monospa
   <div class="col">
     <p class="lead">A private-equity firm once bought an AI fraud-detection company at four times revenue. The thesis rested on a single represented number: 98% detection accuracy. It was a real number. It had been produced by real code on a real test set. And it was wrong about the only thing that mattered.</p>
 
-    <p>The model had been evaluated on a curated set that did not look like the fraud it would meet in production. On live traffic, accuracy fell to about 71%. The premium &mdash; the part of the price that existed only because of the AI story &mdash; was gone inside the first year of the hold. Nobody had lied. The number was true in the seller&rsquo;s harness and false everywhere else, and no line in a standard technical-diligence report is built to tell those two states apart.</p>
+    <p>The model had been evaluated on a curated set that did not look like the fraud it would meet in production. On live traffic, accuracy fell to about 71%. The premium &#8212; the part of the price that existed only because of the AI story &#8212; was gone inside the first year of the hold. Nobody had lied. The number was true in the seller&#8217;s harness and false everywhere else, and no line in a standard technical-diligence report is built to tell those two states apart.</p>
 
-    <p>I spend my time on that gap. What follows is a teardown of a claim &mdash; how a represented advantage comes apart when you actually re-run it &mdash; worked on a deliberately constructed target so I can show every number. The target is invented. The method is not; the same method runs publicly, today, on research claims, and I&rsquo;ll show you that at the end.</p>
+    <p>I spend my time on that gap. What follows is a teardown of a claim &#8212; how a represented advantage comes apart when you actually re-run it &#8212; worked on a deliberately constructed target so I can show every number. The target is invented. The method is not; the same method runs publicly, today, on research claims, and I&#8217;ll show you that at the end.</p>
 
     <h2><span class="n">01</span>Why the number lies</h2>
-    <p>Private equity is buying AI at record rates and paying premiums for &ldquo;proprietary&rdquo; models and &ldquo;data moats.&rdquo; Meanwhile the diligence playbook underneath those deals was built for a different kind of asset. Traditional technical diligence is very good at what it was designed for: reading a static codebase, confirming historical recurring revenue, checking that the cloud architecture is sane. None of that is equipped to answer the question an AI premium actually depends on &mdash; <em>does the claimed performance survive outside the conditions the seller chose?</em></p>
+    <p>Private equity is buying AI at record rates and paying premiums for &#8220;proprietary&#8221; models and &#8220;data moats.&#8221; Meanwhile the diligence playbook underneath those deals was built for a different kind of asset. Traditional technical diligence is very good at what it was designed for: reading a static codebase, confirming historical recurring revenue, checking that the cloud architecture is sane. None of that is equipped to answer the question an AI premium actually depends on &#8212; <em>does the claimed performance survive outside the conditions the seller chose?</em></p>
 
-    <p>A model&rsquo;s headline metric is a measurement, and every measurement carries the fingerprints of how it was taken. Change the comparator, the customer mix, or the slice of time, and the number moves. Sellers are not usually committing fraud; they are, entirely rationally, reporting the most favorable true measurement available. The buyer&rsquo;s job &mdash; and it is a job almost no one is staffed to do &mdash; is to re-take the measurement under conditions the seller didn&rsquo;t get to pick.</p>
+    <p>A model&#8217;s headline metric is a measurement, and every measurement carries the fingerprints of how it was taken. Change the comparator, the customer mix, or the slice of time, and the number moves. Sellers are not usually committing fraud; they are, entirely rationally, reporting the most favorable true measurement available. The buyer&#8217;s job &#8212; and it is a job almost no one is staffed to do &#8212; is to re-take the measurement under conditions the seller didn&#8217;t get to pick.</p>
 
     <p class="pull">Reproducing a number and verifying a claim are different skills. Most diligence does the first and calls it the second.</p>
 
     <h2><span class="n">02</span>Four tests</h2>
     <p>Independent verification of a technical claim comes down to four questions, asked in order. Each one is a place a represented advantage tends to leak.</p>
-    <p><strong>Real.</strong> Does it reproduce outside the seller&rsquo;s environment? Rebuild the claim from the evidence in the room and run it yourself. A result that only holds inside the vendor&rsquo;s own harness is a marketing artifact, not an asset.</p>
-    <p><strong>Proprietary.</strong> Is the advantage the target&rsquo;s architecture, or a handicapped comparator? A large share of most &ldquo;we beat the field by X&rdquo; claims is a weak or misconfigured baseline on the other side of the comparison. Normalize it and a lot of the gap simply evaporates.</p>
+    <p><strong>Real.</strong> Does it reproduce outside the seller&#8217;s environment? Rebuild the claim from the evidence in the room and run it yourself. A result that only holds inside the vendor&#8217;s own harness is a marketing artifact, not an asset.</p>
+    <p><strong>Proprietary.</strong> Is the advantage the target&#8217;s architecture, or a handicapped comparator? A large share of most &#8220;we beat the field by X&#8221; claims is a weak or misconfigured baseline on the other side of the comparison. Normalize it and a lot of the gap simply evaporates.</p>
     <p><strong>Durable.</strong> Does it survive transfer? Re-measure on fresh customers, shifted distributions, and later time periods. An edge that lives only inside the cohort the model was tuned on is not a moat you can underwrite for a five-year hold.</p>
-    <p><strong>Economic.</strong> Narrow or fully loaded? Bridge the unit economics from the story to reality &mdash; inference cost, retention, comparator effects, key-person risk &mdash; and see whether the margin thesis is still standing at the end.</p>
+    <p><strong>Economic.</strong> Narrow or fully loaded? Bridge the unit economics from the story to reality &#8212; inference cost, retention, comparator effects, key-person risk &#8212; and see whether the margin thesis is still standing at the end.</p>
 
     <h2><span class="n">03</span>The teardown</h2>
-    <p>Here is what those four questions do to a real-looking claim. Call the target <strong>Meridian</strong> &mdash; a vertical AI-SaaS business. Management represents a <strong>+18.375-point</strong> performance advantage over the field, attributed to &ldquo;proprietary AI and a defensible data moat,&rdquo; and that advantage is doing the heavy lifting in the ask. We reconstruct it from the data room and take it apart.</p>
+    <p>Here is what those four questions do to a real-looking claim. Call the target <strong>Meridian</strong> &#8212; a vertical AI-SaaS business. Management represents a <strong>+18.375-point</strong> performance advantage over the field, attributed to &#8220;proprietary AI and a defensible data moat,&#8221; and that advantage is doing the heavy lifting in the ask. We reconstruct it from the data room and take it apart.</p>
 
     <figure>
       <div class="fig-box">
         <div class="fig-h"><span>Decomposition of the represented advantage</span><span class="samp">Constructed example</span></div>
         <div class="bar-lab"><span class="name">As represented</span><span class="tot tnum">18.375 pts</span></div>
         <div class="stack" role="img" aria-label="18.375 points = 9.75 comparator handicap, 5.125 architecture, 3.5 proprietary data.">
-          <div class="seg handicap" style="width:53.1%">9.75 &middot; handicap</div>
-          <div class="seg arch" style="width:27.9%">5.125 &middot; arch.</div>
-          <div class="seg data" style="width:19.0%">3.5 &middot; data</div>
+          <div class="seg handicap" style="width:53.1%">9.75 &#183; handicap</div>
+          <div class="seg arch" style="width:27.9%">5.125 &#183; arch.</div>
+          <div class="seg data" style="width:19.0%">3.5 &#183; data</div>
         </div>
         <div class="bar-lab"><span class="name">On fresh customers</span><span class="tot tnum">15.205 pts effective</span></div>
         <div class="stack" role="img" aria-label="On fresh customers the data contribution falls from 3.5 to 0.33 points.">
@@ -182,74 +201,75 @@ footer .home{display:block; margin-top:1rem; font-family:"IBM Plex Mono",monospa
           <div class="seg data tiny" style="width:1.8%">0.33</div>
         </div>
         <div class="leg">
-          <span><i class="sw" style="background:#a5423b"></i> Comparator handicap &mdash; never a real advantage</span>
-          <span><i class="sw" style="background:#976d1c"></i> Architecture &mdash; real, but replicable</span>
-          <span><i class="sw" style="background:#0b6f61"></i> Proprietary data &mdash; the only true moat</span>
+          <span><i class="sw" style="background:#a5423b"></i> Comparator handicap &#8212; never a real advantage</span>
+          <span><i class="sw" style="background:#976d1c"></i> Architecture &#8212; real, but replicable</span>
+          <span><i class="sw" style="background:#0b6f61"></i> Proprietary data &#8212; the only true moat</span>
         </div>
       </div>
-      <figcaption>The represented 18.4-point edge is three very different things wearing one number. Normalizing the comparator removes 9.75 points that were never an advantage. Of the 8.6 points left, 5.125 is genuine architecture &mdash; but replicable, so not a moat &mdash; and 3.5 is the proprietary-data contribution the premium is really paying for. Then the transfer test: on customers outside the design cohort, that data contribution falls to 0.33 points.</figcaption>
+      <figcaption>The represented 18.4-point edge is three very different things wearing one number. Normalizing the comparator removes 9.75 points that were never an advantage. Of the 8.6 points left, 5.125 is genuine architecture &#8212; but replicable, so not a moat &#8212; and 3.5 is the proprietary-data contribution the premium is really paying for. Then the transfer test: on customers outside the design cohort, that data contribution falls to 0.33 points.</figcaption>
     </figure>
 
-    <p>Read the two bars against each other and the whole thesis reorganizes. The <strong>Proprietary</strong> test finds that more than half the represented advantage &mdash; 9.75 of 18.375 points &mdash; was a comparator artifact: the target had benchmarked against a baseline that was, for one reason or another, running with a hand tied behind its back. That is not cheating; it is the single most common way a technical claim inflates. It is also invisible unless someone rebuilds and re-runs the comparison.</p>
+    <p>Read the two bars against each other and the whole thesis reorganizes. The <strong>Proprietary</strong> test finds that more than half the represented advantage &#8212; 9.75 of 18.375 points &#8212; was a comparator artifact: the target had benchmarked against a baseline that was, for one reason or another, running with a hand tied behind its back. That is not cheating; it is the single most common way a technical claim inflates. It is also invisible unless someone rebuilds and re-runs the comparison.</p>
 
     <p>The <strong>Real</strong> and architecture piece holds up: 5.125 points come from genuine engineering. But genuine is not the same as defensible. If a competent team could rebuild it in two quarters, it is a feature, not a moat, and it should be priced as one.</p>
 
-    <p>Which leaves the data moat &mdash; the 3.5 points that are supposed to justify the AI premium. The <strong>Durable</strong> test is where it dies. Measured on customers outside the cohort the model was shaped on, the data contribution collapses from 3.5 points to <strong>0.33</strong>. The advantage the buyer is paying a premium to own is, on the customers the buyer will actually acquire, roughly one-third of one point. The moat is priced at something like fifty-five times what survives contact with a new customer.</p>
+    <p>Which leaves the data moat &#8212; the 3.5 points that are supposed to justify the AI premium. The <strong>Durable</strong> test is where it dies. Measured on customers outside the cohort the model was shaped on, the data contribution collapses from 3.5 points to <strong>0.33</strong>. The advantage the buyer is paying a premium to own is, on the customers the buyer will actually acquire, roughly one-third of one point. The moat is priced at something like fifty-five times what survives contact with a new customer.</p>
 
     <div class="verdicts">
-      <div class="vr"><span>&ldquo;Proprietary data moat&rdquo;</span><span class="chip no">Not supported</span></div>
-      <div class="vr"><span>&ldquo;Novel architecture&rdquo;</span><span class="chip qual">Supported &middot; replicable</span></div>
-      <div class="vr"><span>&ldquo;+18.4-point advantage&rdquo;</span><span class="chip no">Handicap-inflated</span></div>
+      <div class="vr"><span>&#8220;Proprietary data moat&#8221;</span><span class="chip no">Not supported</span></div>
+      <div class="vr"><span>&#8220;Novel architecture&#8221;</span><span class="chip qual">Supported &#183; replicable</span></div>
+      <div class="vr"><span>&#8220;+18.4-point advantage&#8221;</span><span class="chip no">Handicap-inflated</span></div>
       <div class="vr"><span>AI premium in the ask</span><span class="chip no">Mispriced</span></div>
     </div>
-    <p style="font-family:'IBM Plex Sans',sans-serif; font-size:.9rem; color:var(--muted); margin-top:1rem">None of this says don&rsquo;t buy Meridian. It says buy it for what is actually there &mdash; a decent product with replicable engineering &mdash; and not for a data moat that isn&rsquo;t. The number that changes is the price, and the confidence behind it.</p>
+    <p style="font-family:'IBM Plex Sans',sans-serif; font-size:.9rem; color:var(--muted); margin-top:1rem">None of this says don&#8217;t buy Meridian. It says buy it for what is actually there &#8212; a decent product with replicable engineering &#8212; and not for a data moat that isn&#8217;t. The number that changes is the price, and the confidence behind it.</p>
 
     <h2><span class="n">04</span>Why this keeps happening</h2>
-    <p>The incentives are stable and they all point the same way. Sellers are rewarded for producing the best true number inside a harness they control. Advisors are rewarded for closing. The buyer&rsquo;s technical diligence, however diligent, is usually scoped to confirm that the software exists and works &mdash; not to adversarially re-measure a model&rsquo;s claimed edge under conditions the seller would not have chosen. And the AI premium, the part most exposed to all of this, is precisely the part with the least evidence underneath it.</p>
+    <p>The incentives are stable and they all point the same way. Sellers are rewarded for producing the best true number inside a harness they control. Advisors are rewarded for closing. The buyer&#8217;s technical diligence, however diligent, is usually scoped to confirm that the software exists and works &#8212; not to adversarially re-measure a model&#8217;s claimed edge under conditions the seller would not have chosen. And the AI premium, the part most exposed to all of this, is precisely the part with the least evidence underneath it.</p>
 
-    <p>The fix is not more slides or a longer questionnaire. It is independent reproduction: someone outside the deal who rebuilds the claim, normalizes the comparison, and tests whether the edge transfers &mdash; and who leaves a trail you can check. Everything in the Meridian teardown was reconstructed from data-room evidence plus a re-run comparator, and every number traces back to its source. That trail is the actual deliverable. The verdict is just the headline on top of it.</p>
+    <p>The fix is not more slides or a longer questionnaire. It is independent reproduction: someone outside the deal who rebuilds the claim, normalizes the comparison, and tests whether the edge transfers &#8212; and who leaves a trail you can check. Everything in the Meridian teardown was reconstructed from data-room evidence plus a re-run comparator, and every number traces back to its source. That trail is the actual deliverable. The verdict is just the headline on top of it.</p>
 
     <h2><span class="n">05</span>What a buyer should demand</h2>
     <p>If you underwrite AI or software and you take one thing from this, take the list. Before an AI premium reaches your investment committee, require that someone has:</p>
     <div class="demand">
       <h3>The five things to re-run before you pay for a moat</h3>
       <ol>
-        <li><b>Reproduced the headline number outside the vendor&rsquo;s harness.</b> If it only runs where the seller runs it, it isn&rsquo;t evidence.</li>
-        <li><b>Normalized the comparator.</b> Rebuild the baseline the target measured itself against, configured fairly. Watch how much of the &ldquo;advantage&rdquo; survives.</li>
+        <li><b>Reproduced the headline number outside the vendor&#8217;s harness.</b> If it only runs where the seller runs it, it isn&#8217;t evidence.</li>
+        <li><b>Normalized the comparator.</b> Rebuild the baseline the target measured itself against, configured fairly. Watch how much of the &#8220;advantage&#8221; survives.</li>
         <li><b>Tested transfer on fresh customers.</b> Re-measure on accounts outside the design cohort and on later time periods. A moat that needs its home cohort is not a moat.</li>
-        <li><b>Bridged narrow to fully-loaded economics.</b> Carry the margin story through inference cost, retention, and key-person and comparator effects to the number you&rsquo;d actually earn.</li>
-        <li><b>Left provenance.</b> Every conclusion should trace to a source you can open. If you can&rsquo;t audit the verdict, it isn&rsquo;t one.</li>
+        <li><b>Bridged narrow to fully-loaded economics.</b> Carry the margin story through inference cost, retention, and key-person and comparator effects to the number you&#8217;d actually earn.</li>
+        <li><b>Left provenance.</b> Every conclusion should trace to a source you can open. If you can&#8217;t audit the verdict, it isn&#8217;t one.</li>
       </ol>
     </div>
 
     <h2><span class="n">06</span>The method is public</h2>
     <p>It is fair to ask whether this is just a confident narrator. So the same verification method runs in the open, on a harder and fully checkable domain: research claims.</p>
     <div class="proof">
-      <div class="pl">RCV-Bench &middot; public &amp; reproducible</div>
-      <p>RCV-Bench is a benchmark for exactly this discipline. You hand an agent a claimed numeric result and its code, and it must return a verdict &mdash; reproduced, deviation, fabricated, or robust-turned-fragile &mdash; with a deterministic, source-traceable trail, scored on real public research repositories, rebuilt by continuous integration on every commit.</p>
-      <p>Its headline result is the thesis of this whole essay in miniature. An agent that merely <em>re-runs the code</em> looks competent &mdash; and is blind to the two failure modes that destroy premiums:</p>
+      <div class="pl">RCV-Bench &#183; public &amp; reproducible</div>
+      <p>RCV-Bench is a benchmark for exactly this discipline. You hand an agent a claimed numeric result and its code, and it must return a verdict &#8212; reproduced, deviation, fabricated, or robust-turned-fragile &#8212; with a deterministic, source-traceable trail, scored on real public research repositories, rebuilt by continuous integration on every commit.</p>
+      <p>Its headline result is the thesis of this whole essay in miniature. An agent that merely <em>re-runs the code</em> looks competent &#8212; and is blind to the two failure modes that destroy premiums:</p>
       <div class="nums">
-        <span class="u"><b class="good tnum">9/14</b><span class="c">overall &mdash; looks competent</span></span>
-        <span class="u"><b class="bad tnum">0/3</b><span class="c">fragile &mdash; collapses under a stated perturbation</span></span>
-        <span class="u"><b class="bad tnum">0/2</b><span class="c">fabricated &mdash; no backing artifact</span></span>
+        <span class="u"><b class="good tnum">9/14</b><span class="c">overall &#8212; looks competent</span></span>
+        <span class="u"><b class="bad tnum">0/3</b><span class="c">fragile &#8212; collapses under a stated perturbation</span></span>
+        <span class="u"><b class="bad tnum">0/2</b><span class="c">fabricated &#8212; no backing artifact</span></span>
       </div>
-      <p style="margin-top:1rem"><a href="https://github.com/GrobeStreet/rcv-bench">github.com/GrobeStreet/rcv-bench</a> &nbsp;&middot;&nbsp; <a href="https://exquisite-souffle-a084bb.netlify.app/">live leaderboard &rarr;</a></p>
+      <p style="margin-top:1rem"><a href="https://github.com/GrobeStreet/rcv-bench">github.com/GrobeStreet/rcv-bench</a> &nbsp;&#183;&nbsp; <a href="https://exquisite-souffle-a084bb.netlify.app/">live leaderboard &#8594;</a></p>
     </div>
-    <p>Reproducing a number is not verifying a claim. Pointed at research, that gap is an academic curiosity. Pointed at a deal, it&rsquo;s the difference between a moat and a mispriced premium &mdash; and it is testable before the price is set, not after the hold goes sideways.</p>
+    <p>Reproducing a number is not verifying a claim. Pointed at research, that gap is an academic curiosity. Pointed at a deal, it&#8217;s the difference between a moat and a mispriced premium &#8212; and it is testable before the price is set, not after the hold goes sideways.</p>
 
     <div class="author">
       <p class="who">Robert Morong</p>
-      <p>I do independent claim verification for AI and software underwriting &mdash; reproducing the AI, data-moat, and unit-economics claims in a deal before they reach IC, and building the reproducible tooling that makes those verdicts auditable. Reproduction-first, and I publish the misses.</p>
-      <p>If you&rsquo;re paying an AI premium and want it tested before it&rsquo;s underwritten, I&rsquo;m reachable below.</p>
-      <p class="links"><a href="https://github.com/GrobeStreet">github.com/GrobeStreet</a> &nbsp;&middot;&nbsp; <a href="https://github.com/GrobeStreet/rcv-bench">RCV-Bench</a> &nbsp;&middot;&nbsp; <a href="/">research portfolio</a></p>
+      <p>I do independent claim verification for AI and software underwriting &#8212; reproducing the AI, data-moat, and unit-economics claims in a deal before they reach IC, and building the reproducible tooling that makes those verdicts auditable. Reproduction-first, and I publish the misses.</p>
+      <p>If you&#8217;re paying an AI premium and want it tested before it&#8217;s underwritten, start with a free claim triage &#8212; a fast, no-obligation read on whether the number survives.</p>
+      <p style="margin:.6rem 0 1.1rem"><a href="/verify" style="font-family:'IBM Plex Sans',sans-serif; font-weight:600; border-bottom:0; display:inline-block; padding:.62rem 1.05rem; border:1px solid var(--accent); border-radius:9px; color:var(--accent-ink)">Start a free claim triage &#8594;</a></p>
+      <p class="links"><a href="/verify">verification services</a> &nbsp;&#183;&nbsp; <a href="https://github.com/GrobeStreet">github.com/GrobeStreet</a> &nbsp;&#183;&nbsp; <a href="https://github.com/GrobeStreet/rcv-bench">RCV-Bench</a> &nbsp;&#183;&nbsp; <a href="/">research portfolio</a></p>
     </div>
   </div>
 </article>
 
 <div class="col">
   <footer>
-    <p class="n"><b>On this piece.</b> &ldquo;Meridian&rdquo; is a constructed example built to demonstrate the verification method; it is not a real company or a record of a real transaction, and no figure here is drawn from a client engagement. The opening fraud-detection example reflects a documented industry failure pattern reported in third-party research. RCV-Bench results are public and reproducible at the links above.</p>
-    <a class="home" href="/">&larr; Back to research portfolio</a>
+    <p class="n"><b>On this piece.</b> &#8220;Meridian&#8221; is a constructed example built to demonstrate the verification method; it is not a real company or a record of a real transaction, and no figure here is drawn from a client engagement. The opening fraud-detection example reflects a documented industry failure pattern reported in third-party research. RCV-Bench results are public and reproducible at the links above.</p>
+    <a class="home" href="/">&#8592; Back to research portfolio</a>
   </footer>
 </div>
 
