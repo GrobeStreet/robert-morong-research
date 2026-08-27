@@ -4,248 +4,30 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Verify the AI premium — Robert Morong</title>
-<meta name="description" content="Independent, pre-IC verification of the AI, data-moat, and unit-economics claims in a deal — before you pay a premium for them. Start with a free claim triage.">
+<meta name="description" content="Independent, pre-IC verification of AI, data-moat, and unit-economics claims before they are underwritten. Start with a free claim triage.">
 <link rel="canonical" href="https://robert-morong-research.netlify.app/verify/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Robert Morong · Independent research">
 <meta property="og:title" content="Verify the AI premium before you pay for it">
-<meta property="og:description" content="Independent, pre-IC verification of the AI, data-moat, and unit-economics claims in a deal. Start with a free claim triage.">
+<meta property="og:description" content="Independent, pre-IC verification of AI, data-moat, and unit-economics claims. Start with a free claim triage.">
 <meta property="og:url" content="https://robert-morong-research.netlify.app/verify/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-:root{
-  --bg:#0a0f18; --bg2:#0c131f; --panel:#111a27; --panel2:#0f1723; --line:#1e2a3a; --line2:#28374b;
-  --ink:#f3f6fb; --body:#aeb8c6; --muted:#7a8698; --faint:#586576;
-  --accent:#74e6a8; --accent-ink:#b6f2d3; --accent-dim:#1a3a2c;
-  --sup:#74e6a8; --qual:#e5b567; --no:#e0776d;
-  --shadow:0 1px 2px rgba(0,0,0,.4),0 24px 60px -32px rgba(0,0,0,.8);
-}
-*{box-sizing:border-box; margin:0; padding:0}
-html{-webkit-text-size-adjust:100%; scroll-behavior:smooth}
-body{background:var(--bg); color:var(--body);
-  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,sans-serif; font-size:1.06rem; line-height:1.65;
-  -webkit-font-smoothing:antialiased;
-  background-image:radial-gradient(1100px 620px at 78% -8%, #12233a 0%, rgba(10,15,24,0) 60%);}
-a{color:var(--accent-ink); text-decoration:none}
-a:hover{color:var(--accent)}
-.wrap{max-width:64rem; margin:0 auto; padding:0 1.4rem}
-h1,h2,h3{font-family:"Spectral",Georgia,serif; color:var(--ink); font-weight:600; line-height:1.12; letter-spacing:-.01em}
-.mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
-.kick{font-family:"IBM Plex Mono",monospace; font-size:.74rem; letter-spacing:.2em; text-transform:uppercase; color:var(--accent)}
-.bar{border-bottom:1px solid var(--line); position:sticky; top:0; z-index:20;
-  background:color-mix(in srgb,var(--bg) 82%,transparent); backdrop-filter:blur(9px)}
-.bar .in{max-width:64rem; margin:0 auto; padding:.75rem 1.4rem; display:flex; justify-content:space-between; align-items:center; gap:1rem}
-.bar a.home{font-family:"IBM Plex Mono",monospace; font-size:.76rem; letter-spacing:.08em; color:var(--muted)}
-.bar a.home:hover{color:var(--ink)}
-.bar .cta{font-family:"IBM Plex Sans",sans-serif; font-size:.82rem; font-weight:600; color:#06110b; background:var(--accent); padding:.5rem .9rem; border-radius:8px; white-space:nowrap}
-.bar .cta:hover{background:var(--accent-ink); color:#06110b}
-.hero{padding:clamp(3rem,8vw,5.5rem) 0 2.4rem}
-.hero .kick{display:block; margin-bottom:1.3rem}
-h1.title{font-size:clamp(2.3rem,6vw,3.9rem); color:var(--ink); line-height:1.03; letter-spacing:-.02em; max-width:16ch}
-.lede{font-size:clamp(1.12rem,2.2vw,1.35rem); color:var(--body); margin:1.4rem 0 0; max-width:52ch; line-height:1.55}
-.lede b{color:var(--ink); font-weight:600}
-.actions{display:flex; flex-wrap:wrap; gap:.8rem; margin-top:2rem}
-.btn{font-family:"IBM Plex Sans",sans-serif; font-weight:600; font-size:1rem; padding:.85rem 1.4rem; border-radius:10px; display:inline-flex; align-items:center; gap:.5rem; border:1px solid transparent; cursor:pointer}
-.btn.primary{background:var(--accent); color:#06110b}
-.btn.primary:hover{background:var(--accent-ink); color:#06110b}
-.btn.ghost{border-color:var(--line2); color:var(--ink); background:var(--panel)}
-.btn.ghost:hover{border-color:var(--accent); color:var(--accent-ink)}
-.microtrust{margin-top:1rem; font-size:.86rem; color:var(--muted)}
-.microtrust b{color:var(--body); font-weight:600}
-section{padding:2.6rem 0}
-.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:.72rem; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); margin-bottom:.9rem}
-h2.sh{font-size:clamp(1.5rem,3.2vw,2.1rem); margin-bottom:.6rem}
-.sub{color:var(--muted); max-width:60ch; margin-bottom:1.6rem}
-.band{background:linear-gradient(180deg,var(--panel2),transparent); border-top:1px solid var(--line); border-bottom:1px solid var(--line)}
-.band p{font-family:"Spectral",serif; font-size:clamp(1.2rem,2.4vw,1.5rem); color:var(--ink); font-style:italic; line-height:1.5; max-width:40ch}
-.band p .hl{color:var(--accent); font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:.9em}
-.tests{display:grid; grid-template-columns:repeat(2,1fr); gap:1rem}
-@media(max-width:680px){.tests{grid-template-columns:1fr}}
-.test{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:1.3rem 1.4rem}
-.test .n{font-family:"IBM Plex Mono",monospace; font-size:.75rem; color:var(--accent); letter-spacing:.05em}
-.test h3{font-size:1.18rem; margin:.5rem 0 .5rem; color:var(--ink)}
-.test p{font-size:.96rem; color:var(--body); line-height:1.55}
-.deliver{display:grid; grid-template-columns:1.1fr .9fr; gap:1.4rem; align-items:start}
-@media(max-width:760px){.deliver{grid-template-columns:1fr}}
-.deliver ul{list-style:none; display:flex; flex-direction:column; gap:.7rem}
-.deliver li{position:relative; padding-left:1.7rem; color:var(--body); font-size:1rem}
-.deliver li::before{content:"\2192"; position:absolute; left:0; color:var(--accent); font-family:"IBM Plex Mono",monospace}
-.deliver li b{color:var(--ink); font-weight:600}
-.verdictcard{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:1.3rem; box-shadow:var(--shadow)}
-.verdictcard .cap{font-family:"IBM Plex Mono",monospace; font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; color:var(--faint); margin-bottom:.9rem}
-.vr{display:flex; justify-content:space-between; align-items:center; gap:.7rem; padding:.55rem 0; border-top:1px solid var(--line); font-size:.92rem}
-.vr:first-of-type{border-top:0}
-.chip{font-family:"IBM Plex Mono",monospace; font-size:.64rem; font-weight:500; letter-spacing:.05em; text-transform:uppercase; padding:.2rem .5rem; border-radius:6px; border:1px solid transparent; white-space:nowrap}
-.chip.sup{color:var(--sup); background:color-mix(in srgb,var(--sup) 15%,transparent); border-color:color-mix(in srgb,var(--sup) 34%,transparent)}
-.chip.qual{color:var(--qual); background:color-mix(in srgb,var(--qual) 15%,transparent); border-color:color-mix(in srgb,var(--qual) 34%,transparent)}
-.chip.no{color:var(--no); background:color-mix(in srgb,var(--no) 15%,transparent); border-color:color-mix(in srgb,var(--no) 34%,transparent)}
-.tiers{display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; align-items:stretch}
-@media(max-width:820px){.tiers{grid-template-columns:1fr}}
-.tier{background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:1.5rem 1.4rem; display:flex; flex-direction:column}
-.tier.feature{border-color:color-mix(in srgb,var(--accent) 45%,transparent); background:linear-gradient(180deg,var(--accent-dim),var(--panel) 55%); box-shadow:var(--shadow)}
-.tier .flag{font-family:"IBM Plex Mono",monospace; font-size:.66rem; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-bottom:.7rem}
-.tier h3{font-size:1.3rem; color:var(--ink); margin-bottom:.2rem}
-.tier .price{font-family:"Spectral",serif; font-size:1.6rem; color:var(--ink); font-weight:600; margin:.5rem 0 .1rem}
-.tier .price small{font-family:"IBM Plex Sans",sans-serif; font-size:.8rem; color:var(--muted); font-weight:400}
-.tier .desc{font-size:.95rem; color:var(--body); margin:.6rem 0 1rem; line-height:1.55}
-.tier ul{list-style:none; display:flex; flex-direction:column; gap:.5rem; margin-bottom:1.3rem}
-.tier ul li{font-size:.9rem; color:var(--muted); padding-left:1.3rem; position:relative}
-.tier ul li::before{content:"\00B7"; position:absolute; left:.35rem; color:var(--accent); font-weight:700}
-.tier .foot{margin-top:auto}
-.tier a.pick{display:block; text-align:center; font-weight:600; font-size:.95rem; padding:.7rem 1rem; border-radius:9px; border:1px solid var(--line2); color:var(--ink)}
-.tier a.pick:hover{border-color:var(--accent); color:var(--accent-ink)}
-.tier.feature a.pick{background:var(--accent); color:#06110b; border-color:transparent}
-.tier.feature a.pick:hover{background:var(--accent-ink)}
-.proof{background:var(--panel2); border:1px solid var(--line); border-radius:16px; padding:1.6rem}
-.proof .nums{display:flex; flex-wrap:wrap; gap:1.6rem; margin:.4rem 0 1rem}
-.proof .nums .u{display:flex; flex-direction:column}
-.proof .nums b{font-family:"Spectral",serif; font-size:1.7rem; line-height:1; color:var(--ink)}
-.proof .nums b.bad{color:var(--no)} .proof .nums b.good{color:var(--sup)}
-.proof .nums .c{font-size:.74rem; color:var(--muted); margin-top:.35rem}
-.proof p{font-size:.98rem; color:var(--body); max-width:64ch; margin-bottom:.8rem}
-.links{font-family:"IBM Plex Mono",monospace; font-size:.86rem; margin-top:1rem; display:flex; flex-wrap:wrap; gap:.4rem 1.2rem}
-.final{text-align:center; padding:3.4rem 0}
-.final h2{font-size:clamp(1.6rem,3.6vw,2.3rem); margin-bottom:.7rem}
-.final p{color:var(--muted); max-width:48ch; margin:0 auto 1.6rem}
-footer{border-top:1px solid var(--line); padding:1.8rem 0 3rem; color:var(--faint); font-size:.82rem; line-height:1.6}
-footer .who{color:var(--body)}
-footer a{color:var(--muted)}
-.disc{font-size:.8rem; color:var(--faint); max-width:70ch; margin-top:.8rem}
+:root{--bg:#0a0f18;--panel:#111a27;--panel2:#0f1723;--line:#1e2a3a;--line2:#28374b;--ink:#f3f6fb;--body:#aeb8c6;--muted:#7a8698;--faint:#586576;--accent:#74e6a8;--accent-ink:#b6f2d3;--accent-dim:#1a3a2c;--sup:#74e6a8;--qual:#e5b567;--no:#e0776d;--shadow:0 1px 2px rgba(0,0,0,.4),0 24px 60px -32px rgba(0,0,0,.8)}
+*{box-sizing:border-box;margin:0;padding:0}html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}body{background:var(--bg);color:var(--body);font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,sans-serif;font-size:1.06rem;line-height:1.65;-webkit-font-smoothing:antialiased;background-image:radial-gradient(1100px 620px at 78% -8%,#12233a 0%,rgba(10,15,24,0) 60%)}a{color:var(--accent-ink);text-decoration:none}a:hover{color:var(--accent)}.wrap{max-width:64rem;margin:0 auto;padding:0 1.4rem}h1,h2,h3{font-family:"Spectral",Georgia,serif;color:var(--ink);font-weight:600;line-height:1.12;letter-spacing:-.01em}.mono{font-family:"IBM Plex Mono",ui-monospace,monospace}.kick{font-family:"IBM Plex Mono",monospace;font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent)}.bar{border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(9px)}.bar .in{max-width:64rem;margin:0 auto;padding:.75rem 1.4rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}.bar a.home{font-family:"IBM Plex Mono",monospace;font-size:.76rem;letter-spacing:.08em;color:var(--muted)}.bar .cta,.btn.primary{font-family:"IBM Plex Sans",sans-serif;font-weight:600;color:#06110b;background:var(--accent);border-radius:8px}.bar .cta{font-size:.82rem;padding:.5rem .9rem;white-space:nowrap}.hero{padding:clamp(3rem,8vw,5.5rem) 0 2.4rem}.hero .kick{display:block;margin-bottom:1.3rem}h1.title{font-size:clamp(2.3rem,6vw,3.9rem);line-height:1.03;letter-spacing:-.02em;max-width:16ch}.lede{font-size:clamp(1.12rem,2.2vw,1.35rem);margin:1.4rem 0 0;max-width:52ch;line-height:1.55}.lede b{color:var(--ink)}.actions{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2rem}.btn{font-weight:600;font-size:1rem;padding:.85rem 1.4rem;border-radius:10px;display:inline-flex;align-items:center;gap:.5rem;border:1px solid transparent}.btn.ghost{border-color:var(--line2);color:var(--ink);background:var(--panel)}.microtrust{margin-top:1rem;font-size:.86rem;color:var(--muted)}.microtrust b{color:var(--body)}section{padding:2.6rem 0}.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:.9rem}h2.sh{font-size:clamp(1.5rem,3.2vw,2.1rem);margin-bottom:.6rem}.sub{color:var(--muted);max-width:60ch;margin-bottom:1.6rem}.band{background:linear-gradient(180deg,var(--panel2),transparent);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.band p{font-family:"Spectral",serif;font-size:clamp(1.2rem,2.4vw,1.5rem);color:var(--ink);font-style:italic;line-height:1.5;max-width:42ch}.band .hl{color:var(--accent);font-style:normal;font-family:"IBM Plex Mono",monospace;font-size:.9em}.tests{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}@media(max-width:680px){.tests{grid-template-columns:1fr}}.test,.tier,.verdictcard,.proof{background:var(--panel);border:1px solid var(--line);border-radius:14px}.test{padding:1.3rem 1.4rem}.test .n{font-family:"IBM Plex Mono",monospace;font-size:.75rem;color:var(--accent)}.test h3{font-size:1.18rem;margin:.5rem 0}.test p{font-size:.96rem;line-height:1.55}.deliver{display:grid;grid-template-columns:1.1fr .9fr;gap:1.4rem;align-items:start}@media(max-width:760px){.deliver{grid-template-columns:1fr}}.deliver ul{list-style:none;display:flex;flex-direction:column;gap:.7rem}.deliver li{position:relative;padding-left:1.7rem}.deliver li::before{content:"→";position:absolute;left:0;color:var(--accent)}.deliver li b{color:var(--ink)}.verdictcard{padding:1.3rem;box-shadow:var(--shadow)}.verdictcard .cap{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:.9rem}.vr{display:flex;justify-content:space-between;align-items:center;gap:.7rem;padding:.55rem 0;border-top:1px solid var(--line);font-size:.92rem}.vr:first-of-type{border-top:0}.chip{font-family:"IBM Plex Mono",monospace;font-size:.64rem;letter-spacing:.05em;text-transform:uppercase;padding:.2rem .5rem;border-radius:6px}.chip.sup{color:var(--sup)}.chip.qual{color:var(--qual)}.chip.no{color:var(--no)}.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;align-items:stretch}@media(max-width:820px){.tiers{grid-template-columns:1fr}}.tier{padding:1.5rem 1.4rem;display:flex;flex-direction:column}.tier.feature{border-color:color-mix(in srgb,var(--accent) 45%,transparent);background:linear-gradient(180deg,var(--accent-dim),var(--panel) 55%);box-shadow:var(--shadow)}.tier .flag{font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:.7rem}.tier h3{font-size:1.3rem}.tier .price{font-family:"Spectral",serif;font-size:1.6rem;color:var(--ink);font-weight:600;margin:.5rem 0}.tier .price small{font-family:"IBM Plex Sans",sans-serif;font-size:.8rem;color:var(--muted);font-weight:400}.tier .desc{font-size:.95rem;margin:.6rem 0 1rem}.tier ul{list-style:none;display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.3rem}.tier ul li{font-size:.9rem;color:var(--muted);padding-left:1rem}.tier .foot{margin-top:auto}.tier a.pick{display:block;text-align:center;font-weight:600;font-size:.95rem;padding:.7rem 1rem;border-radius:9px;border:1px solid var(--line2);color:var(--ink)}.tier.feature a.pick{background:var(--accent);color:#06110b;border-color:transparent}.proof{background:var(--panel2);padding:1.6rem}.proof .nums{display:flex;flex-wrap:wrap;gap:1.6rem;margin:.4rem 0 1rem}.proof .u{display:flex;flex-direction:column}.proof .nums b{font-family:"Spectral",serif;font-size:1.7rem;line-height:1;color:var(--ink)}.proof .nums b.bad{color:var(--no)}.proof .nums b.good{color:var(--sup)}.proof .c{font-size:.74rem;color:var(--muted);margin-top:.35rem}.proof p{font-size:.98rem;margin-bottom:.8rem}.links{font-family:"IBM Plex Mono",monospace;font-size:.86rem;margin-top:1rem;display:flex;flex-wrap:wrap;gap:.4rem 1.2rem}.final{text-align:center;padding:3.4rem 0}.final h2{font-size:clamp(1.6rem,3.6vw,2.3rem);margin-bottom:.7rem}.final p{color:var(--muted);max-width:48ch;margin:0 auto 1.6rem}footer{border-top:1px solid var(--line);padding:1.8rem 0 3rem;color:var(--faint);font-size:.82rem;line-height:1.6}footer .who{color:var(--body)}footer a{color:var(--muted)}.disc{font-size:.8rem;color:var(--faint);max-width:70ch;margin-top:.8rem}
 </style>
 </head>
 <body>
-
-<div class="bar"><div class="in">
-  <a class="home" href="/">&larr; Robert Morong &middot; research</a>
-  <a class="cta" href="mailto:bobby@trainingties.com?subject=AI-premium%20claim%20triage&body=Deal%2Fcompany%20(codename%20is%20fine)%3A%0D%0AThe%20AI%20or%20data-moat%20claim%20being%20made%3A%0D%0AThe%20headline%20metric%20%2F%20number%3A%0D%0AWhat%20evidence%20exists%20(benchmark%2C%20data%20room%2C%20paper%2C%20repo)%3A%0D%0AYour%20timeline%3A%0D%0A%0D%0A(No%20confidential%20data%20needed%20for%20the%20triage.)">Free claim triage</a>
-</div></div>
-
-<header class="hero"><div class="wrap">
-  <span class="kick">Pre-IC &middot; AI-premium verification</span>
-  <h1 class="title">Verify the AI premium before you pay for it.</h1>
-  <p class="lede">A represented &ldquo;AI advantage&rdquo; can be a real, code-produced number and still be <b>wrong about the only thing that sets the price</b> &mdash; whether it survives outside the seller&rsquo;s harness. I reproduce the claim, normalize the comparator, and test whether the edge transfers to the customers you&rsquo;ll actually acquire &mdash; and leave a trail you can audit.</p>
-  <div class="actions">
-    <a class="btn primary" href="mailto:bobby@trainingties.com?subject=AI-premium%20claim%20triage&body=Deal%2Fcompany%20(codename%20is%20fine)%3A%0D%0AThe%20AI%20or%20data-moat%20claim%20being%20made%3A%0D%0AThe%20headline%20metric%20%2F%20number%3A%0D%0AWhat%20evidence%20exists%20(benchmark%2C%20data%20room%2C%20paper%2C%20repo)%3A%0D%0AYour%20timeline%3A%0D%0A%0D%0A(No%20confidential%20data%20needed%20for%20the%20triage.)">Start a free claim triage &rarr;</a>
-    <a class="btn ghost" href="/moat/">Read the teardown</a>
-  </div>
-  <p class="microtrust">Reproduction-first. Findings reported whether they <b>strengthen or weaken</b> the claim. This is adversarial QA, not purchased endorsement.</p>
-</div></header>
-
-<section class="band"><div class="wrap">
-  <p>&ldquo;98% accuracy&rdquo; was real. On the buyer&rsquo;s own customers it was <span class="hl">~71%</span> &mdash; and the premium was gone inside year one. No line in a standard technical-diligence report is built to catch that.</p>
-</div></section>
-
-<section><div class="wrap">
-  <div class="eyebrow">What I check</div>
-  <h2 class="sh">Four tests, asked in order</h2>
-  <p class="sub">Each one is a place a represented advantage tends to leak. Together they separate a real moat from a mispriced premium.</p>
-  <div class="tests">
-    <div class="test"><span class="n">01 &middot; REAL</span><h3>Does it reproduce outside the seller&rsquo;s environment?</h3><p>Rebuild the claim from the evidence in the room and run it independently. A result that only holds in the vendor&rsquo;s own harness is a marketing artifact, not an asset.</p></div>
-    <div class="test"><span class="n">02 &middot; PROPRIETARY</span><h3>Advantage, or a handicapped comparator?</h3><p>A large share of most &ldquo;we beat the field by X&rdquo; claims is a weak or misconfigured baseline. Normalize it and watch how much of the gap survives.</p></div>
-    <div class="test"><span class="n">03 &middot; DURABLE</span><h3>Does it survive transfer?</h3><p>Re-measure on fresh customers, shifted distributions, and later time periods. An edge that needs its home cohort is not a moat you can underwrite for a five-year hold.</p></div>
-    <div class="test"><span class="n">04 &middot; ECONOMIC</span><h3>Narrow, or fully loaded?</h3><p>Bridge the unit economics from the story to reality &mdash; inference cost, retention, comparator and key-person effects &mdash; to the margin you&rsquo;d actually earn.</p></div>
-  </div>
-</div></section>
-
-<section><div class="wrap">
-  <div class="eyebrow">What you get</div>
-  <h2 class="sh">A verdict you can audit &mdash; not an opinion</h2>
-  <div class="deliver">
-    <ul>
-      <li><b>A claim decomposition</b> &mdash; the represented number taken apart into what&rsquo;s a handicap, what&rsquo;s real-but-replicable, and what actually transfers.</li>
-      <li><b>Per-claim verdicts</b> &mdash; supported, qualified, or not-supported, each tied to a regenerated result.</li>
-      <li><b>A provenance trail</b> &mdash; every conclusion traces to a source you can open. If you can&rsquo;t audit the verdict, it isn&rsquo;t one.</li>
-      <li><b>Decision language</b> &mdash; what it means for the premium, and what future evidence would change the call.</li>
-    </ul>
-    <div class="verdictcard">
-      <div class="cap">Sample verdict summary &middot; illustrative</div>
-      <div class="vr"><span>&ldquo;Proprietary data moat&rdquo;</span><span class="chip no">Not supported</span></div>
-      <div class="vr"><span>&ldquo;Novel architecture&rdquo;</span><span class="chip qual">Supported &middot; replicable</span></div>
-      <div class="vr"><span>&ldquo;+18-pt advantage&rdquo;</span><span class="chip no">Handicap-inflated</span></div>
-      <div class="vr"><span>AI premium in the ask</span><span class="chip no">Mispriced</span></div>
-    </div>
-  </div>
-</div></section>
-
-<section><div class="wrap">
-  <div class="eyebrow">How to start</div>
-  <h2 class="sh">Start free. Scope the rest to the deal.</h2>
-  <p class="sub">The triage is a genuine, no-obligation read &mdash; built to be useful even if you never hire me. Deeper work is scoped to the specific claim and timeline.</p>
-  <div class="tiers">
-    <div class="tier feature">
-      <div class="flag">Start here &middot; free</div>
-      <h3>Claim Triage</h3>
-      <div class="price">$0 <small>&middot; no obligation</small></div>
-      <p class="desc">A fast, honest read on whether a represented AI or data-moat advantage is verifiable &mdash; and where it&rsquo;s most likely to leak &mdash; from public evidence and what you can share.</p>
-      <ul>
-        <li>Which of the four tests the claim is exposed to</li>
-        <li>What evidence a real verification would need</li>
-        <li>A plain go / worth-checking / red-flag read</li>
-        <li>Turnaround in a few business days</li>
-      </ul>
-      <div class="foot"><a class="pick" href="mailto:bobby@trainingties.com?subject=AI-premium%20claim%20triage&body=Deal%2Fcompany%20(codename%20is%20fine)%3A%0D%0AThe%20AI%20or%20data-moat%20claim%20being%20made%3A%0D%0AThe%20headline%20metric%20%2F%20number%3A%0D%0AWhat%20evidence%20exists%20(benchmark%2C%20data%20room%2C%20paper%2C%20repo)%3A%0D%0AYour%20timeline%3A%0D%0A%0D%0A(No%20confidential%20data%20needed%20for%20the%20triage.)">Request a triage &rarr;</a></div>
-    </div>
-    <div class="tier">
-      <div class="flag">Fixed scope</div>
-      <h3>Single-Claim Verification</h3>
-      <div class="price">Custom</div>
-      <p class="desc">One headline claim, taken all the way: reproduced outside the vendor&rsquo;s harness, comparator normalized, transfer-tested, with an auditable findings report.</p>
-      <ul>
-        <li>One represented metric or &ldquo;advantage&rdquo;</li>
-        <li>Decomposition + per-claim verdicts</li>
-        <li>Provenance trail + handoff session</li>
-        <li>Scoped to your IC timeline</li>
-      </ul>
-      <div class="foot"><a class="pick" href="mailto:bobby@trainingties.com?subject=Single-claim%20verification%20scope%20request&body=The%20claim%20to%20verify%3A%0D%0AWhat%20evidence%20is%20available%3A%0D%0ADecision%20date%2FIC%20timeline%3A%0D%0AAnything%20confidential%20(don%27t%20send%20it%20here%20%E2%80%94%20just%20note%20if%20a%20private%20channel%20is%20needed)%3A">Request scope &rarr;</a></div>
-    </div>
-    <div class="tier">
-      <div class="flag">Full engagement</div>
-      <h3>Deal Engagement</h3>
-      <div class="price">Custom</div>
-      <p class="desc">Pre-IC verification across the AI, data-moat, and unit-economics claims that carry the premium &mdash; the complete teardown, built to drop into your diligence file.</p>
-      <ul>
-        <li>Multiple claims across the thesis</li>
-        <li>Economic bridge, narrow &rarr; fully loaded</li>
-        <li>IC-ready report + provenance package</li>
-        <li>Private-data handling where required</li>
-      </ul>
-      <div class="foot"><a class="pick" href="mailto:bobby@trainingties.com?subject=Deal%20engagement%20scope%20request&body=Target%20(codename%20is%20fine)%3A%0D%0AThe%20AI%2Fmoat%20thesis%20being%20underwritten%3A%0D%0AClaims%20that%20carry%20the%20premium%3A%0D%0AIC%20timeline%3A%0D%0AWhether%20a%20private%20scoping%20channel%20is%20required%3A">Request scope &rarr;</a></div>
-    </div>
-  </div>
-</div></section>
-
-<section><div class="wrap">
-  <div class="proof">
-    <div class="eyebrow">Why trust the method</div>
-    <h2 class="sh" style="margin-bottom:.9rem">The same discipline runs in public</h2>
-    <p>Pointed at research claims, the method is fully checkable. On <b>RCV-Bench</b>, an agent that merely re-runs the code looks competent &mdash; and is blind to the two failure modes that destroy premiums:</p>
-    <div class="nums">
-      <span class="u"><b class="good mono">9/14</b><span class="c">overall &mdash; looks competent</span></span>
-      <span class="u"><b class="bad mono">0/3</b><span class="c">fragile &mdash; collapses under a stated perturbation</span></span>
-      <span class="u"><b class="bad mono">0/2</b><span class="c">fabricated &mdash; no backing artifact</span></span>
-    </div>
-    <p>The public reproductions behind this work &mdash; ARC-AGI-2, DESI DR2, MMLU &mdash; are inspectable, with frozen results and explicit limits. In an externally graded reproduction (NeurIPS 2026 FAIR Universe, Codabench), I caught a score-orientation bug in the official baseline: the kind of silent error that inverts a conclusion while the headline number stays plausible.</p>
-    <div class="links">
-      <a href="/moat/">The teardown, in full &rarr;</a>
-      <a href="https://github.com/GrobeStreet/rcv-bench">RCV-Bench</a>
-      <a href="https://github.com/GrobeStreet">github.com/GrobeStreet</a>
-      <a href="/">Reproductions &rarr;</a>
-    </div>
-  </div>
-</div></section>
-
-<section class="final"><div class="wrap">
-  <h2>Have a claim you&rsquo;re about to pay for?</h2>
-  <p>Send it over. The triage is free, honest, and useful even if we never work together.</p>
-  <a class="btn primary" href="mailto:bobby@trainingties.com?subject=AI-premium%20claim%20triage&body=Deal%2Fcompany%20(codename%20is%20fine)%3A%0D%0AThe%20AI%20or%20data-moat%20claim%20being%20made%3A%0D%0AThe%20headline%20metric%20%2F%20number%3A%0D%0AWhat%20evidence%20exists%20(benchmark%2C%20data%20room%2C%20paper%2C%20repo)%3A%0D%0AYour%20timeline%3A%0D%0A%0D%0A(No%20confidential%20data%20needed%20for%20the%20triage.)">Start a free claim triage &rarr;</a>
-</div></section>
-
-<footer><div class="wrap">
-  <p class="who"><b>Robert &ldquo;Bobby&rdquo; Morong</b> &middot; independent claim verification for AI &amp; software underwriting &middot; <a href="mailto:bobby@trainingties.com">bobby@trainingties.com</a> &middot; <a href="https://github.com/GrobeStreet">github.com/GrobeStreet</a></p>
-  <p class="disc">Adversarial quality assurance, not purchased endorsement &mdash; findings are reported whether they strengthen or weaken the represented claim. This is not investment, legal, or accounting advice; deal teams retain responsibility for the decision. Confidential data is never required for a triage and should not be sent by email; a private channel can be arranged for scoped work. The sample verdict summary above is illustrative.</p>
-</div></footer>
-
+<div class="bar"><div class="in"><a class="home" href="/">&larr; Robert Morong &middot; research</a><a class="cta" href="mailto:bobbyopsassistant@gmail.com?subject=AI-premium%20claim%20triage&body=Deal%2Fcompany%20(codename%20is%20fine)%3A%0D%0AThe%20AI%20or%20data-moat%20claim%20being%20made%3A%0D%0AThe%20headline%20metric%20%2F%20number%3A%0D%0AWhat%20evidence%20exists%3A%0D%0AYour%20timeline%3A%0D%0A%0D%0A(No%20confidential%20data%20needed%20for%20triage.)">Free claim triage</a></div></div>
+<header class="hero"><div class="wrap"><span class="kick">Pre-IC &middot; AI-premium verification</span><h1 class="title">Verify the AI premium before you pay for it.</h1><p class="lede">A represented &ldquo;AI advantage&rdquo; can be a real, code-produced number and still be <b>insufficient for the decision being made</b>. I reproduce the claim, normalize the comparator, test transfer and robustness, and leave a trail another reviewer can audit.</p><div class="actions"><a class="btn primary" href="mailto:bobbyopsassistant@gmail.com?subject=AI-premium%20claim%20triage&body=Deal%2Fcompany%20(codename%20is%20fine)%3A%0D%0AThe%20AI%20or%20data-moat%20claim%20being%20made%3A%0D%0AThe%20headline%20metric%20%2F%20number%3A%0D%0AWhat%20evidence%20exists%3A%0D%0AYour%20timeline%3A">Start a free claim triage &rarr;</a><a class="btn ghost" href="/moat/">Read the constructed teardown</a></div><p class="microtrust">Reproduction-first. Findings are reported whether they <b>strengthen or weaken</b> the represented claim. This is adversarial QA, not purchased endorsement.</p></div></header>
+<section class="band"><div class="wrap"><p>A headline metric can be <span class="hl">true in its original harness</span> and materially weaker after comparator normalization, transfer testing, or fully loaded cost normalization. The question is not only &ldquo;is the number real?&rdquo; but &ldquo;what decision does it actually support?&rdquo;</p></div></section>
+<section><div class="wrap"><div class="eyebrow">What I check</div><h2 class="sh">Four tests, asked in order</h2><p class="sub">Each one isolates a different way a represented advantage can lose underwriting value.</p><div class="tests"><div class="test"><span class="n">01 &middot; REAL</span><h3>Does it reproduce?</h3><p>Reconstruct the represented measurement from the strongest available source artifacts without silently changing the protocol.</p></div><div class="test"><span class="n">02 &middot; PROPRIETARY</span><h3>What belongs to the target?</h3><p>Normalize the comparator and separate base-model, scaffold, architecture, data, and configuration effects where the evidence permits.</p></div><div class="test"><span class="n">03 &middot; DURABLE</span><h3>Does it survive transfer?</h3><p>Re-measure on fresh customers, shifted distributions, later periods, or declared semantics-preserving perturbations.</p></div><div class="test"><span class="n">04 &middot; ECONOMIC</span><h3>What is fully loaded?</h3><p>Bridge narrow technical metrics to retries, failed attempts, human review, fallback, and other costs that matter to the economic thesis.</p></div></div></div></section>
+<section><div class="wrap"><div class="eyebrow">What you get</div><h2 class="sh">A verdict you can audit &mdash; not an opinion</h2><div class="deliver"><ul><li><b>Claim decomposition</b> &mdash; the represented number separated into the pieces the evidence can identify.</li><li><b>Per-claim evidence states</b> &mdash; supported, qualified, not supported, insufficient evidence, or not tested.</li><li><b>Provenance trail</b> &mdash; conclusions tied to inspectable sources, versions, commands, artifacts, or logs.</li><li><b>Decision language</b> &mdash; what the surviving evidence does and does not support, plus the next highest-value test.</li></ul><div class="verdictcard"><div class="cap">Illustrative verdict summary</div><div class="vr"><span>&ldquo;Proprietary data moat&rdquo;</span><span class="chip no">Not durable</span></div><div class="vr"><span>&ldquo;Architecture advantage&rdquo;</span><span class="chip qual">Supported &middot; weaker fresh</span></div><div class="vr"><span>&ldquo;+18-point advantage&rdquo;</span><span class="chip no">Comparator-dependent</span></div><div class="vr"><span>Premium conclusion</span><span class="chip qual">Requires normalization</span></div></div></div></div></section>
+<section><div class="wrap"><div class="eyebrow">How to start</div><h2 class="sh">Start free. Scope the rest to the claim.</h2><p class="sub">The triage is a bounded first read from public evidence and non-confidential material. Deeper work is scoped to the claim, available access, and decision timeline.</p><div class="tiers"><div class="tier feature"><div class="flag">Start here &middot; free</div><h3>Claim Triage</h3><div class="price">$0 <small>&middot; no obligation</small></div><p class="desc">A fast read on whether a represented AI or data-moat claim is verifiable and which failure modes deserve testing first.</p><ul><li>Identify the load-bearing claim</li><li>Map the evidence needed</li><li>Flag comparator / transfer / provenance risk</li><li>Recommend the smallest decisive test</li></ul><div class="foot"><a class="pick" href="mailto:bobbyopsassistant@gmail.com?subject=AI-premium%20claim%20triage">Request a triage &rarr;</a></div></div><div class="tier"><div class="flag">Fixed scope</div><h3>Single-Claim Verification</h3><div class="price">Custom</div><p class="desc">One material technical claim taken through reproduction, normalization, targeted stress tests, and an auditable findings package.</p><ul><li>One represented metric or advantage</li><li>Controlled tests matched to the claim</li><li>Evidence ledger and limitations</li><li>Short decision memo and handoff</li></ul><div class="foot"><a class="pick" href="mailto:bobbyopsassistant@gmail.com?subject=Single-claim%20verification%20scope%20request">Request scope &rarr;</a></div></div><div class="tier"><div class="flag">Broader engagement</div><h3>Deal Verification</h3><div class="price">Custom</div><p class="desc">A bounded verification layer across multiple AI, data, benchmark, or unit-economics claims that materially affect the thesis.</p><ul><li>Multiple load-bearing claims</li><li>Comparator and transfer analysis</li><li>IC-ready evidence package</li><li>Private-data handling only when scoped</li></ul><div class="foot"><a class="pick" href="mailto:bobbyopsassistant@gmail.com?subject=Deal%20verification%20scope%20request">Request scope &rarr;</a></div></div></div></div></section>
+<section><div class="wrap"><div class="proof"><div class="eyebrow">Why trust the method</div><h2 class="sh" style="margin-bottom:.9rem">The discipline runs in public</h2><p>On <b>RCV-Bench</b>, a deterministic policy that simply re-runs the headline result gets <b>9/14</b> verdicts right while finding <b>0/3</b> fragile cases and <b>0/2</b> fabricated cases. That is the gap between re-execution and verification.</p><div class="nums"><span class="u"><b class="good mono">9/14</b><span class="c">naive-rerun verdict accuracy</span></span><span class="u"><b class="bad mono">0/3</b><span class="c">fragile recall</span></span><span class="u"><b class="bad mono">0/2</b><span class="c">fabricated recall</span></span></div><p>ARC-AGI-2, DESI DR2, and MMLU examples are public with frozen results and explicit limits. The FAIR Universe work remains an external-scoring project in progress; its canonical repository is the authority for whether a Codabench result has been publicly recorded.</p><div class="links"><a href="/moat/">Constructed teardown &rarr;</a><a href="https://github.com/GrobeStreet/rcv-bench">RCV-Bench</a><a href="https://github.com/GrobeStreet">GitHub</a><a href="/">Research portfolio &rarr;</a></div></div></div></section>
+<section class="final"><div class="wrap"><h2>Have a claim you are about to underwrite?</h2><p>Send the non-confidential version first. The triage is free and designed to be useful even if no engagement follows.</p><a class="btn primary" href="mailto:bobbyopsassistant@gmail.com?subject=AI-premium%20claim%20triage">Start a free claim triage &rarr;</a></div></section>
+<footer><div class="wrap"><p class="who"><b>Robert &ldquo;Bobby&rdquo; Morong</b> &middot; independent AI-claim verification &middot; <a href="mailto:bobbyopsassistant@gmail.com">bobbyopsassistant@gmail.com</a> &middot; <a href="https://github.com/GrobeStreet">github.com/GrobeStreet</a></p><p class="disc">Adversarial quality assurance, not purchased endorsement. Findings are reported whether they strengthen or weaken the represented claim. This is not investment, legal, accounting, security, or full-company diligence advice. Confidential data should not be sent by ordinary email. Illustrative verdicts and constructed examples are labeled as such.</p></div></footer>
 </body>
 </html>
