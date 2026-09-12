@@ -1,8 +1,10 @@
 # CrunchDAO / DataCrunch Modeling Crib Sheet
 
-Reusable playbook from the 2026-09-07 iteration sprint on **DataCrunch Equity Market Neutral #2** (model `weak-roadrunner`, account `suspicious-robert`). Written to crib from in future CrunchDAO / Numerai-style cross-sectional competitions.
+Reusable playbook from the Sept 2026 iteration sprint on **DataCrunch Equity Market Neutral #2** (model `weak-roadrunner`, account `suspicious-robert`). Written to crib from in future CrunchDAO / Numerai-style cross-sectional competitions.
 
-*Metric: cross-sectional (per-moon) correlation of prediction vs 28-day-forward-return target. ~1,150 anonymized features, weekly "moons", ~3,000 stocks/moon. 15 compute h/week.*
+> **READ SECTION 6 FIRST.** A local cross-validation harness (2026-09-12) showed the on-platform warm-up scores below were HIGH-VARIANCE NOISE. The true cross-validated edge of the best recipe is ~0.008, not 0.033. Trust CV, not warm-up scores.
+
+*Metric: cross-sectional (per-moon) correlation of prediction vs 28-day-forward-return target. ~1,150 anonymized features, weekly "moons", ~3,000 stocks/moon (small set ~1,920). 15 compute h/week.*
 
 ---
 
@@ -14,49 +16,67 @@ Reusable playbook from the 2026-09-07 iteration sprint on **DataCrunch Equity Ma
 - **Submit flow quirk (web UI):** clicking "Submit" the first time only *primes* the form (clears the message box). Click Submit again -> the "Generated files / Proceed to upload" dialog appears -> Proceed. The "nested imports in FunctionDef" warning is expected and non-blocking (it's the self-contained-function pattern).
 - **Run flow:** Submissions&Runs -> cloud icon on the submission row -> "Yes I did" (local test) -> Pick the **Powerful CPU** instance (16-core, no GPU; fine for sklearn/LightGBM CPU) -> Create run. The latest *successful* run auto-promotes to "Final Submission"; re-select an older run via its "Select" button in the Runs table if you want a different one for the scored phase.
 - **Never enter the clone token.** Upload a **token-free notebook**; the platform authenticates via the logged-in session. (Only the dev/Colab `crunch setup-notebook` line carries a token — leave it out of the uploaded notebook.)
-- **Data for offline work:** Resources -> Datasets has direct downloads (`X.reduced.small.zip` ~100MB, `y.reduced.small.zip`, `moons_split.json`). Get these and build a **local CV harness** — see section 4, this is the #1 process fix.
+- **Data for offline work:** Resources -> Datasets has direct downloads (`X.reduced.small.zip` ~100MB -> X.reduced.parquet 250,999x1,150; `y.reduced.small.zip` -> id/moon/target; `moons_split.json`). This is all you need to build local CV (section 6).
 
 ---
 
-## 2. Modeling levers, ranked by MEASURED impact (warm-up eval)
+## 2. Modeling levers, ranked by impact — CAUTION, these are warm-up (noisy) numbers; see section 6 for CV truth
 
-| Lever | Effect on score | Verdict |
+| Lever | Warm-up effect | Verdict (CV-checked in section 6) |
 |-------|-----------------|---------|
-| **Per-moon FEATURE rank-normalization** (rank each feature within its moon -> [0,1]) | 0.008 -> **0.033** (4x) | **Biggest win. Do this first.** |
-| **Per-moon TARGET rank-normalization** (train on within-moon rank of y) | 0.0035 -> 0.008 (2.3x) | Strong, cheap. |
-| **Feature neutralization** (regress prediction on standardized features per moon, subtract proportion 0.5, re-rank) | flipped negative -> positive | Keep; it's an invariance op. |
-| LightGBM (feature_fraction 0.2, 2000 trees) instead of sklearn HGB | 0.008 -> 0.0054 | **LOST to HGB. HGB is the base to beat.** |
-| 3-model ensemble (seed + row-bootstrap + leaf variation) on ranked features | 0.033 -> **-0.019** | **Hurt.** Row-bootstrap/leaf variation added instability (or eval noise). Don't ensemble blindly. |
+| **Per-moon FEATURE rank-normalization** (rank each feature within its moon -> [0,1]) | 0.008 -> 0.033 | Real signal, but the 0.033 was inflated by noise; still the core transform |
+| **Per-moon TARGET rank-normalization** (train on within-moon rank of y) | 0.0035 -> 0.008 | Keep |
+| **Feature neutralization** (regress prediction on standardized features per moon, subtract, re-rank) | flipped negative -> positive | Keep; CV: helps, and **proportion 1.0 gives same mean as 0.5 with ~30% lower variance** |
+| LightGBM (feature_fraction 0.2, 2000 trees) instead of sklearn HGB | 0.008 -> 0.0054 | LOST to HGB. HGB is the base to beat. |
+| 3-model ensemble (seed + row-bootstrap + leaf variation) on ranked features | 0.033 -> -0.019 | Hurt (and it was noise anyway). Don't ensemble blindly. |
 
-**Headline: cross-sectional (within-moon) RANKING of features and target is the dominant lever for anonymized-feature cross-sectional prediction.** Fancy boosters and naive ensembling did not help here.
+**Headline: cross-sectional (within-moon) RANKING of features and target is the dominant lever.** Fancy boosters and naive ensembling did not help.
 
 ---
 
-## 3. The winning recipe (v6 — score 0.0332, best of 8 iterations)
+## 3. The recipe (best available; live entry v6)
 
 sklearn **HistGradientBoostingRegressor** (`max_iter=500, learning_rate=0.03, max_depth=5, max_leaf_nodes=31, min_samples_leaf=100, l2_regularization=2.0, random_state=5566`), trained on:
 1. **per-moon percentile-ranked features**: `df.groupby("moon")[feats].rank(pct=True)`
 2. **per-moon rank target**: `df.groupby("moon")["target"].rank(pct=True)`
 
-`infer()`: same per-moon feature ranking -> `model.predict` -> per-moon **feature neutralization** (ridge lstsq, proportion 0.5) -> re-rank to `pct`. Output columns exactly `["moon","id","prediction"]`. Deterministic (fixed seed; validated 0 drift). Runtime ~8 min (feature ranking of 1,150 cols is the cost; well inside the 15h budget).
+`infer()`: same per-moon feature ranking -> `model.predict` -> per-moon **feature neutralization** (ridge lstsq; **use proportion 1.0 — lower variance, same mean, per section 6**) -> re-rank to `pct`. Output columns exactly `["moon","id","prediction"]`. Deterministic. Runtime ~8 min (feature ranking of 1,150 cols is the cost; well inside the 15h budget).
 
 ---
 
 ## 4. PROCESS learnings (the meta-lessons)
 
-- **The warm-up eval is HIGH VARIANCE.** Near-identical approaches scored +0.033 (v6) and -0.019 (v8). A single warm-up number is an unreliable ranking signal. -> **Build a local, multi-moon cross-validation harness before trusting any score.** Every in-session change was a blind bet costing 1 of 10 daily submissions; that's the main thing to fix. Download the small dataset (section 1) and CV offline; submit only validated winners.
-- **Selection-aware discipline (from de-stress-lab):** don't pick the single best-looking result off a noisy metric; prefer the model that's robust across folds/perturbations. At true parity, choose the more robust model — but a clearly-negative candidate (v8) is a reject, not a "robust alternative."
-- **Change one thing per submission** so each result is attributable (we did; it's why we know feature-ranking was the lever and LightGBM/ensemble were not).
-- **Gap to money:** leaders ~0.10-0.12; v6 at 0.033 is a 4x personal jump but mid-pack. Closing further needs real CV + deeper feature engineering, not more blind single-shot bets.
+- **The warm-up eval is HIGH VARIANCE.** Near-identical approaches scored +0.033 and -0.019. A single warm-up number is an unreliable ranking signal. **CONFIRMED by local CV (section 6).**
+- **Build a local, multi-moon cross-validation harness before trusting any score.** Download the small dataset (section 1) and CV offline; submit only validated winners. This is the #1 fix.
+- **Selection-aware discipline (from de-stress-lab):** don't pick the single best-looking result off a noisy metric; prefer the model robust across folds. A clearly-negative candidate is a reject, not a "robust alternative."
+- **Change one thing per submission** so each result is attributable.
 
 ---
 
 ## 5. Next ideas to try (WITH local CV, not blind)
 
-- Tune neutralization proportion (0.0 / 0.5 / 1.0) — measure, don't guess.
-- Feature engineering on ranked features: per-row aggregates (mean/std/quantiles across the 1,150 ranked features), interaction terms on top-importance features.
-- A *properly CV'd* ensemble (only if each member is individually validated to help; average ranks, and verify the ensemble beats the best single member out-of-fold).
-- Try more HGB capacity (max_iter, leaves) once CV can measure over/underfit.
-- Multi-horizon / multi-target stacking if the dataset exposes more than one target.
+- Remove the 120k train-row cap — more training moons helped materially in CV (see section 6).
+- Feature aggregates on ranked features (per-row mean/std/quantiles across the 1,150 ranked features); interaction terms on top-importance features.
+- A *properly CV'd* ensemble (only if each member individually beats the single model out-of-fold).
+- More HGB capacity once CV can measure over/underfit.
 
-*Method lineage: cross-sectional ranking + neutralization + "keep signal that survives perturbation" cribbed from GrobeStreet/eval-invariance-engine and GrobeStreet/de-stress-lab. Full iteration log with all 8 runs and exact scores in the AI Research project notes.*
+---
+
+## 6. LOCAL CV RESULTS (2026-09-12) — the warm-up scores were noise
+
+Built a forward-chaining CV harness on the small dataset: folds over the moon axis, **4-moon embargo** (= target horizon) between train and validation; metric = per-moon Spearman corr averaged over validation moons. (Container had ~7.8GB RAM — keep ONLY the ranked feature matrix ~1.15GB and free the rest, or it OOMs; cap train rows ~120k/fold.)
+
+**The v6 recipe on real CV: mean 0.0083 +/- 0.0093** (folds 0.0010 / 0.0214 / 0.0026).
+=> The on-platform warm-up **0.0332 was essentially a lucky draw.** True edge is ~0.008 and swings 0.001–0.021 fold to fold. More training data helped (54k train rows -> 0.001; ~120k -> up to 0.021), so the row cap is likely leaving signal on the table.
+
+**Neutralization sweep (train once/fold, apply each level):**
+| neutralize | CV mean | std |
+|---|---|---|
+| 0.0 | 0.0068 | 0.0094 |
+| 0.5 (v6 as submitted) | 0.0083 | 0.0093 |
+| **1.0** | **0.0084** | **0.0064** |
+=> Neutralization helps; **1.0 = same mean, ~30% lower variance -> the one CV-validated upgrade.** Use 1.0 next time.
+
+**Strategic reality:** true edge ~0.008 is barely above zero; leaders sit 0.10–0.12, so the gap is ~12–15x. DataCrunch is not a near-term income lane at this signal level. Bank the entry; only reinvest if a CV-measured idea (more data, real feature engineering) moves the edge materially.
+
+*Method lineage: cross-sectional ranking + neutralization + "keep signal that survives perturbation" cribbed from GrobeStreet/eval-invariance-engine and GrobeStreet/de-stress-lab. Full iteration + CV logs in the AI Research project notes.*
