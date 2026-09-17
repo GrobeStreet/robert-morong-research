@@ -1,6 +1,12 @@
 [build]
   publish = "."
 
+[functions]
+  directory = "netlify/functions"
+
+[functions."gsc-daily-sync"]
+  schedule = "17 12 * * *"
+
 [[headers]]
   for = "/*"
 
@@ -8,6 +14,13 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     X-Frame-Options = "DENY"
+
+[[headers]]
+  for = "/gsc/*"
+
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-store"
 
 [[redirects]]
   from = "/*"
