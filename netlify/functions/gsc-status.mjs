@@ -1,4 +1,4 @@
-import { getConfig, getSavedAuth, json } from "./_gsc.mjs";
+import { getConfig, getSavedAuth, json } from "../lib/gsc.mjs";
 
 export default async () => {
   const cfg = getConfig();
