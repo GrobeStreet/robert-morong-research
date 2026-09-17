@@ -1,4 +1,4 @@
-import { exchangeCode, fetchUserEmail, getConfig, html, makeSessionCookie, saveAuth, verifyState } from "./_gsc.mjs";
+import { exchangeCode, fetchUserEmail, getConfig, html, makeSessionCookie, saveAuth, verifyState } from "../lib/gsc.mjs";
 
 export default async (req) => {
   try {
