@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Private GSC Connector</title>
+  <style>
+    body{font:16px/1.55 system-ui,-apple-system,sans-serif;max-width:920px;margin:40px auto;padding:0 20px;color:#17202a}
+    h1{font-size:2rem}.card{border:1px solid #d8dee4;border-radius:14px;padding:20px;margin:18px 0}
+    button,a.button{display:inline-block;background:#17202a;color:#fff;border:0;border-radius:9px;padding:11px 16px;text-decoration:none;cursor:pointer}
+    code,pre{background:#f6f8fa;border-radius:8px;padding:3px 6px}pre{padding:14px;overflow:auto}
+    .ok{color:#08783e}.bad{color:#b42318}.muted{color:#667085}
+  </style>
+</head>
+<body>
+  <h1>Private Google Search Console Connector</h1>
+  <p class="muted">First-party Google Search Console data → Netlify → private Google Drive snapshots. No GSC Wizard or Supermetrics subscription required.</p>
+  <div class="card">
+    <h2>Status</h2>
+    <pre id="status">Checking…</pre>
+    <p><a class="button" href="/gsc/connect">Authorize Google</a></p>
+  </div>
+  <div class="card">
+    <h2>Sync now</h2>
+    <p>This pulls every Search Console property available to the authorized Google account, current/prior 28-day performance, top queries, top pages, and sitemaps, then updates <code>GSC_Portfolio_Latest.md</code> and <code>GSC_Portfolio_Latest.json</code> in Google Drive.</p>
+    <button id="sync">Run sync</button>
+    <pre id="result"></pre>
+  </div>
+  <div class="card">
+    <h2>Automatic refresh</h2>
+    <p>A Netlify scheduled function refreshes the Drive snapshot every day after authorization.</p>
+  </div>
+<script>
+async function loadStatus(){
+  const r=await fetch('/gsc/status'); document.querySelector('#status').textContent=JSON.stringify(await r.json(),null,2);
+}
+document.querySelector('#sync').onclick=async()=>{
+  const el=document.querySelector('#result'); el.textContent='Syncing…';
+  const r=await fetch('/gsc/sync'); const j=await r.json(); el.textContent=JSON.stringify(j,null,2);
+};
+loadStatus();
+</script>
+</body>
+</html>
