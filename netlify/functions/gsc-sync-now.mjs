@@ -1,4 +1,4 @@
-import { hasValidSession, json, syncAll } from "./_gsc.mjs";
+import { hasValidSession, json, syncAll } from "../lib/gsc.mjs";
 
 export default async (req) => {
   if (!hasValidSession(req)) return json({ error: "Not authorized." }, 401);
