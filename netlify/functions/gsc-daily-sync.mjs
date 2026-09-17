@@ -1,4 +1,4 @@
-import { syncAll } from "./_gsc.mjs";
+import { syncAll } from "../lib/gsc.mjs";
 
 export default async () => {
   try {
