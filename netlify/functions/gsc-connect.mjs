@@ -1,4 +1,4 @@
-import { html, oauthUrl, getConfig } from "./_gsc.mjs";
+import { html, oauthUrl, getConfig } from "../lib/gsc.mjs";
 
 export default async () => {
   const cfg = getConfig();
