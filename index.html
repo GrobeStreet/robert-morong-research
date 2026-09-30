@@ -6,7 +6,7 @@
     <meta name="color-scheme" content="dark" />
     <meta
       name="description"
-      content="Robert Morong &#8212; independent research in cosmology, AI evaluation, reproducibility engineering, and technical claims diligence."
+      content="Robert Morong &#8212; independent research in AI evaluation reliability, research-claim verification, reproducibility engineering, and technical claims diligence."
     />
     <title>Robert Morong &#8212; Independent Research</title>
     <style>
@@ -111,12 +111,10 @@
   <body>
     <main>
       <header>
-        <p class="eyebrow">Independent research &#183; reproducibility engineering</p>
+        <p class="eyebrow">AI evaluation &#183; research-claim verification &#183; reproducibility</p>
         <h1>Judge the work by the evidence.</h1>
         <p class="lede">
-          I&#8217;m Robert &#8220;Bobby&#8221; Morong. I independently reproduce quantitative claims,
-          stress-test the assumptions that carry them, and publish inspectable code,
-          frozen results, and explicit limits.
+          I&#8217;m Robert &#8220;Bobby&#8221; Morong. I build inspectable evaluations that test whether AI, benchmark, statistical, and technical claims survive reruns, provenance checks, held-out tests, and adversarial scrutiny. I publish the code, frozen evidence, corrections, and limits.
         </p>
         <div class="actions">
           <a class="button primary" href="#research">See the research</a>
@@ -129,56 +127,68 @@
 
       <section id="research">
         <p class="eyebrow">Selected work</p>
-        <h2>Reproductions designed to survive scrutiny</h2>
+        <h2>Verification infrastructure first, evidence cases underneath</h2>
         <div class="grid">
           <article class="card">
-            <p class="eyebrow">AI evaluation &#183; ARC-AGI-2</p>
-            <h3>How do we know a candidate program is right?</h3>
+            <p class="eyebrow">Agent evaluation &#183; RCV-Bench</p>
+            <h3>Can an AI agent verify a research claim?</h3>
             <p class="result">
-              Corrected v2: k=1 demonstration reliability is 32.8%. On ambiguous
-              cases, MDL gains 11.1 points over random selection; the candidate
-              oracle is only 3.7 points above MDL. The frozen solver remains 0/167.
+              A 14-task benchmark separates simple rerunning from harder provenance and robustness judgments. The naive rerun baseline scores 9/14 but misses every FRAGILE and FABRICATED case; a first autonomous local-agent baseline catches one fabricated case but remains weak overall.
             </p>
             <p>
-              The work separates candidate-generation limits from selection quality
-              and reports uncertainty instead of promoting the earlier, overstated
-              oracle-effect framing.
+              The point is diagnostic, not leaderboard theater: can an agent distinguish a reproduced result from a deviation, unsupported evidence, or a result that collapses under a declared robustness test?
             </p>
-            <a class="project-link" href="https://github.com/GrobeStreet/arc-agi-2-occam-baseline">Code, paper, and v2 results &#8599;</a>
+            <a class="project-link" href="https://github.com/GrobeStreet/rcv-bench">Benchmark, harness, baselines, and agent protocol &#8599;</a>
           </article>
 
           <article class="card">
-            <p class="eyebrow">Cosmology &#183; DESI DR2</p>
-            <h3>Anatomy of a late-time-evolution preference</h3>
+            <p class="eyebrow">Evaluation reliability &#183; Inspect AI</p>
+            <h3>Measure whether a benchmark score is stable</h3>
             <p class="result">
-              The preference for time-varying late-time behavior is reproducible,
-              and LRG2 is load-bearing for its strength.
+              Eval Invariance Engine wraps multiple-choice evaluations with semantics-preserving perturbations and reports score drift and item-level flip rates inside Inspect AI.
             </p>
             <p>
-              Selection-aware calibration changes the interpretation: once the
-              observed global preference is conditioned on, concentration at LRG2
-              is not an additional independent anomaly. It is a localization result
-              that directs follow-up, not extra evidence against &#923;CDM.
+              It measures a narrow question directly: how much does the evaluation result depend on representation details that are not supposed to change the underlying task?
             </p>
-            <a class="project-link" href="https://github.com/GrobeStreet/de-stress-lab">Code, diagnostics, and result manifest &#8599;</a>
+            <a class="project-link" href="https://github.com/GrobeStreet/eval-invariance-engine">CLI, Inspect wrapper, metrics, and tests &#8599;</a>
           </article>
 
           <article class="card">
             <p class="eyebrow">AI evaluation &#183; MMLU</p>
             <h3>Option-order robustness</h3>
             <p class="result">
-              The regenerated Qwen harness changes its underlying answer on roughly
-              78% of questions under both bf16 and fp32, while accuracy on flipping
-              questions remains near chance.
+              The regenerated Qwen harness changes its underlying answer on roughly 78% of sampled questions under four cyclic option orderings in both bf16 and fp32.
             </p>
             <p>
-              Headline accuracy and the majority-flip result regenerated, but the
-              historical stability, ECE, and mean four-label confidence values did
-              not. Tie-breaking and dtype were tested and do not explain the gap;
-              the historical Qwen-vs-Llama calibration contrast remains unconfirmed
-              until the Llama arm is rerun.
+              The headline robustness failure regenerated while several historical stability and calibration quantities did not. Tie-breaking and dtype controls did not remove the effect; the unresolved quantities remain explicitly unresolved.
             </p>
-            <a class="project-link" href="https://github.com/GrobeStreet/mmlu-robustness-audit">Regeneration, code, results, and provenance &#8599;</a>
+            <a class="project-link" href="https://github.com/GrobeStreet/mmlu-robustness-audit">Regeneration, Inspect port, results, and provenance &#8599;</a>
+          </article>
+        </div>
+
+        <div class="grid two" style="margin-top: 1rem;">
+          <article class="card">
+            <p class="eyebrow">Scientific reproducibility &#183; DESI DR2</p>
+            <h3>Stress-test which observation carries the result</h3>
+            <p class="result">
+              De-Stress Lab packages selection-aware influence analysis, empirical null calibration, frozen result ledgers, and a reproducible DESI DR2 application.
+            </p>
+            <p>
+              In the flagship analysis, LRG2 is load-bearing for the observed preference, but its localization is not additional independent evidence after conditioning on the global fluctuation.
+            </p>
+            <a class="project-link" href="https://github.com/GrobeStreet/de-stress-lab">Package, DOIs, diagnostics, and result manifest &#8599;</a>
+          </article>
+
+          <article class="card">
+            <p class="eyebrow">Reasoning evaluation &#183; ARC-AGI-2</p>
+            <h3>When candidate selection helps but generation still fails</h3>
+            <p class="result">
+              Corrected same-holdout analysis puts k=1 demonstration reliability at 32.8%. MDL improves ambiguous-case selection by 11.1 points over random, while the candidate oracle is only 3.7 points above MDL.
+            </p>
+            <p>
+              The public correction overturned the earlier optimistic calibration story. The frozen solver remains 0/167; the contribution is the measurement and selection analysis, not a competitive ARC solver.
+            </p>
+            <a class="project-link" href="https://github.com/GrobeStreet/arc-agi-2-occam-baseline">Corrected paper, frozen results, and CI &#8599;</a>
           </article>
         </div>
       </section>
@@ -246,7 +256,7 @@
       </section>
 
       <footer>
-        Robert Morong &#183; Independent researcher in cosmology and AI evaluation &#183;
+        Robert Morong &#183; Independent research engineer in AI evaluation reliability and research-claim verification &#183;
         <a href="https://github.com/GrobeStreet">Public work</a> &#183;
         <a href="mailto:bobbyopsassistant@gmail.com">Email</a>
       </footer>
