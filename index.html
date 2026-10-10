@@ -4,11 +4,51 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#08111f" />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
     <meta
       name="description"
-      content="Robert Morong &#8212; independent research in AI evaluation reliability, research-claim verification, reproducibility engineering, and technical claims diligence."
+      content="Robert Morong — independent research engineer in AI evaluation reliability, research-claim verification, benchmark robustness, and reproducibility."
     />
-    <title>Robert Morong &#8212; Independent Research</title>
+    <link rel="canonical" href="https://robert-morong-research.netlify.app/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Robert Morong · Independent Research" />
+    <meta property="og:title" content="Robert Morong — AI Evaluation & Research-Claim Verification" />
+    <meta property="og:description" content="Reproducible AI evaluation, agent claim verification, benchmark robustness, and evidence-first technical research." />
+    <meta property="og:url" content="https://robert-morong-research.netlify.app/" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Robert Morong — AI Evaluation & Research-Claim Verification" />
+    <meta name="twitter:description" content="Reproducible AI evaluation, agent claim verification, benchmark robustness, and evidence-first technical research." />
+    <title>Robert Morong — AI Evaluation & Research-Claim Verification</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://robert-morong-research.netlify.app/#person",
+            "name": "Robert Morong",
+            "alternateName": "Bobby Morong",
+            "url": "https://robert-morong-research.netlify.app/",
+            "jobTitle": "Independent Research Engineer",
+            "sameAs": [
+              "https://github.com/GrobeStreet",
+              "https://www.linkedin.com/in/bobby-morong/"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://robert-morong-research.netlify.app/#website",
+            "url": "https://robert-morong-research.netlify.app/",
+            "name": "Robert Morong — Independent Research",
+            "description": "AI evaluation reliability, research-claim verification, benchmark robustness, and reproducibility.",
+            "publisher": {
+              "@id": "https://robert-morong-research.netlify.app/#person"
+            }
+          }
+        ]
+      }
+    </script>
     <style>
       :root {
         --bg: #08111f;
@@ -53,7 +93,7 @@
         letter-spacing: 0.13em;
         text-transform: uppercase;
       }
-      .lede { max-width: 46rem; color: var(--muted); font-size: clamp(1.05rem, 2vw, 1.3rem); }
+      .lede { max-width: 49rem; color: var(--muted); font-size: clamp(1.05rem, 2vw, 1.3rem); }
       .actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin: 2rem 0 0; }
       .button, .project-link {
         display: inline-block;
@@ -94,6 +134,13 @@
         color: var(--muted);
         background: var(--panel-strong);
       }
+      .status {
+        display: inline-block;
+        margin-top: 0.35rem;
+        color: var(--accent);
+        font-size: 0.85rem;
+        font-weight: 750;
+      }
       footer {
         margin-top: 3.5rem;
         padding-top: 1.5rem;
@@ -111,17 +158,20 @@
   <body>
     <main>
       <header>
-        <p class="eyebrow">AI evaluation &#183; research-claim verification &#183; reproducibility</p>
+        <p class="eyebrow">AI evaluation · research-claim verification · reproducibility</p>
         <h1>Judge the work by the evidence.</h1>
         <p class="lede">
-          I&#8217;m Robert &#8220;Bobby&#8221; Morong. I build inspectable evaluations that test whether AI, benchmark, statistical, and technical claims survive reruns, provenance checks, held-out tests, and adversarial scrutiny. I publish the code, frozen evidence, corrections, and limits.
+          I’m Robert “Bobby” Morong. I build inspectable evaluations that test whether AI, benchmark, statistical, and technical claims survive reruns, provenance checks, held-out tests, and adversarial scrutiny. I publish the code, frozen evidence, corrections, and limits.
+        </p>
+        <p class="lede">
+          Open to remote AI evaluation, research engineering, benchmark reliability, and technical verification work.
         </p>
         <div class="actions">
           <a class="button primary" href="#research">See the research</a>
-          <a class="button" href="#diligence">Diligence Lab</a>
-          <a class="button" href="/verify">Verify a claim</a>
+          <a class="button" href="#validation">External validation</a>
           <a class="button" href="https://github.com/GrobeStreet">GitHub</a>
-          <a class="button" href="mailto:bobbyopsassistant@gmail.com?subject=Research%20collaboration">Contact</a>
+          <a class="button" href="https://www.linkedin.com/in/bobby-morong/">LinkedIn</a>
+          <a class="button" href="mailto:bobby@trainingties.com?subject=AI%20evaluation%20or%20research%20collaboration">Contact</a>
         </div>
       </header>
 
@@ -130,7 +180,7 @@
         <h2>Verification infrastructure first, evidence cases underneath</h2>
         <div class="grid">
           <article class="card">
-            <p class="eyebrow">Agent evaluation &#183; RCV-Bench</p>
+            <p class="eyebrow">Agent evaluation · RCV-Bench</p>
             <h3>Can an AI agent verify a research claim?</h3>
             <p class="result">
               A 14-task benchmark separates simple rerunning from harder provenance and robustness judgments. The naive rerun baseline scores 9/14 but misses every FRAGILE and FABRICATED case; a first autonomous local-agent baseline catches one fabricated case but remains weak overall.
@@ -138,11 +188,11 @@
             <p>
               The point is diagnostic, not leaderboard theater: can an agent distinguish a reproduced result from a deviation, unsupported evidence, or a result that collapses under a declared robustness test?
             </p>
-            <a class="project-link" href="https://github.com/GrobeStreet/rcv-bench">Benchmark, harness, baselines, and agent protocol &#8599;</a>
+            <a class="project-link" href="https://github.com/GrobeStreet/rcv-bench">Benchmark, harness, baselines, and agent protocol ↗</a>
           </article>
 
           <article class="card">
-            <p class="eyebrow">Evaluation reliability &#183; Inspect AI</p>
+            <p class="eyebrow">Evaluation reliability · Inspect AI</p>
             <h3>Measure whether a benchmark score is stable</h3>
             <p class="result">
               Eval Invariance Engine wraps multiple-choice evaluations with semantics-preserving perturbations and reports score drift and item-level flip rates inside Inspect AI.
@@ -150,11 +200,11 @@
             <p>
               It measures a narrow question directly: how much does the evaluation result depend on representation details that are not supposed to change the underlying task?
             </p>
-            <a class="project-link" href="https://github.com/GrobeStreet/eval-invariance-engine">CLI, Inspect wrapper, metrics, and tests &#8599;</a>
+            <a class="project-link" href="https://github.com/GrobeStreet/eval-invariance-engine">CLI, Inspect wrapper, metrics, and tests ↗</a>
           </article>
 
           <article class="card">
-            <p class="eyebrow">AI evaluation &#183; MMLU</p>
+            <p class="eyebrow">AI evaluation · MMLU</p>
             <h3>Option-order robustness</h3>
             <p class="result">
               The regenerated Qwen harness changes its underlying answer on roughly 78% of sampled questions under four cyclic option orderings in both bf16 and fp32.
@@ -162,13 +212,13 @@
             <p>
               The headline robustness failure regenerated while several historical stability and calibration quantities did not. Tie-breaking and dtype controls did not remove the effect; the unresolved quantities remain explicitly unresolved.
             </p>
-            <a class="project-link" href="https://github.com/GrobeStreet/mmlu-robustness-audit">Regeneration, Inspect port, results, and provenance &#8599;</a>
+            <a class="project-link" href="https://github.com/GrobeStreet/mmlu-robustness-audit">Regeneration, Inspect port, results, and provenance ↗</a>
           </article>
         </div>
 
         <div class="grid two" style="margin-top: 1rem;">
           <article class="card">
-            <p class="eyebrow">Scientific reproducibility &#183; DESI DR2</p>
+            <p class="eyebrow">Scientific reproducibility · DESI DR2</p>
             <h3>Stress-test which observation carries the result</h3>
             <p class="result">
               De-Stress Lab packages selection-aware influence analysis, empirical null calibration, frozen result ledgers, and a reproducible DESI DR2 application.
@@ -176,11 +226,11 @@
             <p>
               In the flagship analysis, LRG2 is load-bearing for the observed preference, but its localization is not additional independent evidence after conditioning on the global fluctuation.
             </p>
-            <a class="project-link" href="https://github.com/GrobeStreet/de-stress-lab">Package, DOIs, diagnostics, and result manifest &#8599;</a>
+            <a class="project-link" href="https://github.com/GrobeStreet/de-stress-lab">Package, DOIs, diagnostics, and result manifest ↗</a>
           </article>
 
           <article class="card">
-            <p class="eyebrow">Reasoning evaluation &#183; ARC-AGI-2</p>
+            <p class="eyebrow">Reasoning evaluation · ARC-AGI-2</p>
             <h3>When candidate selection helps but generation still fails</h3>
             <p class="result">
               Corrected same-holdout analysis puts k=1 demonstration reliability at 32.8%. MDL improves ambiguous-case selection by 11.1 points over random, while the candidate oracle is only 3.7 points above MDL.
@@ -188,54 +238,39 @@
             <p>
               The public correction overturned the earlier optimistic calibration story. The frozen solver remains 0/167; the contribution is the measurement and selection analysis, not a competitive ARC solver.
             </p>
-            <a class="project-link" href="https://github.com/GrobeStreet/arc-agi-2-occam-baseline">Corrected paper, frozen results, and CI &#8599;</a>
+            <a class="project-link" href="https://github.com/GrobeStreet/arc-agi-2-occam-baseline">Corrected paper, frozen results, and CI ↗</a>
           </article>
         </div>
       </section>
 
-      <section id="diligence">
-        <p class="eyebrow">Diligence Lab</p>
-        <h2>How much of the technical claim survives?</h2>
+      <section id="validation">
+        <p class="eyebrow">External validation wanted</p>
+        <h2>The next threshold is outside use, not more self-authored projects</h2>
         <p class="lede">
-          A reproducibility-first technical diligence module for material AI and statistical claims:
-          freeze the claim, reconstruct its evidence chain, reproduce what can be reproduced,
-          attack plausible alternative explanations, and translate the surviving evidence into decision language.
+          These requests are intentionally small and falsifiable. Failed reproductions, compatibility problems, and technical criticism are useful outcomes.
         </p>
-        <div class="grid two">
+        <div class="grid">
           <article class="card">
-            <p class="eyebrow">Case 001 &#183; public evidence</p>
-            <h3>SWE-bench: score, scaffold, protocol, and cost</h3>
-            <p class="result">
-              A headline benchmark percentage is not automatically a measure of proprietary product advantage.
-            </p>
-            <p>
-              The worked case separates base-model capability from agent/scaffold contribution,
-              protocol-version effects, budget sensitivity, and fresh-distribution transfer risk.
-              It is explicitly a public-evidence demonstration, not a claimed client engagement or independent leaderboard rerun.
-            </p>
-            <a class="project-link" href="https://github.com/GrobeStreet/robert-morong-research/blob/main/diligence/swebench-public-evidence-review.md">Read Case 001 &#8599;</a>
+            <p class="eyebrow">RCV-Bench</p>
+            <h3>Run an outside agent</h3>
+            <p>Evaluate an agent on the 14-task protocol under a declared model, tool, network, budget, and isolation policy.</p>
+            <span class="status">Wanted: one independent run</span>
+            <a class="project-link" href="https://github.com/GrobeStreet/rcv-bench/issues/3">External-run protocol ↗</a>
           </article>
-
           <article class="card">
-            <p class="eyebrow">Case 002 &#183; real regeneration</p>
-            <h3>MMLU: when the headline survives but supporting metrics do not</h3>
-            <p class="result">
-              The majority-flip finding regenerated; historical stability and calibration metrics did not.
-            </p>
-            <p>
-              Tie-breaking and numerical precision were tested and refuted as explanations.
-              The unresolved provenance gap remains unresolved, and the historical Qwen-vs-Llama calibration contrast stays unconfirmed until Llama is rerun.
-            </p>
-            <a class="project-link" href="https://github.com/GrobeStreet/robert-morong-research/blob/main/diligence/mmlu-regeneration-case-002.md">Read Case 002 &#8599;</a>
+            <p class="eyebrow">Eval Invariance Engine</p>
+            <h3>Try it on an existing Inspect task</h3>
+            <p>Report whether the wrapper preserves task shape and scoring semantics, plus any observed drift or item-level flips.</p>
+            <span class="status">Wanted: one outside user</span>
+            <a class="project-link" href="https://github.com/GrobeStreet/eval-invariance-engine/issues/1">Outside-user request ↗</a>
           </article>
-        </div>
-        <p class="note">
-          The lab's rule is simple: a historical result, a regenerated result, and an independently verified result are different evidence states. The job is not to validate a preferred story; it is to reduce decision-relevant uncertainty.
-        </p>
-        <div class="actions">
-          <a class="button primary" href="/verify">Verify an AI premium &#8594;</a>
-          <a class="button" href="/moat/">Read the teardown</a>
-          <a class="button" href="https://github.com/GrobeStreet/robert-morong-research/tree/main/diligence">Open the Diligence Lab</a>
+          <article class="card">
+            <p class="eyebrow">MMLU Robustness Audit</p>
+            <h3>Reproduce the pinned protocol</h3>
+            <p>Run the fixed 300-question protocol using the declared model and dataset revisions and compare the regenerated evidence.</p>
+            <span class="status">Wanted: one independent rerun</span>
+            <a class="project-link" href="https://github.com/GrobeStreet/mmlu-robustness-audit/issues/5">Rerun instructions ↗</a>
+          </article>
         </div>
       </section>
 
@@ -249,16 +284,27 @@
           <div><strong>Publish limits</strong>Separate completed evidence, reconstructed results, and work still awaiting independent rerun.</div>
         </div>
         <p class="note">
-          These projects are independent analyses. They narrow what the public
-          evidence supports; they do not substitute authority for verification or
-          turn a localized hint into a discovery claim.
+          These projects are independent analyses. They narrow what the public evidence supports; they do not substitute authority for verification or turn a localized hint into a discovery claim.
         </p>
       </section>
 
+      <section>
+        <p class="eyebrow">Applied verification</p>
+        <h2>The same evidence discipline can be used on decision-relevant technical claims</h2>
+        <p class="lede">
+          A secondary applied track uses the same reproduce → stress-test → localize → qualify workflow for AI and statistical claims. It is supporting work, not the main research identity of this site.
+        </p>
+        <div class="actions">
+          <a class="button" href="/verify/">Applied verification</a>
+          <a class="button" href="/moat/">Worked teardown</a>
+        </div>
+      </section>
+
       <footer>
-        Robert Morong &#183; Independent research engineer in AI evaluation reliability and research-claim verification &#183;
-        <a href="https://github.com/GrobeStreet">Public work</a> &#183;
-        <a href="mailto:bobbyopsassistant@gmail.com">Email</a>
+        Robert Morong · Independent research engineer in AI evaluation reliability and research-claim verification ·
+        <a href="https://github.com/GrobeStreet">GitHub</a> ·
+        <a href="https://www.linkedin.com/in/bobby-morong/">LinkedIn</a> ·
+        <a href="mailto:bobby@trainingties.com">Email</a>
       </footer>
     </main>
   </body>

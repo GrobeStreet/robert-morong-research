@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /gsc/
+
+Sitemap: https://robert-morong-research.netlify.app/sitemap.xml
