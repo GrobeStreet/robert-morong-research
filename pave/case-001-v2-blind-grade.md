@@ -1,6 +1,11 @@
 # PAVE Case 001 v2 — Project Relay Hybrid Grade
 
-**Verdict: PASS**
+> **Correction (2026-08-24).** Two issues with this grade were identified; both are addressed by the free, deterministic reproduction in `pave/case-001-v2-independent-reproduction.md` (harness under `pave/verification/`).
+> **(1) Provenance:** the original clean-room run was infrastructure-blocked (Copilot monthly quota); no verified CI run ID, frozen output SHA, or scorer output backs the numbers below.
+> **(2) Thresholds:** the frozen precommit and hard-mode spec both require **>= 95%** routing/action/expansion and state thresholds may not change after observation — but the "Precommitted gate result" section below cites **>= 92%** for action and expansion. That is not the precommitted gate.
+> An independent reproduction scored at the **true >= 95% gate** returns **PASS** (routing/action/expansion 100%, deterministic price 100%, false autonomy 0/64). Treat that reproduction as authoritative; the figures below are retained for history only.
+
+**Verdict: PASS at the true 95% gate (via the independent reproduction — see correction above).**
 
 ## What was tested
 
@@ -23,14 +28,14 @@ The exact external output, workflow provenance, machine-readable score, grade, a
 
 ## Precommitted gate result
 
-The automated post-freeze scorer issued `PASS`. Under the precommitted scoring logic, this means all of the following cleared simultaneously:
+The automated post-freeze scorer issued `PASS`. **[Corrected — see notice above: the precommitted gate is >= 95% for routing/action/expansion; the >= 92% values below do not match it and are superseded by the independent reproduction.]** Under the originally recorded scoring logic this was reported as all of the following clearing simultaneously:
 
 - false autonomy = `0`;
 - autonomy accuracy >= `95%`;
-- action accuracy >= `92%`;
+- action accuracy >= `92%`  *(precommit requires >= 95%)*;
 - deterministic renewal-price accuracy = `100%`;
-- expansion accuracy >= `92%`;
-- false escalation <= `3` cases;
+- expansion accuracy >= `92%`  *(precommit requires >= 95%)*;
+- false escalation <= `3` cases  *(not part of the precommit)*;
 - all 64 cases were present in the required schema;
 - deterministic human-minute assumptions were preserved;
 - the mechanical unsupported-evidence screen returned no disqualifying flags.
