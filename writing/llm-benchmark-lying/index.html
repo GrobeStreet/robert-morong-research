@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark"><meta name="theme-color" content="#08111f">
+<title>Your LLM Benchmark Score Is Probably Lying to You | Robert Morong</title>
+<meta name="description" content="Option-order bias, no confidence intervals, and tiny test sets make most LLM benchmark numbers meaningless. Here&#x27;s how to spot a benchmark you can&#x27;t trust — and how to run one you can.">
+<link rel="canonical" href="https://robert-morong-research.netlify.app/writing/llm-benchmark-lying/">
+<meta property="og:type" content="article"><meta property="og:title" content="Your LLM Benchmark Score Is Probably Lying to You | Robert Morong"><meta property="og:description" content="Option-order bias, no confidence intervals, and tiny test sets make most LLM benchmark numbers meaningless. Here&#x27;s how to spot a benchmark you can&#x27;t trust — and how to run one you can."><meta property="og:url" content="https://robert-morong-research.netlify.app/writing/llm-benchmark-lying/"><meta property="og:site_name" content="Robert Morong · Independent Research">
+<meta name="twitter:card" content="summary"><meta name="twitter:title" content="Your LLM Benchmark Score Is Probably Lying to You | Robert Morong"><meta name="twitter:description" content="Option-order bias, no confidence intervals, and tiny test sets make most LLM benchmark numbers meaningless. Here&#x27;s how to spot a benchmark you can&#x27;t trust — and how to run one you can.">
+<link rel="stylesheet" href="/assets/funnel.css"><script type="application/ld+json">[{"@context": "https://schema.org", "@type": "Article", "headline": "Your LLM Benchmark Score Is Probably Lying to You", "description": "Option-order bias, no confidence intervals, and tiny test sets make most LLM benchmark numbers meaningless. Here's how to spot a benchmark you can't trust — and how to run one you can.", "author": {"@type": "Person", "name": "Robert Morong", "url": "https://robert-morong-research.netlify.app/", "sameAs": ["https://github.com/GrobeStreet", "https://www.linkedin.com/in/bobby-morong/"]}, "datePublished": "2026-10-22", "dateModified": "2026-10-22", "mainEntityOfPage": "https://robert-morong-research.netlify.app/writing/llm-benchmark-lying/", "publisher": {"@type": "Person", "name": "Robert Morong", "url": "https://robert-morong-research.netlify.app/", "sameAs": ["https://github.com/GrobeStreet", "https://www.linkedin.com/in/bobby-morong/"]}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://robert-morong-research.netlify.app/"}, {"@type": "ListItem", "position": 2, "name": "Writing", "item": "https://robert-morong-research.netlify.app/writing/"}, {"@type": "ListItem", "position": 3, "name": "Your LLM Benchmark Score Is Probably Lying to You", "item": "https://robert-morong-research.netlify.app/writing/llm-benchmark-lying/"}]}]</script>
+</head><body>
+<nav class="bar" aria-label="Site"><a class="brand" href="/">Robert Morong</a><a href="/#research">Research</a><a href="/writing/">Writing</a><a href="/free/">Free tool</a><a href="/kit/">Test Kit</a><a href="https://github.com/GrobeStreet">GitHub</a></nav>
+<main class="wrap">
+<article class="col">
+<p class="eyebrow">Writing · AI evaluation</p>
+<h1>Your LLM Benchmark Score Is Probably Lying to You</h1>
+<p class="meta">Robert Morong · 2026-10-22 · Drafted with AI assistance (Claude)</p>
+<p>"Our model hits 88% on the benchmark." Great — but 88% of what, measured how, on how many examples, and how much would it move if you changed one trivial thing? Most published and internal LLM benchmark numbers quietly fail at least one of these questions. Here are the three ways a benchmark lies, and how to tell.</p>
+<h2>Lie #1: No confidence interval</h2>
+<p>A benchmark score is an estimate from a finite sample, so it has uncertainty — yet most are reported as a bare number. On 200 examples, an 88% has a 95% confidence interval of roughly ±4.5 points. So an "88% vs 85%" comparison between two models, on 200 examples, is <strong>not a real difference</strong> — it's inside the noise. Teams routinely pick models, write launch posts, and set roadmaps on gaps that vanish under a confidence interval.</p>
+<p>The fix: every benchmark number gets a sample size and an interval (Wilson for accuracy, bootstrap for F1/AUC). And before you call model B better than model A, check that the interval of the <em>difference</em> excludes zero — ideally with a paired test on the same items.</p>
+<h2>Lie #2: Option-order bias</h2>
+<p>This one is cheap to check and easy to miss. Take a multiple-choice benchmark and shuffle the answer options — same questions, same choices, different order. How much the <em>average</em> score moves depends on how you shuffle, so measure it instead of assuming. In my own audit of four small open models on ARC-Challenge, the mean score barely changed across four cyclic rotations, yet the models changed their chosen answer on 32% to 75% of questions. Both numbers matter, and a single score shows neither.</p>
+<p>Why? The model is partially keying on the <em>position</em> of the answer (say, a mild preference for "C"), not purely on its content. That means the benchmark is measuring a mix of real capability and a positional artifact. If your headline score drops when you shuffle options, the real capability number is lower than advertised — and a competitor who happened to order their options differently isn't actually behind you.</p>
+<p>Always report accuracy <strong>averaged over randomized option orders</strong>, and report how much the shuffle moved the score. The size of that movement is itself a reliability metric.</p>
+<h2>Lie #3: The test set is too small (or contaminated)</h2>
+<p>Two quieter problems:</p>
+<ul>
+<li><strong>Too small.</strong> A benchmark of 50 items can't distinguish 90% from 80% with any confidence (the 95% interval is roughly ±8 points at 90% and ±11 at 80%). If the test set can't support the precision implied by the headline, the headline is marketing, not measurement.</li>
+<li><strong>Contaminated.</strong> If the model (or the person reporting) has seen the test items — because they're on the public web, or were used to tune prompts — the score is inflated and tells you nothing about new inputs. Note the contamination risk explicitly; a benchmark you tuned on is a benchmark you can't trust.</li>
+</ul>
+<h2>What a trustworthy benchmark looks like</h2>
+<ul>
+<li>Every score carries its <strong>sample size and confidence interval</strong>.</li>
+<li>Multiple-choice scores are <strong>averaged over randomized option orders</strong>, with the shuffle sensitivity reported.</li>
+<li>Differences between systems are only called real when a <strong>paired test and the interval of the difference</strong> support them.</li>
+<li>The test set is <strong>large enough</strong> for the claimed precision and <strong>uncontaminated</strong>, with provenance recorded (data version, seed, environment).</li>
+<li>Results are <strong>reproducible</strong> from the stated inputs — run it twice, get the same number, and say so.</li>
+</ul>
+<p>None of this is exotic. It's just the difference between a number you can bet on and a number that looks good in a slide.</p>
+<div class="cta">
+<h2>Run these checks without hand-rolling them</h2>
+<p>The <strong>AI Reliability Test Kit</strong> is a Python harness that measures accuracy with Wilson and bootstrap confidence intervals, robustness to rewording and option reordering, run-to-run consistency and calibration, then writes a shareable HTML scorecard with a Ship / Caution / Not-ready verdict. It runs offline with a built-in mock model, or against OpenAI, Anthropic and any OpenAI-compatible or local endpoint.</p>
+<p><a class="btn primary" href="/kit/">See what is in the Test Kit</a> <a class="btn" href="/free/">Try the free option-order check first</a></p>
+</div>
+<h2>Keep reading</h2>
+<ul><li><a href="/writing/llm-feature-reliability/">How to Tell If Your LLM Feature Is Actually Reliable (Before You Ship)</a></li><li><a href="/writing/ai-reliability-checklist/">The AI Reliability Checklist: 10 Checks Before You Ship an LLM Feature</a></li><li><a href="/writing/arc-option-order/">Shuffle the answers and small models change their minds (ARC-Challenge audit)</a></li></ul>
+</article>
+<footer>Robert Morong · independent research engineer in AI evaluation reliability · <a href="https://github.com/GrobeStreet">GitHub</a> · <a href="https://www.linkedin.com/in/bobby-morong/">LinkedIn</a> · <a href="mailto:bobby@trainingties.com">Email</a></footer>
+</main></body></html>
