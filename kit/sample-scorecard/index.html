@@ -1,0 +1,68 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<link rel="canonical" href="https://robert-morong-research.netlify.app/kit/sample-scorecard/"><meta name="robots" content="index,follow"><meta name="description" content="Sample reliability scorecard from the AI Reliability Test Kit, generated from an offline mock model on a 32-case demo set."><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reliability Scorecard — Support ticket classifier (demo)</title>
+<style>
+:root{--bg:#0d1117;--card:#161b22;--fg:#e6edf3;--mut:#9aa7b5;--line:#21262d;
+--ship:#3ad39a;--caution:#e3b341;--notready:#ff6b6b;--bar:#4c92ff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);
+font:16px/1.5 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;padding:32px}
+.wrap{max-width:860px;margin:0 auto}
+h1{font-size:26px;margin:0 0 4px}h2{font-size:19px;margin:34px 0 10px}
+.sub{color:var(--mut);margin:0 0 24px}
+.verdict{border-radius:14px;padding:20px 22px;margin:18px 0 8px;font-weight:700;font-size:20px;border:1px solid var(--line)}
+.verdict.ship{background:rgba(58,211,154,.12);color:var(--ship)}
+.verdict.caution{background:rgba(227,179,65,.12);color:var(--caution)}
+.verdict.notready{background:rgba(255,107,107,.12);color:var(--notready)}
+.verdict small{display:block;color:var(--mut);font-weight:500;font-size:14px;margin-top:8px}
+.verdict ul{margin:8px 0 0 18px;color:var(--mut);font-weight:500;font-size:14px}
+.grid{display:flex;gap:14px;flex-wrap:wrap;margin:14px 0}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;flex:1;min-width:150px}
+.stat .k{font-size:30px;font-weight:800;font-family:ui-monospace,Menlo,monospace}
+.stat .l{color:var(--fg);font-size:13px;margin-top:4px}
+table{width:100%;border-collapse:collapse;margin:8px 0;font-size:14px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+th{color:var(--mut);font-weight:600}
+.barwrap{display:inline-block;width:120px;height:8px;background:var(--line);border-radius:5px;overflow:hidden;vertical-align:middle;margin-right:8px}
+.bar{height:100%;background:var(--bar)}
+.pct{font-family:ui-monospace,Menlo,monospace}
+.ci{color:var(--mut);font-size:12px}
+.muted{color:var(--mut)}.neg{color:var(--notready)}.pos{color:var(--ship)}
+footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);color:var(--mut);font-size:13px}
+</style></head><body><div style="background:#ffd479;color:#1a1300;padding:10px 16px;font:600 14px system-ui;text-align:center">Demo output from the offline mock model on a 32-case classifier set. It shows the format, not a real model. <a href="/kit/" style="color:#1a1300">Back to the Test Kit</a> · <a href="/free/" style="color:#1a1300">Free tool</a></div><div class="wrap">
+<h1>Reliability Scorecard</h1>
+<p class="sub">Support ticket classifier (demo) &nbsp;·&nbsp; model: mock-1 &nbsp;·&nbsp; 2026-09-29 &nbsp;·&nbsp; 32 test cases</p>
+
+<div class="verdict notready">NOT READY
+<ul><li>lower bound of accuracy is 61% (below a 70% floor)</li></ul></div>
+
+<h2>Headline accuracy</h2>
+<div class="grid">
+  <div class="stat"><div class="k">78%</div><div class="l">Task accuracy &nbsp;<span class="ci">95% CI 61–89%</span><br><span class="muted">25 of 32 correct</span></div></div>
+  <div class="stat"><div class="k">100%</div>
+        <div class="l">Run-to-run agreement <span class="muted">(3 samples/case)</span></div></div>
+</div>
+<p class="muted">The confidence interval is the honest range. With 32 cases you can
+distinguish only fairly large differences; ≈1568 cases are needed to reliably
+detect a 5-point gap between two versions.</p>
+
+<h2>Accuracy by category</h2>
+<table><thead><tr><th>Category</th><th>Score</th><th>Accuracy (95% CI)</th></tr></thead>
+<tbody><tr><td>billing</td><td>5/8</td><td><div class="barwrap"><div class="bar" style="width:62%"></div></div><span class="pct">62%</span> <span class="ci">CI 31–86%</span></td></tr><tr><td>bug</td><td>7/8</td><td><div class="barwrap"><div class="bar" style="width:88%"></div></div><span class="pct">88%</span> <span class="ci">CI 53–98%</span></td></tr><tr><td>feature</td><td>8/8</td><td><div class="barwrap"><div class="bar" style="width:100%"></div></div><span class="pct">100%</span> <span class="ci">CI 68–100%</span></td></tr><tr><td>general</td><td>5/8</td><td><div class="barwrap"><div class="bar" style="width:62%"></div></div><span class="pct">62%</span> <span class="ci">CI 31–86%</span></td></tr></tbody></table>
+
+<h2>Robustness — does it survive benign input changes?</h2>
+        <p class="muted">Each row re-runs the same cases with a meaning-preserving tweak.
+        Big negative drops mean the feature is brittle.</p>
+        <table><thead><tr><th>Perturbation</th><th>Accuracy</th><th>vs. baseline</th></tr></thead>
+        <tbody><tr><td>lowercase</td><td>78%</td><td class='pos'>+0 pts</td></tr><tr><td>trailing_space</td><td>81%</td><td class='pos'>+3 pts</td></tr><tr><td>polite_wrap</td><td>88%</td><td class='pos'>+9 pts</td></tr><tr><td>shuffle_choices</td><td>78%</td><td class='pos'>+0 pts</td></tr></tbody></table>
+<h2>Calibration — can you trust its confidence?</h2>
+        <div class="grid">
+          <div class="stat"><div class="k">0.200</div><div class="l">Brier score <span class="muted">(lower better)</span></div></div>
+          <div class="stat"><div class="k">0.130</div><div class="l">ECE <span class="muted">(0 = perfectly calibrated)</span></div></div>
+        </div>
+        <p class="muted">If ECE is high, the model says "90% sure" while being right far less often —
+        dangerous when a human trusts the confidence.</p>
+
+<footer>Generated by the AI Reliability Test Kit. Measurement reported with
+uncertainty by design — a single number without a confidence interval is marketing,
+not evidence. Re-run this on every prompt/model change to catch silent regressions.</footer>
+</div></body></html>
