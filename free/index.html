@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark"><meta name="theme-color" content="#08111f">
+<title>Free option-order check for multiple-choice LLM evals</title>
+<meta name="description" content="A free single-file Python script that measures how much your multiple-choice eval depends on answer-option order: accuracy with intervals, flip rate, and accuracy by answer slot.">
+<link rel="canonical" href="https://robert-morong-research.netlify.app/free/">
+<meta property="og:type" content="website"><meta property="og:title" content="Free option-order check for multiple-choice LLM evals"><meta property="og:description" content="A free single-file Python script that measures how much your multiple-choice eval depends on answer-option order: accuracy with intervals, flip rate, and accuracy by answer slot."><meta property="og:url" content="https://robert-morong-research.netlify.app/free/"><meta property="og:site_name" content="Robert Morong · Independent Research">
+<meta name="twitter:card" content="summary"><meta name="twitter:title" content="Free option-order check for multiple-choice LLM evals"><meta name="twitter:description" content="A free single-file Python script that measures how much your multiple-choice eval depends on answer-option order: accuracy with intervals, flip rate, and accuracy by answer slot.">
+<link rel="stylesheet" href="/assets/funnel.css"><script type="application/ld+json">[{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "option_order_check.py", "applicationCategory": "DeveloperApplication", "operatingSystem": "Any (Python 3)", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "author": {"@type": "Person", "name": "Robert Morong", "url": "https://robert-morong-research.netlify.app/", "sameAs": ["https://github.com/GrobeStreet", "https://www.linkedin.com/in/bobby-morong/"]}, "license": "https://opensource.org/licenses/MIT", "description": "Free, standard-library Python script that measures how much a multiple-choice evaluation depends on answer-option order."}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://robert-morong-research.netlify.app/"}, {"@type": "ListItem", "position": 2, "name": "Free tool", "item": "https://robert-morong-research.netlify.app/free/"}]}]</script>
+</head><body>
+<nav class="bar" aria-label="Site"><a class="brand" href="/">Robert Morong</a><a href="/#research">Research</a><a href="/writing/">Writing</a><a href="/free/">Free tool</a><a href="/kit/">Test Kit</a><a href="https://github.com/GrobeStreet">GitHub</a></nav>
+<main class="wrap">
+<div class="col">
+<p class="eyebrow">Free tool · MIT licensed</p>
+<h1>Does your multiple-choice eval depend on option order?</h1>
+<p class="lede">A single Python file, standard library only. It shows every question to your model once per cyclic rotation of the options and reports accuracy with an interval, how often the chosen answer changes, and accuracy by the slot of the correct answer.</p>
+<p><a class="btn primary" href="/free/option_order_check.py" download>Download option_order_check.py</a> <a class="btn" href="/free/demo.jsonl" download>Download demo.jsonl</a></p>
+
+<h2>Try it in one minute, no API key</h2>
+<pre><code>python option_order_check.py demo.jsonl --provider mock</code></pre>
+<p>The mock model has a deliberate lean toward one answer slot so you can see what a biased model looks like in the output.</p>
+
+<h2>Run it on your own model</h2>
+<p>Your file is JSONL, one question per line, with the correct option as a 0-based index:</p>
+<pre><code>{"question": "Which gas do plants absorb?", "options": ["Oxygen", "Carbon dioxide", "Helium", "Neon"], "answer": 1}</code></pre>
+<pre><code># OpenAI
+export OPENAI_API_KEY=...
+python option_order_check.py mytests.jsonl --provider openai --model gpt-4o-mini
+
+# Local model through any OpenAI-compatible server (Ollama shown)
+python option_order_check.py mytests.jsonl --provider openai --model llama3 \
+    --base-url http://localhost:11434/v1 --api-key-env NONE</code></pre>
+
+<h2>How to read the output</h2>
+<ul>
+<li><strong>Flip rate</strong>: the share of questions where the chosen answer changes with option order. It should be low. A high flip rate at decent accuracy means your score depends on where answers are placed.</li>
+<li><strong>Accuracy by correct slot</strong>: if accuracy is much higher when the answer is in one slot, the model has a position preference. See the audit for what a large gap looks like (<a href="/writing/arc-option-order/">Qwen2.5-0.5B: 26.0% versus 60.3%</a>).</li>
+<li><strong>Correct under every ordering</strong>: a stricter, more honest score than mean accuracy.</li>
+</ul>
+<div class="note warn">The Wilson interval on accuracy treats the rotations of one question as independent, which they are not, so read it as a rough guide. The flip-rate interval resamples questions. This tool measures option-order sensitivity only. It is not a full reliability audit.</div>
+
+<div class="cta">
+<h2>Need the rest of the picture?</h2>
+<p>Option order is one of several ways an AI feature can look better than it is. The <strong>AI Reliability Test Kit</strong> measures accuracy with confidence intervals, robustness to rewording and reordering, run-to-run consistency and calibration, and produces a shareable Ship / Caution / Not-ready scorecard.</p>
+<p><a class="btn primary" href="/kit/">See the Test Kit</a> <a class="btn" href="/writing/arc-option-order/">Read the audit behind this tool</a></p>
+</div>
+</div>
+<footer>Robert Morong · independent research engineer in AI evaluation reliability · <a href="https://github.com/GrobeStreet">GitHub</a> · <a href="https://www.linkedin.com/in/bobby-morong/">LinkedIn</a> · <a href="mailto:bobby@trainingties.com">Email</a></footer>
+</main></body></html>
