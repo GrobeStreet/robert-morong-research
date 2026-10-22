@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark"><meta name="theme-color" content="#08111f">
+<title>The AI Reliability Checklist: 10 Checks Before You Ship an LLM Feature | Robert Morong</title>
+<meta name="description" content="A practical, copy-pasteable checklist for deciding whether an LLM feature is production-ready: accuracy with intervals, robustness, consistency, calibration, and reproducibility.">
+<link rel="canonical" href="https://robert-morong-research.netlify.app/writing/ai-reliability-checklist/">
+<meta property="og:type" content="article"><meta property="og:title" content="The AI Reliability Checklist: 10 Checks Before You Ship an LLM Feature | Robert Morong"><meta property="og:description" content="A practical, copy-pasteable checklist for deciding whether an LLM feature is production-ready: accuracy with intervals, robustness, consistency, calibration, and reproducibility."><meta property="og:url" content="https://robert-morong-research.netlify.app/writing/ai-reliability-checklist/"><meta property="og:site_name" content="Robert Morong · Independent Research">
+<meta name="twitter:card" content="summary"><meta name="twitter:title" content="The AI Reliability Checklist: 10 Checks Before You Ship an LLM Feature | Robert Morong"><meta name="twitter:description" content="A practical, copy-pasteable checklist for deciding whether an LLM feature is production-ready: accuracy with intervals, robustness, consistency, calibration, and reproducibility.">
+<link rel="stylesheet" href="/assets/funnel.css"><script type="application/ld+json">[{"@context": "https://schema.org", "@type": "Article", "headline": "The AI Reliability Checklist: 10 Checks Before You Ship an LLM Feature", "description": "A practical, copy-pasteable checklist for deciding whether an LLM feature is production-ready: accuracy with intervals, robustness, consistency, calibration, and reproducibility.", "author": {"@type": "Person", "name": "Robert Morong", "url": "https://robert-morong-research.netlify.app/", "sameAs": ["https://github.com/GrobeStreet", "https://www.linkedin.com/in/bobby-morong/"]}, "datePublished": "2026-10-22", "dateModified": "2026-10-22", "mainEntityOfPage": "https://robert-morong-research.netlify.app/writing/ai-reliability-checklist/", "publisher": {"@type": "Person", "name": "Robert Morong", "url": "https://robert-morong-research.netlify.app/", "sameAs": ["https://github.com/GrobeStreet", "https://www.linkedin.com/in/bobby-morong/"]}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://robert-morong-research.netlify.app/"}, {"@type": "ListItem", "position": 2, "name": "Writing", "item": "https://robert-morong-research.netlify.app/writing/"}, {"@type": "ListItem", "position": 3, "name": "The AI Reliability Checklist: 10 Checks Before You Ship an LLM Feature", "item": "https://robert-morong-research.netlify.app/writing/ai-reliability-checklist/"}]}]</script>
+</head><body>
+<nav class="bar" aria-label="Site"><a class="brand" href="/">Robert Morong</a><a href="/#research">Research</a><a href="/writing/">Writing</a><a href="/free/">Free tool</a><a href="/kit/">Test Kit</a><a href="https://github.com/GrobeStreet">GitHub</a></nav>
+<main class="wrap">
+<article class="col">
+<p class="eyebrow">Writing · AI evaluation</p>
+<h1>The AI Reliability Checklist: 10 Checks Before You Ship an LLM Feature</h1>
+<p class="meta">Robert Morong · 2026-10-22 · Drafted with AI assistance (Claude)</p>
+<p>Print this, run it against your feature, and you'll know whether you're shipping something that works or something that merely demoed well. Each check is a question with a measurable answer — "measure, never assert."</p>
+<h2>Before you test</h2>
+<p><strong>1. Define the task and the ground truth.</strong> Write down what a correct answer is and how you know. If you can't state how you'd check correctness, you can't measure accuracy — you can only measure consistency and calibration. Say which.</p>
+<p><strong>2. State the decision and the bar.</strong> "Ship to users" needs a higher bar than "internal draft." Pick the accuracy threshold <em>before</em> you see the numbers, so you're not grading on a curve after the fact.</p>
+<p><strong>3. Build a real test set.</strong> Cover the typical path and the edges: ambiguous inputs, long inputs, adversarial phrasings, out-of-distribution cases, and your known failure modes. Record the sample size prominently — it governs everything that follows. Make sure the model hasn't seen these items (no contamination).</p>
+<h2>Accuracy, honestly</h2>
+<p><strong>4. Report accuracy with a confidence interval.</strong> Wilson for rates, bootstrap for F1/RMSE/AUC. A bare percentage with no interval is not a result. If the interval is too wide to clear your bar, add test cases.</p>
+<p><strong>5. Don't call a difference real unless the stats support it.</strong> Comparing two prompts or two models? Use a paired test and check the interval of the <em>difference</em>. If it crosses zero, the "improvement" is noise.</p>
+<h2>Stability</h2>
+<p><strong>6. Test robustness to trivial changes.</strong> Re-run under meaning-preserving perturbations — paraphrase, case, whitespace, and especially <strong>option-order shuffle</strong> for multiple-choice. Report the fraction of verdicts that survive. A big drop means your accuracy is partly an artifact.</p>
+<p><strong>7. Test run-to-run consistency.</strong> Run the same inputs several times (vary only the seed). Measure the flip rate. Contradictory answers to identical questions are a defect even when the average looks fine.</p>
+<h2>Trust</h2>
+<p><strong>8. Check calibration.</strong> Does stated confidence match observed correctness? Compute Brier score and Expected Calibration Error. Flag overconfidence explicitly — high confidence plus lower accuracy is the failure that erodes user trust fastest.</p>
+<h2>For claims and results</h2>
+<p><strong>9. Reproduce, don't trust.</strong> If you're relying on a benchmark result or a paper's number, re-derive it from the stated inputs. Record provenance: data version, code commit, seed, environment. A result you can't reproduce from its own description is unverified — and never tune your reproduction to force a match.</p>
+<h2>The verdict</h2>
+<p><strong>10. Write one honest verdict with its caveats.</strong> Ship / Caution / Not-ready, each line carrying its number and uncertainty, plus a short "what this audit did not test" note. An honest <em>Caution</em> beats a flattering <em>Ship</em> every time.</p>
+<div class="cta">
+<h2>Run these checks without hand-rolling them</h2>
+<p>The <strong>AI Reliability Test Kit</strong> is a Python harness that measures accuracy with Wilson and bootstrap confidence intervals, robustness to rewording and option reordering, run-to-run consistency and calibration, then writes a shareable HTML scorecard with a Ship / Caution / Not-ready verdict. It runs offline with a built-in mock model, or against OpenAI, Anthropic and any OpenAI-compatible or local endpoint.</p>
+<p><a class="btn primary" href="/kit/">See what is in the Test Kit</a> <a class="btn" href="/free/">Try the free option-order check first</a></p>
+</div>
+<h2>Keep reading</h2>
+<ul><li><a href="/writing/llm-feature-reliability/">How to Tell If Your LLM Feature Is Actually Reliable (Before You Ship)</a></li><li><a href="/writing/llm-benchmark-lying/">Your LLM Benchmark Score Is Probably Lying to You</a></li><li><a href="/writing/arc-option-order/">Shuffle the answers and small models change their minds (ARC-Challenge audit)</a></li></ul>
+</article>
+<footer>Robert Morong · independent research engineer in AI evaluation reliability · <a href="https://github.com/GrobeStreet">GitHub</a> · <a href="https://www.linkedin.com/in/bobby-morong/">LinkedIn</a> · <a href="mailto:bobby@trainingties.com">Email</a></footer>
+</main></body></html>
