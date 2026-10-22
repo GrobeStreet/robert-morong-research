@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark"><meta name="theme-color" content="#08111f">
+<title>Shuffle the answers and small models change their minds | ARC-Challenge audit</title>
+<meta name="description" content="Four small open models, all 1,165 four-option ARC-Challenge questions, four option orders. Models changed their answer on 32% to 75% of questions, and size did not explain it.">
+<link rel="canonical" href="https://robert-morong-research.netlify.app/writing/arc-option-order/">
+<meta property="og:type" content="article"><meta property="og:title" content="Shuffle the answers and small models change their minds | ARC-Challenge audit"><meta property="og:description" content="Four small open models, all 1,165 four-option ARC-Challenge questions, four option orders. Models changed their answer on 32% to 75% of questions, and size did not explain it."><meta property="og:url" content="https://robert-morong-research.netlify.app/writing/arc-option-order/"><meta property="og:site_name" content="Robert Morong · Independent Research">
+<meta name="twitter:card" content="summary"><meta name="twitter:title" content="Shuffle the answers and small models change their minds | ARC-Challenge audit"><meta name="twitter:description" content="Four small open models, all 1,165 four-option ARC-Challenge questions, four option orders. Models changed their answer on 32% to 75% of questions, and size did not explain it.">
+<link rel="stylesheet" href="/assets/funnel.css"><script type="application/ld+json">[{"@context": "https://schema.org", "@type": "TechArticle", "headline": "Shuffle the answers and small models change their minds", "description": "An ARC-Challenge audit of four small open models: how often does the chosen answer change when only the option order changes?", "author": {"@type": "Person", "name": "Robert Morong", "url": "https://robert-morong-research.netlify.app/", "sameAs": ["https://github.com/GrobeStreet", "https://www.linkedin.com/in/bobby-morong/"]}, "datePublished": "2026-10-22", "dateModified": "2026-10-22", "mainEntityOfPage": "https://robert-morong-research.netlify.app/writing/arc-option-order/", "publisher": {"@type": "Person", "name": "Robert Morong", "url": "https://robert-morong-research.netlify.app/", "sameAs": ["https://github.com/GrobeStreet", "https://www.linkedin.com/in/bobby-morong/"]}, "about": ["LLM evaluation", "benchmark robustness", "option-order bias", "ARC-Challenge"]}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://robert-morong-research.netlify.app/"}, {"@type": "ListItem", "position": 2, "name": "Writing", "item": "https://robert-morong-research.netlify.app/writing/"}, {"@type": "ListItem", "position": 3, "name": "Option-order audit", "item": "https://robert-morong-research.netlify.app/writing/arc-option-order/"}]}]</script>
+</head><body>
+<nav class="bar" aria-label="Site"><a class="brand" href="/">Robert Morong</a><a href="/#research">Research</a><a href="/writing/">Writing</a><a href="/free/">Free tool</a><a href="/kit/">Test Kit</a><a href="https://github.com/GrobeStreet">GitHub</a></nav>
+<main class="wrap">
+<article class="col">
+<p class="eyebrow">AI evaluation · reproducible audit</p>
+<h1>Shuffle the answers and small models change their minds</h1>
+<p class="lede">I scored four small open models on all 1,165 four-option questions in ARC-Challenge, each shown four times with only the order of the answer options changed. Two of the three models that carry real signal changed their chosen answer on 60% or more of the questions, and model size did not explain the differences.</p>
+<p class="meta">Robert Morong · October 22, 2026 · <a href="https://github.com/GrobeStreet/arc-option-order-audit">code and raw predictions</a></p>
+
+<h2>The short version</h2>
+<ul>
+<li><strong>A single score hides the problem.</strong> Accuracy per ordering was nearly identical for every model, because cycling the options puts the right answer in each slot equally often and the bias cancels in the average. The bias shows up in two other numbers: how often the chosen answer changes (the flip rate) and accuracy broken out by where the correct answer sits.</li>
+<li><strong>Within one family, the effect shrinks with size.</strong> Qwen2.5-0.5B changed its answer on 74.6% of questions. Qwen2.5-1.5B changed on 31.6%.</li>
+<li><strong>Across families, size told me nothing.</strong> SmolLM2-1.7B is about the same size as Qwen2.5-1.5B and changed its answer on 59.8% of questions, almost twice as often.</li>
+</ul>
+
+<h2>What I ran</h2>
+<p>ARC-Challenge test split, every question that has exactly four options (1,165 of 1,172). Each question is shown four times with the options rotated cyclically (A-B-C-D, then B-C-D-A, and so on), so every option appears in every slot once. The model is scored on its next-token probabilities for the letters A to D after a plain completion prompt, with no chat template. That makes 4,660 predictions per model. Model revisions, the dataset revision and the random seed are pinned, and every number below is produced by code from the raw per-prediction files, not typed by hand.</p>
+
+<h2>Results</h2>
+<div class="tablewrap"><table>
+<thead><tr><th></th><th>Qwen2.5-0.5B</th><th>Qwen2.5-1.5B</th><th>SmolLM2-1.7B</th><th>SmolLM2-360M</th></tr></thead>
+<tbody>
+<tr><td>Mean accuracy over the four orderings</td><td>48.7%</td><td>74.5%</td><td>58.2%</td><td>24.9% (chance)</td></tr>
+<tr><td>Questions whose chosen answer changes with option order</td><td class="hl">74.6%</td><td class="hl">31.6%</td><td class="hl">59.8%</td><td>100% (see below)</td></tr>
+<tr><td>Correct under all four orderings</td><td>19.1%</td><td>60.4%</td><td>33.6%</td><td>0.0%</td></tr>
+<tr><td>Accuracy when the correct answer is in slot A / B / C / D</td><td>52.7 / 60.3 / 55.9 / <strong>26.0</strong></td><td>69.2 / 74.8 / 79.1 / 75.1</td><td>58.3 / 55.9 / 58.2 / 60.3</td><td>8.6 / 0.3 / 84.3 / 6.3</td></tr>
+<tr><td>Slot dependence of correctness (chi-square p)</td><td>4.6e-72</td><td>9.2e-7</td><td>0.19</td><td>about 0</td></tr>
+<tr><td>Numeric precision used</td><td>float32</td><td>bfloat16</td><td>bfloat16</td><td>float32</td></tr>
+</tbody></table></div>
+<p>The 95% bootstrap intervals over questions for the flip rates are 72.1 to 77.2 (Qwen 0.5B), 28.8 to 34.2 (Qwen 1.5B) and 56.9 to 62.6 (SmolLM2-1.7B). The full table, with every interval, is in <a href="https://github.com/GrobeStreet/arc-option-order-audit/blob/main/RESULTS.md">RESULTS.md</a>.</p>
+
+<h2>What the numbers say</h2>
+<h3>Qwen2.5-0.5B has a strong slot bias</h3>
+<p>It is 26.0% accurate when the correct answer sits in slot D, which is about chance for four options, and 60.3% when it sits in slot B. It also picks D only 11.9% of the time. The difference across slots is not noise (chi-square p below 1e-70).</p>
+<h3>The bias shrinks with size inside one family, but does not vanish</h3>
+<p>Qwen2.5-1.5B flips on 31.6% of questions instead of 74.6%. Its slot dependence is much smaller but still detectable: 69.2% accuracy when the answer is in slot A versus 79.1% in slot C.</p>
+<h3>SmolLM2-1.7B is unstable without a simple slot preference</h3>
+<p>Its picks are spread almost evenly over the four letters (26.8, 22.9, 23.2 and 27.0%) and its accuracy by correct-answer slot is flat (p = 0.19). Yet 59.8% of its answers still change when only the order changes. So "this model likes letter C" is not the whole story of order sensitivity, and checking the pick distribution alone would have missed it.</p>
+<h3>The flips are not pure noise</h3>
+<p>A model that ignored content and chose slots according to its own observed slot preferences would flip on about 98.5% of questions. Accuracy on the questions that do flip is 39.8%, 44.7% and 41.1% for the three informative models, above the 25% chance floor. The questions that never flip are more accurate (75.0%, 88.3%, 83.5%), but that group is selected for being stable, so it should not be read as the model's ability on easy items.</p>
+<h3>SmolLM2-360M tells us nothing, and I am saying so</h3>
+<p>It scores at chance and picks slot C 85% of the time. Its 100% flip rate is a floor effect, not evidence about robustness. It is in the table for completeness and should not be used in comparisons.</p>
+
+<h2>Why this matters if you run evaluations</h2>
+<p>If you report one accuracy number from one option ordering, you may be reporting a mix of what the model knows and where the answer happened to be placed. Two cheap habits help: rotate or shuffle the options and report the flip rate next to accuracy, and break accuracy out by the slot of the correct answer. A large spread across slots, or a high flip rate at similar accuracy, is a reliability problem that a single score cannot show.</p>
+
+<h2>Limits you should hold me to</h2>
+<ul>
+<li>Four small models from two families, one prompt template, label-probability scoring rather than free-text generation. This says nothing about frontier models, and four models are not a scaling law.</li>
+<li>Four cyclic rotations, not all 24 permutations, and option order only: no paraphrase or other perturbations.</li>
+<li><strong>Precision differs across models.</strong> The 0.5B and 360M models ran in float32. The 1.5B and 1.7B models ran in bfloat16 because float32 ran out of memory on the 8 GB CPU machine I used. bfloat16 produced exact probability ties (60 for Qwen 1.5B, 121 for SmolLM2-1.7B), which the code breaks by slot order. A control that re-decides every tie at random (200 reseeds) moved accuracy by at most 0.3 point and the flip rates from 31.6% to 32.1% and from 59.8% to 60.3%, so ties do not drive the results. Precision is still confounded with size in this design, so size comparisons carry that caveat.</li>
+<li>Runs were executed in resumable chunks after container restarts. Each question is scored independently with fixed weights, so resuming does not change any prediction.</li>
+<li>Not peer reviewed. Different hardware can change the last digits. Analysis code and drafting were AI-assisted; the headline numbers were independently recomputed with a second code path and match.</li>
+</ul>
+
+<h2>Check it yourself</h2>
+<p>Everything is in the repository: pinned revisions, the scripts, the raw predictions for all four models, SHA-256 hashes of each results file, and the commands to rerun it (about 40 to 50 minutes per model on two CPU cores). If you rerun it and get different numbers, or find a flaw, that is a useful outcome and I want to know.</p>
+<p><a class="btn primary" href="https://github.com/GrobeStreet/arc-option-order-audit">Code, data and provenance on GitHub</a></p>
+
+<div class="cta">
+<h2>Run the same check on your own eval</h2>
+<p>I turned the core of this audit into a small free script. Give it a JSONL file of multiple-choice questions and a model (OpenAI-compatible endpoint, including local models, or an offline mock) and it prints accuracy with an interval, the flip rate, and accuracy by answer slot.</p>
+<p><a class="btn primary" href="/free/">Get the free option-order check</a> <a class="btn" href="/kit/">See the full AI Reliability Test Kit</a></p>
+</div>
+</article>
+<footer>Robert Morong · independent research engineer in AI evaluation reliability · <a href="https://github.com/GrobeStreet">GitHub</a> · <a href="https://www.linkedin.com/in/bobby-morong/">LinkedIn</a> · <a href="mailto:bobby@trainingties.com">Email</a></footer>
+</main></body></html>
