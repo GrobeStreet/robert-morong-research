@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark"><meta name="theme-color" content="#08111f">
+<title>How to Tell If Your LLM Feature Is Actually Reliable (Before You Ship) | Robert Morong</title>
+<meta name="description" content="A demo passing is not a feature working. Here&#x27;s the honest, measurable way to decide whether an LLM feature is production-ready — accuracy with confidence intervals, robustness, consistency, and calibration.">
+<link rel="canonical" href="https://robert-morong-research.netlify.app/writing/llm-feature-reliability/">
+<meta property="og:type" content="article"><meta property="og:title" content="How to Tell If Your LLM Feature Is Actually Reliable (Before You Ship) | Robert Morong"><meta property="og:description" content="A demo passing is not a feature working. Here&#x27;s the honest, measurable way to decide whether an LLM feature is production-ready — accuracy with confidence intervals, robustness, consistency, and calibration."><meta property="og:url" content="https://robert-morong-research.netlify.app/writing/llm-feature-reliability/"><meta property="og:site_name" content="Robert Morong · Independent Research">
+<meta name="twitter:card" content="summary"><meta name="twitter:title" content="How to Tell If Your LLM Feature Is Actually Reliable (Before You Ship) | Robert Morong"><meta name="twitter:description" content="A demo passing is not a feature working. Here&#x27;s the honest, measurable way to decide whether an LLM feature is production-ready — accuracy with confidence intervals, robustness, consistency, and calibration.">
+<link rel="stylesheet" href="/assets/funnel.css"><script type="application/ld+json">[{"@context": "https://schema.org", "@type": "Article", "headline": "How to Tell If Your LLM Feature Is Actually Reliable (Before You Ship)", "description": "A demo passing is not a feature working. Here's the honest, measurable way to decide whether an LLM feature is production-ready — accuracy with confidence intervals, robustness, consistency, and calibration.", "author": {"@type": "Person", "name": "Robert Morong", "url": "https://robert-morong-research.netlify.app/", "sameAs": ["https://github.com/GrobeStreet", "https://www.linkedin.com/in/bobby-morong/"]}, "datePublished": "2026-10-22", "dateModified": "2026-10-22", "mainEntityOfPage": "https://robert-morong-research.netlify.app/writing/llm-feature-reliability/", "publisher": {"@type": "Person", "name": "Robert Morong", "url": "https://robert-morong-research.netlify.app/", "sameAs": ["https://github.com/GrobeStreet", "https://www.linkedin.com/in/bobby-morong/"]}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://robert-morong-research.netlify.app/"}, {"@type": "ListItem", "position": 2, "name": "Writing", "item": "https://robert-morong-research.netlify.app/writing/"}, {"@type": "ListItem", "position": 3, "name": "How to Tell If Your LLM Feature Is Actually Reliable (Before You Ship)", "item": "https://robert-morong-research.netlify.app/writing/llm-feature-reliability/"}]}]</script>
+</head><body>
+<nav class="bar" aria-label="Site"><a class="brand" href="/">Robert Morong</a><a href="/#research">Research</a><a href="/writing/">Writing</a><a href="/free/">Free tool</a><a href="/kit/">Test Kit</a><a href="https://github.com/GrobeStreet">GitHub</a></nav>
+<main class="wrap">
+<article class="col">
+<p class="eyebrow">Writing · AI evaluation</p>
+<h1>How to Tell If Your LLM Feature Is Actually Reliable (Before You Ship)</h1>
+<p class="meta">Robert Morong · 2026-10-22 · Drafted with AI assistance (Claude)</p>
+<p>You wired up a model, tried a handful of prompts, the answers looked good, and you shipped. A week later it's doing something strange in production that you can't reproduce on your laptop. Sound familiar?</p>
+<p>The root problem is simple: <strong>"it worked when I tried it" is an anecdote, not a measurement.</strong> Ten good-looking outputs tell you almost nothing about the next ten thousand. This post walks through the honest way to decide whether an LLM feature is reliable enough to ship — and where most teams fool themselves.</p>
+<h2>1. A demo is not production</h2>
+<p>The most expensive mistake in AI shipping is treating a successful demo as evidence of reliability. A demo is a sample of size ten, hand-picked, under ideal conditions. Production is a sample of size "everyone, forever," adversarial, at the edges.</p>
+<p>Before you trust a feature, you need a number — and that number needs an uncertainty attached to it. Which brings us to the single most under-used idea in applied AI.</p>
+<h2>2. Every accuracy needs a confidence interval</h2>
+<p>Say you test on 20 examples and get 19 right: 95% accuracy. Ship it?</p>
+<p>Run the math. With 19/20, the 95% confidence interval is roughly <strong>[76%, 99%]</strong>. In other words, your "95% accurate" feature could genuinely be 76% accurate — the difference between delightful and unusable — and your test couldn't tell. Twenty examples simply cannot support a precise claim.</p>
+<p>The rule: <strong>never report an accuracy without its sample size and its interval.</strong> Use a Wilson interval for pass/fail rates (it behaves correctly near 0% and 100%, where the usual formula gives impossible answers), and a bootstrap for anything more complex like F1 or RMSE. If the interval is too wide to clear your bar, you don't have a reliability problem yet — you have a <em>sample size</em> problem, and the fix is more test cases, not more confidence.</p>
+<h2>3. Reliable means stable under trivial changes</h2>
+<p>Here's a test that catches a shocking number of "high-accuracy" features: take a multiple-choice or classification task, and <strong>reorder the options.</strong> Same question, same choices, different order.</p>
+<p>If the chosen answer changes, the model was partly keying on <em>position</em>, not content, and your headline accuracy may be partly an artifact. Averaged over rotations the mean score can look unchanged while many individual answers flip, so count the flips, not just the score. The same goes for paraphrasing the prompt, changing case, or adding whitespace. A reliable system gives the same answer to the same question asked slightly differently. Measure the fraction of cases where the verdict survives these meaning-preserving perturbations; that <strong>robustness rate</strong> is often far below the raw accuracy, and it's closer to what users will actually experience.</p>
+<h2>4. Reliable means stable run to run</h2>
+<p>Run the exact same inputs five times. Do you get the same verdicts every time? Sampling and non-determinism can flip individual answers even while the average accuracy looks steady. For anything user-facing, a high flip rate is a defect in itself — the same user asking the same question twice should not get contradictory answers.</p>
+<h2>5. Confidence should match correctness</h2>
+<p>The failure mode that burns trust fastest is <strong>overconfidence</strong>: the model says "definitely" and is wrong. Check calibration — does a stated 90% confidence actually correspond to ~90% correctness? Expected Calibration Error and the Brier score make this concrete. A feature that is accurate <em>and</em> knows when it's unsure is far safer to ship than one that is slightly more accurate but confidently wrong.</p>
+<h2>6. The verdict: Ship / Caution / Not-ready</h2>
+<p>Put it together into one honest call:</p>
+<ul>
+<li><strong>Ship</strong> — accuracy interval clears your bar, robust to perturbation, consistent across runs, well-calibrated.</li>
+<li><strong>Caution</strong> — usable with named caveats: which metric is weak, at what sample size, which perturbation breaks it, and exactly what would move it to Ship.</li>
+<li><strong>Not-ready</strong> — a load-bearing check fails: the accuracy interval dips below threshold, robustness collapses, or the model is confidently wrong.</li>
+</ul>
+<p>An honest <em>Caution</em> is worth more than a flattering <em>Ship</em>. The point isn't to make the feature look good; it's to know what you're actually shipping.</p>
+<div class="cta">
+<h2>Run these checks without hand-rolling them</h2>
+<p>The <strong>AI Reliability Test Kit</strong> is a Python harness that measures accuracy with Wilson and bootstrap confidence intervals, robustness to rewording and option reordering, run-to-run consistency and calibration, then writes a shareable HTML scorecard with a Ship / Caution / Not-ready verdict. It runs offline with a built-in mock model, or against OpenAI, Anthropic and any OpenAI-compatible or local endpoint.</p>
+<p><a class="btn primary" href="/kit/">See what is in the Test Kit</a> <a class="btn" href="/free/">Try the free option-order check first</a></p>
+</div>
+<h2>Keep reading</h2>
+<ul><li><a href="/writing/llm-benchmark-lying/">Your LLM Benchmark Score Is Probably Lying to You</a></li><li><a href="/writing/ai-reliability-checklist/">The AI Reliability Checklist: 10 Checks Before You Ship an LLM Feature</a></li><li><a href="/writing/arc-option-order/">Shuffle the answers and small models change their minds (ARC-Challenge audit)</a></li></ul>
+</article>
+<footer>Robert Morong · independent research engineer in AI evaluation reliability · <a href="https://github.com/GrobeStreet">GitHub</a> · <a href="https://www.linkedin.com/in/bobby-morong/">LinkedIn</a> · <a href="mailto:bobby@trainingties.com">Email</a></footer>
+</main></body></html>
