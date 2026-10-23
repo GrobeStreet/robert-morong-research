@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark"><meta name="theme-color" content="#08111f">
+<title>Prompt Regression Testing: How to Know a Prompt or Model Change Didn&#x27;t Break Things | Robert Morong</title>
+<meta name="description" content="How to compare an old and new prompt or model on the same test cases, count what got fixed and what broke, and use an exact paired test instead of eyeballing two accuracy numbers.">
+<link rel="canonical" href="https://robert-morong-research.netlify.app/writing/prompt-regression-testing-llm/">
+<meta property="og:type" content="article"><meta property="og:title" content="Prompt Regression Testing: How to Know a Prompt or Model Change Didn&#x27;t Break Things | Robert Morong"><meta property="og:description" content="How to compare an old and new prompt or model on the same test cases, count what got fixed and what broke, and use an exact paired test instead of eyeballing two accuracy numbers."><meta property="og:url" content="https://robert-morong-research.netlify.app/writing/prompt-regression-testing-llm/"><meta property="og:site_name" content="Robert Morong · Independent Research">
+<meta name="twitter:card" content="summary"><meta name="twitter:title" content="Prompt Regression Testing: How to Know a Prompt or Model Change Didn&#x27;t Break Things | Robert Morong"><meta name="twitter:description" content="How to compare an old and new prompt or model on the same test cases, count what got fixed and what broke, and use an exact paired test instead of eyeballing two accuracy numbers.">
+<link rel="stylesheet" href="/assets/funnel.css"><script type="application/ld+json">[{"@context": "https://schema.org", "@type": "Article", "headline": "Prompt Regression Testing: How to Know a Prompt or Model Change Didn't Break Things", "description": "How to compare an old and new prompt or model on the same test cases, count what got fixed and what broke, and use an exact paired test instead of eyeballing two accuracy numbers.", "author": {"@type": "Person", "name": "Robert Morong", "url": "https://robert-morong-research.netlify.app/", "sameAs": ["https://github.com/GrobeStreet", "https://www.linkedin.com/in/bobby-morong/"]}, "datePublished": "2026-10-23", "dateModified": "2026-10-23", "mainEntityOfPage": "https://robert-morong-research.netlify.app/writing/prompt-regression-testing-llm/", "publisher": {"@type": "Person", "name": "Robert Morong", "url": "https://robert-morong-research.netlify.app/", "sameAs": ["https://github.com/GrobeStreet", "https://www.linkedin.com/in/bobby-morong/"]}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://robert-morong-research.netlify.app/"}, {"@type": "ListItem", "position": 2, "name": "Writing", "item": "https://robert-morong-research.netlify.app/writing/"}, {"@type": "ListItem", "position": 3, "name": "Prompt Regression Testing: How to Know a Prompt or Model Change Didn't Break Things", "item": "https://robert-morong-research.netlify.app/writing/prompt-regression-testing-llm/"}]}]</script>
+</head><body>
+<nav class="bar" aria-label="Site"><a class="brand" href="/">Robert Morong</a><a href="/#research">Research</a><a href="/writing/">Writing</a><a href="/free/">Free tool</a><a href="/kit/">Test Kit</a><a href="https://github.com/GrobeStreet">GitHub</a></nav>
+<main class="wrap">
+<article class="col">
+<p class="eyebrow">Writing · AI evaluation</p>
+<h1>Prompt Regression Testing: How to Know a Prompt or Model Change Didn&#x27;t Break Things</h1>
+<p class="meta">Robert Morong · 2026-10-23 · Drafted with AI assistance (Claude)</p>
+<p>You tweak a prompt, swap a model version, or change a system message. Accuracy on your test set goes from 80% to 84%. Did it actually improve, or did you just reshuffle which cases you get right? The way to find out is to compare the two versions <em>case by case</em> instead of comparing two headline numbers.</p>
+<h2>Step 1: run both versions on the same frozen cases</h2>
+<p>Keep a fixed test set, and store the old version's per-case results (correct or not) as a baseline. When you change something, re-run on the exact same cases. Without per-case results you can only compare totals, and totals hide what happened.</p>
+<h2>Step 2: count what was fixed and what broke</h2>
+<p>For each case there are four outcomes: right before and after, wrong before and after, <strong>fixed</strong> (wrong then right), and <strong>broke</strong> (right then wrong). Only the last two carry information about the change.</p>
+<p>Two scenarios with the same kind of headline:</p>
+<ul>
+<li>Old prompt 80 correct, new prompt 84 correct, but it fixed 12 cases and broke 8. The net gain is 4.</li>
+<li>Old prompt 80 correct, new prompt 80 correct, but it fixed 10 and broke 10. Accuracy is flat, yet 20 cases changed behaviour, which matters if those cases matter to your users.</li>
+</ul>
+<h2>Step 3: use an exact paired test</h2>
+<p>If the change had no effect, then among the cases that changed, "fixed" and "broke" should be roughly a coin flip. An exact sign test checks that, using only the cases that changed:</p>
+<pre><code>from math import comb
+
+def paired_sign_test(old, new):
+    &quot;&quot;&quot;old, new: lists of 0/1 (1 = correct) on the SAME test cases.
+    Returns (fixed, broke, two-sided exact p-value).&quot;&quot;&quot;
+    fixed = sum(1 for o, n in zip(old, new) if o == 0 and n == 1)
+    broke = sum(1 for o, n in zip(old, new) if o == 1 and n == 0)
+    m = fixed + broke
+    if m == 0:
+        return fixed, broke, 1.0
+    k = min(fixed, broke)
+    p = 2 * sum(comb(m, i) for i in range(k + 1)) / 2**m
+    return fixed, broke, min(1.0, p)</code></pre>
+<p>Running it on the examples above (100 cases each):</p>
+<ul>
+<li>80 to 84 correct, 12 fixed, 8 broke: p = 0.50. That 4-point improvement is well within noise. You cannot say the new prompt is better.</li>
+<li>80 to 80 correct, 10 fixed, 10 broke: p = 1.0. No evidence of a net change, but a lot of churn.</li>
+<li>80 to 90 correct, 14 fixed, 4 broke: p = 0.031. This one is reasonably convincing: a 10-point gain driven by many more fixes than breaks.</li>
+</ul>
+<p>The same four-point gain that looked like a win in the first case is indistinguishable from chance on 100 cases, which is why <a href="/writing/how-many-test-cases-llm/">test set size</a> matters so much for comparisons.</p>
+<h2>Make it a habit</h2>
+<ul>
+<li>Freeze the test set and the baseline per-case results in version control.</li>
+<li>On every prompt or model change, report fixed, broke, and the p-value, not just accuracy.</li>
+<li>Read the "broke" cases by hand. A change that fixes easy cases and breaks important ones can look fine in aggregate.</li>
+<li>Pick a rule for failing the build, for example "any change that breaks more than N cases, or that drops accuracy below the ship threshold, needs a human sign-off".</li>
+<li>If you run the same case multiple times, remember that model output can vary between runs, so check <a href="/writing/ai-reliability-checklist/">run-to-run consistency</a> first or you will be comparing noise to noise.</li>
+</ul>
+<p>This tests one thing: whether behaviour on your cases changed. It says nothing about cases you did not include, so keep adding the failures you discover in production to the test set.</p>
+<div class="cta">
+<h2>Run these checks without hand-rolling them</h2>
+<p>The <strong>AI Reliability Test Kit</strong> is a Python harness that measures accuracy with Wilson and bootstrap confidence intervals, robustness to rewording and option reordering, run-to-run consistency and calibration, then writes a shareable HTML scorecard with a Ship / Caution / Not-ready verdict. It runs offline with a built-in mock model, or against OpenAI, Anthropic and any OpenAI-compatible or local endpoint.</p>
+<p><a class="btn primary" href="/kit/">See what is in the Test Kit</a> <a class="btn" href="/free/">Try the free option-order check first</a></p>
+</div>
+<h2>Keep reading</h2>
+<ul><li><a href="/writing/how-many-test-cases-llm/">How Many Test Cases Do You Need to Evaluate an LLM Feature?</a></li><li><a href="/writing/wilson-confidence-interval-llm-accuracy/">Wilson Confidence Interval for LLM Accuracy (Python, No Dependencies)</a></li><li><a href="/writing/arc-option-order/">Shuffle the answers and small models change their minds (ARC-Challenge audit)</a></li></ul>
+</article>
+<footer>Robert Morong · independent research engineer in AI evaluation reliability · <a href="https://github.com/GrobeStreet">GitHub</a> · <a href="https://www.linkedin.com/in/bobby-morong/">LinkedIn</a> · <a href="mailto:bobby@trainingties.com">Email</a></footer>
+</main></body></html>
