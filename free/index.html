@@ -6,7 +6,7 @@
 <link rel="canonical" href="https://robert-morong-research.netlify.app/free/">
 <meta property="og:type" content="website"><meta property="og:title" content="Free option-order check for multiple-choice LLM evals"><meta property="og:description" content="A free single-file Python script that measures how much your multiple-choice eval depends on answer-option order: accuracy with intervals, flip rate, and accuracy by answer slot."><meta property="og:url" content="https://robert-morong-research.netlify.app/free/"><meta property="og:site_name" content="Robert Morong · Independent Research">
 <meta name="twitter:card" content="summary"><meta name="twitter:title" content="Free option-order check for multiple-choice LLM evals"><meta name="twitter:description" content="A free single-file Python script that measures how much your multiple-choice eval depends on answer-option order: accuracy with intervals, flip rate, and accuracy by answer slot.">
-<link rel="stylesheet" href="/assets/funnel.css"><script type="application/ld+json">[{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "option_order_check.py", "applicationCategory": "DeveloperApplication", "operatingSystem": "Any (Python 3)", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "author": {"@type": "Person", "name": "Robert Morong", "url": "https://robert-morong-research.netlify.app/", "sameAs": ["https://github.com/GrobeStreet", "https://www.linkedin.com/in/bobby-morong/"]}, "license": "https://opensource.org/licenses/MIT", "description": "Free, standard-library Python script that measures how much a multiple-choice evaluation depends on answer-option order."}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://robert-morong-research.netlify.app/"}, {"@type": "ListItem", "position": 2, "name": "Free tool", "item": "https://robert-morong-research.netlify.app/free/"}]}]</script>
+<link rel="stylesheet" href="/assets/funnel.css"><script type="application/ld+json">[{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "option_order_check.py", "applicationCategory": "DeveloperApplication", "operatingSystem": "Any (Python 3)", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "author": {"@type": "Person", "name": "Robert Morong", "url": "https://robert-morong-research.netlify.app/", "sameAs": ["https://github.com/GrobeStreet", "https://www.linkedin.com/in/bobby-morong/"]}, "license": "https://opensource.org/licenses/MIT", "downloadUrl": "https://pypi.org/project/option-order-check/", "codeRepository": "https://github.com/GrobeStreet/option-order-check", "description": "Free, standard-library Python script that measures how much a multiple-choice evaluation depends on answer-option order."}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://robert-morong-research.netlify.app/"}, {"@type": "ListItem", "position": 2, "name": "Free tool", "item": "https://robert-morong-research.netlify.app/free/"}]}]</script>
 </head><body>
 <nav class="bar" aria-label="Site"><a class="brand" href="/">Robert Morong</a><a href="/#research">Research</a><a href="/writing/">Writing</a><a href="/free/">Free tool</a><a href="/kit/">Test Kit</a><a href="https://github.com/GrobeStreet">GitHub</a></nav>
 <main class="wrap">
@@ -16,7 +16,12 @@
 <p class="lede">A single Python file, standard library only. It shows every question to your model once per cyclic rotation of the options and reports accuracy with an interval, how often the chosen answer changes, and accuracy by the slot of the correct answer.</p>
 <p><a class="btn primary" href="/free/option_order_check.py" download>Download option_order_check.py</a> <a class="btn" href="/free/demo.jsonl" download>Download demo.jsonl</a></p>
 
-<h2>Try it in one minute, no API key</h2>
+<h2>Install with pip</h2>
+<pre><code>pip install option-order-check
+option-order-check --demo --provider mock</code></pre>
+<p>Also on <a href="https://pypi.org/project/option-order-check/" rel="noopener">PyPI</a>, with the source on <a href="https://github.com/GrobeStreet/option-order-check" rel="noopener">GitHub</a> (MIT).</p>
+
+<h2>Or try the single file, no API key</h2>
 <pre><code>python option_order_check.py demo.jsonl --provider mock</code></pre>
 <p>The mock model has a deliberate lean toward one answer slot so you can see what a biased model looks like in the output.</p>
 
