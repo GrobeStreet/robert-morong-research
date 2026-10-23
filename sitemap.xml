@@ -1,69 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://robert-morong-research.netlify.app/</loc>
-    <lastmod>2026-10-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://robert-morong-research.netlify.app/writing/</loc>
-    <lastmod>2026-10-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://robert-morong-research.netlify.app/writing/arc-option-order/</loc>
-    <lastmod>2026-10-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://robert-morong-research.netlify.app/writing/llm-feature-reliability/</loc>
-    <lastmod>2026-10-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://robert-morong-research.netlify.app/writing/llm-benchmark-lying/</loc>
-    <lastmod>2026-10-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://robert-morong-research.netlify.app/writing/ai-reliability-checklist/</loc>
-    <lastmod>2026-10-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://robert-morong-research.netlify.app/free/</loc>
-    <lastmod>2026-10-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://robert-morong-research.netlify.app/kit/</loc>
-    <lastmod>2026-10-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://robert-morong-research.netlify.app/kit/sample-scorecard/</loc>
-    <lastmod>2026-10-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://robert-morong-research.netlify.app/verify/</loc>
-    <lastmod>2026-10-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://robert-morong-research.netlify.app/moat/</loc>
-    <lastmod>2026-10-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-  </url>
+<url><loc>https://robert-morong-research.netlify.app/</loc><lastmod>2026-10-23</lastmod></url>
+<url><loc>https://robert-morong-research.netlify.app/writing/</loc><lastmod>2026-10-23</lastmod></url>
+<url><loc>https://robert-morong-research.netlify.app/writing/arc-option-order/</loc><lastmod>2026-10-23</lastmod></url>
+<url><loc>https://robert-morong-research.netlify.app/writing/llm-feature-reliability/</loc><lastmod>2026-10-23</lastmod></url>
+<url><loc>https://robert-morong-research.netlify.app/writing/llm-benchmark-lying/</loc><lastmod>2026-10-23</lastmod></url>
+<url><loc>https://robert-morong-research.netlify.app/writing/ai-reliability-checklist/</loc><lastmod>2026-10-23</lastmod></url>
+<url><loc>https://robert-morong-research.netlify.app/writing/how-many-test-cases-llm/</loc><lastmod>2026-10-23</lastmod></url>
+<url><loc>https://robert-morong-research.netlify.app/writing/wilson-confidence-interval-llm-accuracy/</loc><lastmod>2026-10-23</lastmod></url>
+<url><loc>https://robert-morong-research.netlify.app/writing/prompt-regression-testing-llm/</loc><lastmod>2026-10-23</lastmod></url>
+<url><loc>https://robert-morong-research.netlify.app/writing/llm-calibration-brier-ece/</loc><lastmod>2026-10-23</lastmod></url>
+<url><loc>https://robert-morong-research.netlify.app/free/</loc><lastmod>2026-10-23</lastmod></url>
+<url><loc>https://robert-morong-research.netlify.app/kit/</loc><lastmod>2026-10-23</lastmod></url>
+<url><loc>https://robert-morong-research.netlify.app/kit/sample-scorecard/</loc><lastmod>2026-10-23</lastmod></url>
 </urlset>
