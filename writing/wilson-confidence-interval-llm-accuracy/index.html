@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark"><meta name="theme-color" content="#08111f">
+<title>Wilson Confidence Interval for LLM Accuracy (Python, No Dependencies) | Robert Morong</title>
+<meta name="description" content="Why the usual plus-or-minus formula fails for LLM eval accuracy near 0% and 100%, and a 6-line Python Wilson score interval you can paste into any eval script.">
+<link rel="canonical" href="https://robert-morong-research.netlify.app/writing/wilson-confidence-interval-llm-accuracy/">
+<meta property="og:type" content="article"><meta property="og:title" content="Wilson Confidence Interval for LLM Accuracy (Python, No Dependencies) | Robert Morong"><meta property="og:description" content="Why the usual plus-or-minus formula fails for LLM eval accuracy near 0% and 100%, and a 6-line Python Wilson score interval you can paste into any eval script."><meta property="og:url" content="https://robert-morong-research.netlify.app/writing/wilson-confidence-interval-llm-accuracy/"><meta property="og:site_name" content="Robert Morong · Independent Research">
+<meta name="twitter:card" content="summary"><meta name="twitter:title" content="Wilson Confidence Interval for LLM Accuracy (Python, No Dependencies) | Robert Morong"><meta name="twitter:description" content="Why the usual plus-or-minus formula fails for LLM eval accuracy near 0% and 100%, and a 6-line Python Wilson score interval you can paste into any eval script.">
+<link rel="stylesheet" href="/assets/funnel.css"><script type="application/ld+json">[{"@context": "https://schema.org", "@type": "Article", "headline": "Wilson Confidence Interval for LLM Accuracy (Python, No Dependencies)", "description": "Why the usual plus-or-minus formula fails for LLM eval accuracy near 0% and 100%, and a 6-line Python Wilson score interval you can paste into any eval script.", "author": {"@type": "Person", "name": "Robert Morong", "url": "https://robert-morong-research.netlify.app/", "sameAs": ["https://github.com/GrobeStreet", "https://www.linkedin.com/in/bobby-morong/"]}, "datePublished": "2026-10-23", "dateModified": "2026-10-23", "mainEntityOfPage": "https://robert-morong-research.netlify.app/writing/wilson-confidence-interval-llm-accuracy/", "publisher": {"@type": "Person", "name": "Robert Morong", "url": "https://robert-morong-research.netlify.app/", "sameAs": ["https://github.com/GrobeStreet", "https://www.linkedin.com/in/bobby-morong/"]}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://robert-morong-research.netlify.app/"}, {"@type": "ListItem", "position": 2, "name": "Writing", "item": "https://robert-morong-research.netlify.app/writing/"}, {"@type": "ListItem", "position": 3, "name": "Wilson Confidence Interval for LLM Accuracy (Python, No Dependencies)", "item": "https://robert-morong-research.netlify.app/writing/wilson-confidence-interval-llm-accuracy/"}]}]</script>
+</head><body>
+<nav class="bar" aria-label="Site"><a class="brand" href="/">Robert Morong</a><a href="/#research">Research</a><a href="/writing/">Writing</a><a href="/free/">Free tool</a><a href="/kit/">Test Kit</a><a href="https://github.com/GrobeStreet">GitHub</a></nav>
+<main class="wrap">
+<article class="col">
+<p class="eyebrow">Writing · AI evaluation</p>
+<h1>Wilson Confidence Interval for LLM Accuracy (Python, No Dependencies)</h1>
+<p class="meta">Robert Morong · 2026-10-23 · Drafted with AI assistance (Claude)</p>
+<p>If you report an eval result as "95% accurate" you have reported a number with no uncertainty attached. A confidence interval fixes that. The formula most people remember, the normal approximation, breaks in exactly the situation LLM evals often land in: small test sets and high accuracy. The Wilson score interval is the standard fix.</p>
+<h2>The problem with the textbook formula</h2>
+<p>The normal approximation says accuracy ± 1.96 × sqrt(p(1−p)/n). Try it on 19 correct out of 20:</p>
+<pre><code>import math
+p, n = 19/20, 20
+m = 1.96 * math.sqrt(p * (1 - p) / n)
+print(p - m, p + m)   # 0.854..., 1.045...</code></pre>
+<p>The upper bound is 104.5%, which is not a possible accuracy. It also collapses to a zero-width interval if you get 20 out of 20, claiming certainty from 20 examples. Both failures come from using the same formula at the edges as in the middle.</p>
+<h2>The Wilson interval</h2>
+<pre><code>import math
+
+def wilson(k, n, z=1.96):
+    &quot;&quot;&quot;95% Wilson score interval for k successes out of n.&quot;&quot;&quot;
+    p = k / n
+    denom = 1 + z**2 / n
+    centre = p + z**2 / (2 * n)
+    margin = z * math.sqrt(p * (1 - p) / n + z**2 / (4 * n**2))
+    return (centre - margin) / denom, (centre + margin) / denom</code></pre>
+<p>It stays inside 0 to 1 and never collapses to zero width. Running it:</p>
+<pre><code>print(wilson(19, 20))    # (0.764, 0.991)
+print(wilson(88, 100))   # (0.802, 0.930)
+print(wilson(0, 20))     # (0.0, 0.161)</code></pre>
+<p>So 19 out of 20 is plausibly anywhere from 76% to 99%, and 88 out of 100 from 80% to 93%. Zero out of 20 does not mean "exactly 0%", it means "below about 16%".</p>
+<h2>How to use it in an eval</h2>
+<ul>
+<li>Report accuracy as the point estimate plus the interval and the case count, for example "88% (95% CI 80% to 93%, n=100)".</li>
+<li>To compare against a ship threshold, use the <strong>lower bound</strong>. If your bar is 85% and the interval is 80% to 93%, you have not shown the feature clears the bar yet.</li>
+<li>If the interval straddles your threshold, collect more cases rather than rounding in your favour. The post on <a href="/writing/how-many-test-cases-llm/">how many test cases you need</a> has the numbers.</li>
+</ul>
+<h2>What it does not cover</h2>
+<p>Wilson is for a rate: pass/fail per case. For metrics like F1, AUC or RMSE use a bootstrap, which resamples the cases and recomputes the metric. It also assumes cases are independent. If you have several test cases that are paraphrases of each other, or the same question under different option orders, they are not independent, and the interval will look tighter than it should.</p>
+<p>For comparing two systems on the same cases, a paired test is better than comparing two separate intervals, which is covered in the <a href="/writing/prompt-regression-testing-llm/">prompt regression testing post</a>.</p>
+<div class="cta">
+<h2>Run these checks without hand-rolling them</h2>
+<p>The <strong>AI Reliability Test Kit</strong> is a Python harness that measures accuracy with Wilson and bootstrap confidence intervals, robustness to rewording and option reordering, run-to-run consistency and calibration, then writes a shareable HTML scorecard with a Ship / Caution / Not-ready verdict. It runs offline with a built-in mock model, or against OpenAI, Anthropic and any OpenAI-compatible or local endpoint.</p>
+<p><a class="btn primary" href="/kit/">See what is in the Test Kit</a> <a class="btn" href="/free/">Try the free option-order check first</a></p>
+</div>
+<h2>Keep reading</h2>
+<ul><li><a href="/writing/how-many-test-cases-llm/">How Many Test Cases Do You Need to Evaluate an LLM Feature?</a></li><li><a href="/writing/prompt-regression-testing-llm/">Prompt Regression Testing: How to Know a Prompt or Model Change Didn&#x27;t Break Things</a></li><li><a href="/writing/arc-option-order/">Shuffle the answers and small models change their minds (ARC-Challenge audit)</a></li></ul>
+</article>
+<footer>Robert Morong · independent research engineer in AI evaluation reliability · <a href="https://github.com/GrobeStreet">GitHub</a> · <a href="https://www.linkedin.com/in/bobby-morong/">LinkedIn</a> · <a href="mailto:bobby@trainingties.com">Email</a></footer>
+</main></body></html>
