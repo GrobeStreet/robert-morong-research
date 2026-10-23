@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark"><meta name="theme-color" content="#08111f">
+<title>How Many Test Cases Do You Need to Evaluate an LLM Feature? | Robert Morong</title>
+<meta name="description" content="A sample-size table for LLM evals: how wide your accuracy confidence interval is at 20, 50, 100, 500 and 1,000 test cases, and how many cases you need for a given precision.">
+<link rel="canonical" href="https://robert-morong-research.netlify.app/writing/how-many-test-cases-llm/">
+<meta property="og:type" content="article"><meta property="og:title" content="How Many Test Cases Do You Need to Evaluate an LLM Feature? | Robert Morong"><meta property="og:description" content="A sample-size table for LLM evals: how wide your accuracy confidence interval is at 20, 50, 100, 500 and 1,000 test cases, and how many cases you need for a given precision."><meta property="og:url" content="https://robert-morong-research.netlify.app/writing/how-many-test-cases-llm/"><meta property="og:site_name" content="Robert Morong · Independent Research">
+<meta name="twitter:card" content="summary"><meta name="twitter:title" content="How Many Test Cases Do You Need to Evaluate an LLM Feature? | Robert Morong"><meta name="twitter:description" content="A sample-size table for LLM evals: how wide your accuracy confidence interval is at 20, 50, 100, 500 and 1,000 test cases, and how many cases you need for a given precision.">
+<link rel="stylesheet" href="/assets/funnel.css"><script type="application/ld+json">[{"@context": "https://schema.org", "@type": "Article", "headline": "How Many Test Cases Do You Need to Evaluate an LLM Feature?", "description": "A sample-size table for LLM evals: how wide your accuracy confidence interval is at 20, 50, 100, 500 and 1,000 test cases, and how many cases you need for a given precision.", "author": {"@type": "Person", "name": "Robert Morong", "url": "https://robert-morong-research.netlify.app/", "sameAs": ["https://github.com/GrobeStreet", "https://www.linkedin.com/in/bobby-morong/"]}, "datePublished": "2026-10-23", "dateModified": "2026-10-23", "mainEntityOfPage": "https://robert-morong-research.netlify.app/writing/how-many-test-cases-llm/", "publisher": {"@type": "Person", "name": "Robert Morong", "url": "https://robert-morong-research.netlify.app/", "sameAs": ["https://github.com/GrobeStreet", "https://www.linkedin.com/in/bobby-morong/"]}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://robert-morong-research.netlify.app/"}, {"@type": "ListItem", "position": 2, "name": "Writing", "item": "https://robert-morong-research.netlify.app/writing/"}, {"@type": "ListItem", "position": 3, "name": "How Many Test Cases Do You Need to Evaluate an LLM Feature?", "item": "https://robert-morong-research.netlify.app/writing/how-many-test-cases-llm/"}]}]</script>
+</head><body>
+<nav class="bar" aria-label="Site"><a class="brand" href="/">Robert Morong</a><a href="/#research">Research</a><a href="/writing/">Writing</a><a href="/free/">Free tool</a><a href="/kit/">Test Kit</a><a href="https://github.com/GrobeStreet">GitHub</a></nav>
+<main class="wrap">
+<article class="col">
+<p class="eyebrow">Writing · AI evaluation</p>
+<h1>How Many Test Cases Do You Need to Evaluate an LLM Feature?</h1>
+<p class="meta">Robert Morong · 2026-10-23 · Drafted with AI assistance (Claude)</p>
+<p>The honest answer is "enough that the confidence interval on your accuracy is narrower than the decision you are trying to make." That sounds abstract, so here are the actual numbers. Everything below is a 95% Wilson interval, computed with the short function in <a href="/writing/wilson-confidence-interval-llm-accuracy/">the Wilson interval post</a>.</p>
+<h2>What a test set of a given size can tell you</h2>
+<p>Suppose your feature gets 80% of the test cases right. How uncertain is that number?</p>
+<ul>
+<li>With <strong>20 cases</strong> (16 right), the interval is roughly 58% to 92%. You cannot tell a mediocre feature from a good one.</li>
+<li>With <strong>50 cases</strong> (40 right), roughly 67% to 89%.</li>
+<li>With <strong>100 cases</strong> (80 right), roughly 71% to 87%.</li>
+<li>With <strong>200 cases</strong> (160 right), roughly 74% to 85%.</li>
+<li>With <strong>500 cases</strong> (400 right), roughly 76% to 83%.</li>
+<li>With <strong>1,000 cases</strong> (800 right), roughly 77% to 82%.</li>
+</ul>
+<p>The interval shrinks with the square root of the sample size, so each extra bit of precision costs more than the last. Going from 100 to 200 cases helps a lot. Going from 500 to 1,000 helps much less.</p>
+<h2>How many cases for a target precision</h2>
+<p>If you decide in advance how wide an interval you can live with, you can work out the test set size. These are the case counts needed for the 95% Wilson interval to have a half-width at or under the target, at different true accuracy levels:</p>
+<ul>
+<li>At <strong>70%</strong> accuracy: about 78 cases for ±10 points, 320 for ±5, 894 for ±3, 2,014 for ±2.</li>
+<li>At <strong>80%</strong> accuracy: about 60 cases for ±10 points, 245 for ±5, 681 for ±3, 1,535 for ±2.</li>
+<li>At <strong>90%</strong> accuracy: about 34 cases for ±10 points, 141 for ±5, 384 for ±3, 864 for ±2.</li>
+<li>At <strong>95%</strong> accuracy: about 24 cases for ±10 points, 82 for ±5, 208 for ±3, 465 for ±2.</li>
+</ul>
+<p>Two things stand out. Features that are already very accurate need far fewer cases to pin down, and being precise to within two points is expensive at any accuracy level.</p>
+<h2>Comparing two prompts or models needs more than you think</h2>
+<p>Everything above is about measuring one system. Comparing two is harder, because you are trying to detect a <em>difference</em>, and differences are small. If a new prompt moves accuracy from 80% to 84%, a 100-case test set cannot reliably confirm that, because each of the two intervals is about ±8 points wide.</p>
+<p>Two things help. First, run both systems on the same cases and use a paired test, which looks only at the cases where the two systems disagree. That removes the noise from cases both get right or both get wrong, and is covered in <a href="/writing/prompt-regression-testing-llm/">the prompt regression testing post</a>. Second, decide the smallest difference you would act on before you look at results, and size the test set for that.</p>
+<h2>Practical rules</h2>
+<ul>
+<li>Report the sample size next to every accuracy number, always.</li>
+<li>Fewer than about 50 cases is a smoke test, not a measurement.</li>
+<li>Around 200 cases gets you to roughly ±4 to ±6 points at typical accuracy levels, which is often enough for a go or no-go call.</li>
+<li>If the interval is too wide to clear your ship threshold either way, the answer is "collect more cases", not "ship it" or "don't".</li>
+<li>Cases must be representative. A thousand easy, near-duplicate cases give you a narrow interval around the wrong number.</li>
+</ul>
+<p>The intervals assume cases are independent and that they were not used to tune the prompt. Cases drawn from the same source with near-duplicates will make the true uncertainty larger than the interval suggests.</p>
+<div class="cta">
+<h2>Run these checks without hand-rolling them</h2>
+<p>The <strong>AI Reliability Test Kit</strong> is a Python harness that measures accuracy with Wilson and bootstrap confidence intervals, robustness to rewording and option reordering, run-to-run consistency and calibration, then writes a shareable HTML scorecard with a Ship / Caution / Not-ready verdict. It runs offline with a built-in mock model, or against OpenAI, Anthropic and any OpenAI-compatible or local endpoint.</p>
+<p><a class="btn primary" href="/kit/">See what is in the Test Kit</a> <a class="btn" href="/free/">Try the free option-order check first</a></p>
+</div>
+<h2>Keep reading</h2>
+<ul><li><a href="/writing/wilson-confidence-interval-llm-accuracy/">Wilson Confidence Interval for LLM Accuracy (Python, No Dependencies)</a></li><li><a href="/writing/prompt-regression-testing-llm/">Prompt Regression Testing: How to Know a Prompt or Model Change Didn&#x27;t Break Things</a></li><li><a href="/writing/arc-option-order/">Shuffle the answers and small models change their minds (ARC-Challenge audit)</a></li></ul>
+</article>
+<footer>Robert Morong · independent research engineer in AI evaluation reliability · <a href="https://github.com/GrobeStreet">GitHub</a> · <a href="https://www.linkedin.com/in/bobby-morong/">LinkedIn</a> · <a href="mailto:bobby@trainingties.com">Email</a></footer>
+</main></body></html>
