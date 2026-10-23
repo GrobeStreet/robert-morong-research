@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark"><meta name="theme-color" content="#08111f">
+<title>LLM Calibration: Brier Score and Expected Calibration Error Explained (with Python) | Robert Morong</title>
+<meta name="description" content="What it means for an LLM&#x27;s stated confidence to be calibrated, how to compute the Brier score and expected calibration error (ECE) in plain Python, and how to read the results.">
+<link rel="canonical" href="https://robert-morong-research.netlify.app/writing/llm-calibration-brier-ece/">
+<meta property="og:type" content="article"><meta property="og:title" content="LLM Calibration: Brier Score and Expected Calibration Error Explained (with Python) | Robert Morong"><meta property="og:description" content="What it means for an LLM&#x27;s stated confidence to be calibrated, how to compute the Brier score and expected calibration error (ECE) in plain Python, and how to read the results."><meta property="og:url" content="https://robert-morong-research.netlify.app/writing/llm-calibration-brier-ece/"><meta property="og:site_name" content="Robert Morong · Independent Research">
+<meta name="twitter:card" content="summary"><meta name="twitter:title" content="LLM Calibration: Brier Score and Expected Calibration Error Explained (with Python) | Robert Morong"><meta name="twitter:description" content="What it means for an LLM&#x27;s stated confidence to be calibrated, how to compute the Brier score and expected calibration error (ECE) in plain Python, and how to read the results.">
+<link rel="stylesheet" href="/assets/funnel.css"><script type="application/ld+json">[{"@context": "https://schema.org", "@type": "Article", "headline": "LLM Calibration: Brier Score and Expected Calibration Error Explained (with Python)", "description": "What it means for an LLM's stated confidence to be calibrated, how to compute the Brier score and expected calibration error (ECE) in plain Python, and how to read the results.", "author": {"@type": "Person", "name": "Robert Morong", "url": "https://robert-morong-research.netlify.app/", "sameAs": ["https://github.com/GrobeStreet", "https://www.linkedin.com/in/bobby-morong/"]}, "datePublished": "2026-10-23", "dateModified": "2026-10-23", "mainEntityOfPage": "https://robert-morong-research.netlify.app/writing/llm-calibration-brier-ece/", "publisher": {"@type": "Person", "name": "Robert Morong", "url": "https://robert-morong-research.netlify.app/", "sameAs": ["https://github.com/GrobeStreet", "https://www.linkedin.com/in/bobby-morong/"]}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://robert-morong-research.netlify.app/"}, {"@type": "ListItem", "position": 2, "name": "Writing", "item": "https://robert-morong-research.netlify.app/writing/"}, {"@type": "ListItem", "position": 3, "name": "LLM Calibration: Brier Score and Expected Calibration Error Explained (with Python)", "item": "https://robert-morong-research.netlify.app/writing/llm-calibration-brier-ece/"}]}]</script>
+</head><body>
+<nav class="bar" aria-label="Site"><a class="brand" href="/">Robert Morong</a><a href="/#research">Research</a><a href="/writing/">Writing</a><a href="/free/">Free tool</a><a href="/kit/">Test Kit</a><a href="https://github.com/GrobeStreet">GitHub</a></nav>
+<main class="wrap">
+<article class="col">
+<p class="eyebrow">Writing · AI evaluation</p>
+<h1>LLM Calibration: Brier Score and Expected Calibration Error Explained (with Python)</h1>
+<p class="meta">Robert Morong · 2026-10-23 · Drafted with AI assistance (Claude)</p>
+<p>Accuracy tells you how often a model is right. Calibration tells you whether it <em>knows</em> when it is right. A calibrated model that says "90% sure" should be correct about 90% of the time on those answers. A model that says "95% sure" and is right 70% of the time is overconfident, and that is the failure that damages trust fastest, because users act on the confidence.</p>
+<h2>Where the confidence numbers come from</h2>
+<p>Calibration needs a confidence value per answer between 0 and 1. You can get it by asking the model to state a probability, from token probabilities where the API exposes them, or from agreement across repeated samples. Each has quirks, and stated confidences from chat models are often poorly calibrated, which is the thing you are measuring.</p>
+<h2>Brier score</h2>
+<p>The Brier score is the mean squared difference between the confidence and the outcome (1 if correct, 0 if wrong). Lower is better, and 0 is perfect.</p>
+<pre><code>def brier(conf, correct):
+    return sum((c - y) ** 2 for c, y in zip(conf, correct)) / len(conf)</code></pre>
+<h2>Expected calibration error</h2>
+<p>ECE groups answers into confidence bins, then compares the average confidence in each bin to the actual accuracy in it, weighted by how many answers fall in each bin.</p>
+<pre><code>def ece(conf, correct, bins=10):
+    n = len(conf)
+    total = 0.0
+    for b in range(bins):
+        lo, hi = b / bins, (b + 1) / bins
+        idx = [i for i, c in enumerate(conf)
+               if (lo &lt;= c &lt; hi) or (b == bins - 1 and c == 1.0)]
+        if not idx:
+            continue
+        acc = sum(correct[i] for i in idx) / len(idx)
+        avg_conf = sum(conf[i] for i in idx) / len(idx)
+        total += len(idx) / n * abs(acc - avg_conf)
+    return total</code></pre>
+<h2>A worked example</h2>
+<p>Take 100 answers where the model is right 70 times. Compare two models that are equally accurate:</p>
+<pre><code>correct = [1] * 70 + [0] * 30
+
+conf_a = [0.95] * 100             # always says 95%
+print(brier(conf_a, correct), ece(conf_a, correct))   # 0.2725  0.25
+
+conf_b = [0.70] * 100             # always says 70%
+print(brier(conf_b, correct), ece(conf_b, correct))   # 0.21    0.0</code></pre>
+<p>Both are 70% accurate. Model A is overconfident by 25 points, so its ECE is 0.25. Model B states exactly the accuracy it achieves, so its ECE is 0 and its Brier score is lower. In practice a model that says the same confidence every time is not very useful either, since it cannot tell easy cases from hard ones, so calibration should be read alongside accuracy and not instead of it.</p>
+<h2>How to read results</h2>
+<ul>
+<li><strong>Overconfidence</strong> (average confidence above accuracy) is the dangerous direction. Flag it explicitly.</li>
+<li>ECE depends on binning and gets noisy on small test sets, so with fewer than a couple of hundred answers treat it as a rough guide. Report the sample size with it.</li>
+<li>Brier score mixes accuracy and calibration together, so use ECE or a reliability plot to see <em>why</em> a score is bad.</li>
+<li>If calibration is poor you can often improve it after the fact by fitting a simple mapping from stated confidence to observed accuracy on held-out cases, but check it on cases the mapping was not fitted to.</li>
+</ul>
+<p>This post covers the metrics, not a guarantee. A well-calibrated model on your test set can still be badly calibrated on inputs unlike it, so keep the test set representative. The wider picture of what to check before shipping is in the <a href="/writing/ai-reliability-checklist/">reliability checklist</a>.</p>
+<div class="cta">
+<h2>Run these checks without hand-rolling them</h2>
+<p>The <strong>AI Reliability Test Kit</strong> is a Python harness that measures accuracy with Wilson and bootstrap confidence intervals, robustness to rewording and option reordering, run-to-run consistency and calibration, then writes a shareable HTML scorecard with a Ship / Caution / Not-ready verdict. It runs offline with a built-in mock model, or against OpenAI, Anthropic and any OpenAI-compatible or local endpoint.</p>
+<p><a class="btn primary" href="/kit/">See what is in the Test Kit</a> <a class="btn" href="/free/">Try the free option-order check first</a></p>
+</div>
+<h2>Keep reading</h2>
+<ul><li><a href="/writing/ai-reliability-checklist/">The AI Reliability Checklist: 10 Checks Before You Ship an LLM Feature</a></li><li><a href="/writing/llm-feature-reliability/">How to Tell If Your LLM Feature Is Actually Reliable (Before You Ship)</a></li><li><a href="/writing/arc-option-order/">Shuffle the answers and small models change their minds (ARC-Challenge audit)</a></li></ul>
+</article>
+<footer>Robert Morong · independent research engineer in AI evaluation reliability · <a href="https://github.com/GrobeStreet">GitHub</a> · <a href="https://www.linkedin.com/in/bobby-morong/">LinkedIn</a> · <a href="mailto:bobby@trainingties.com">Email</a></footer>
+</main></body></html>
